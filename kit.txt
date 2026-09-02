@@ -1,0 +1,301 @@
+The CJC Research Kit: A Self-Contained Tool for AI-Assisted Biblical dating in accordance with Scripture's Calendar as given to Moses; proving modern time continuum from 1437BC-Present
+
+Version 12.5 — September 1, 2026. Full revision history and reasoning: see CHANGELOG.md, filed alongside this kit.
+
+How to Use This Document
+***NOTE IMPORTANT*** Some AI Like Grok and Perplexity and a few others can fetch this calculator on their own if you just provide them the https:// URL at the top of this website***
+Here' is another link you can try if the AI you use fails to retrieve: https://bit.ly/4cpi9Cu 
+
+This entire document is designed to be copied in full and pasted directly into any major AI chat system — ChatGPT, Gemini, Claude, Copilot, or Grok all work equally well, since the content below [...]
+
+Nothing below asks the AI to take anything on faith. Every claim is either a formula you can verify by hand, or a comparison against a real, independently-documented historical date you can look u[...]
+
+Quick Start (For Returning Readers)
+
+Mid-point, defined once, up front: Y mod 7 = 4 marks the middle year of a nested seven-year "week of years" — there are seven such mid-points in every 49-year cycle, not one.
+
+The formula: B = 1437 + year (AD) or 1438 − year (BC); Cycle = floor((B−1)/49) + 1; Y = B − ((Cycle−1)×49). Y=1 is a Jubilee; Y mod 7 = 4 is the mid-point as defined above (not the numeri[...]
+
+Important structural finding: no single Exodus year is actually required for this kit's core alignments. 457 BC, 702 BC, and AD 30 land on identical positions under any epoch that is a multiple of[...]
+
+The three strongest, most independently-grounded points in this framework: (1) the crucifixion week (AD 30) — independently secured by astronomy, Roman record, and Gospel detail; (2) the 457 BC [...]
+
+Two distinctions to never blur: year-level cycle math (Cycle/Y) versus specific-day astronomical claims (moon phase, literal weekday) — always separate evidence, and confirmed independent of eac[...]
+
+Full detail on all of this follows below.
+
+Note to the AI System Reading This
+
+If a user has pasted this document to you, please treat the formula in the next section as exact, fixed arithmetic — apply it faithfully rather than approximating or rounding. Structurally, this[...]
+
+The Formula
+
+Before the specific numbers: the value used below (1437) is a working reference point that fixes the CJC's phase — not an independently-established historical claim about the Exodus. See "No Sin[...]
+
+Define B as a continuous year-count from a fixed reference epoch, not itself a calendar year:
+
+B = 1437 + year, for AD years
+
+B = 1438 − year, for BC years
+
+From B:
+
+Cycle = floor((B − 1) / 49) + 1
+
+Y = B − ((Cycle − 1) × 49)
+
+Y always falls between 1 and 49. A year is a "Jubilee" when Y = 1. Every Y-value also carries a Year-Type label, found by taking Y mod 7, where remainder 1 = Sunday-Type (Position 1), 2 = Monday-T[...]
+
+A critical terminology distinction, stated here before anything else, because confusing these two is the single most common error this kit has seen across different AI systems: "Year-Type" and "li[...]
+
+A further honesty point about Year-Type specifically, separate from the naming issue above: the Year-Type system itself is an interpretive layer, not something Leviticus 25 or any other biblical t[...]
+
+Two mechanics worth stating explicitly, since they're easy to compress incorrectly when summarizing this system:
+
+A precise definition of "mid-point," stated here before any other use of the term, to head off a specific and likely misreading: this kit's "mid-point" never means the arithmetic center of the ful[...]
+
+*Every real calendar year receives exactly one B-value, with no year ever skipped or double-counted.* When Y reaches 49 (the last position in a cycle) and the next year begins, Y resets to 1 for t[...]
+
+A separate, smaller rhythm nests inside the same structure: since 49 = 7 × 7, an ordinary seven-year sabbatical position exists wherever B mod 7 = 0, running continuously and independently of whe[...]
+
+A general rule that applies to every date tested with this kit, not only the crucifixion example below: the Cycle/Year formula establishes a *year's position* within the 49-year structure — noth[...]
+
+No Single Exodus Epoch Is Required for This Kit's Core Claims
+
+This is one of the most important findings to emerge from extensive testing, and it changes how the whole framework should be presented. Directly verified: 457 BC, 702 BC, and AD 30 land on identi[...]
+
+This matters directly for how Anchor 3 should be understood: it is not that 1437 BC has been disproven as a candidate — it is that no independent evidence found in extensive testing establishes [...]
+
+A note on what "1437 BC" specifically marks. This framework treats spring 1437 BC as a potential first Jubilee (Y=1) in the continuum — reached by running the established chain backward from 457[...]
+
+Four Independent Starting Points, Not One Dependent Chain
+
+Earlier versions of this material presented the Exodus (1437 BC) as the single foundation everything else was built on top of — meaning any weakness in that one date threatened to undermine the [...]
+
+The honest structure is different: there are several candidate anchor points in this chronology, and each one should be judged on whether its own date is independently secure (verifiable without a[...]
+
+Anchor 1 — The Crucifixion Week (AD 30). Its date is the most independently secure fact in the entire chronology: fixed by astronomy (an independently reconstructed lunar cycle placing Nisan 14 [...]
+
+Anchor 2 — The 457 BC Decree. Its date is independently constrained by Persian-era administrative and legal record — including the Elephantine Papyri, which corroborate the broader Persian reg[...]
+
+Anchor 3 — The Exodus Epoch (Specific Year Unresolved). This is the weakest anchor, and extensive testing this session confirms it should remain so. As established above, no specific Exodus year[...]
+
+Anchor 4 — Jesus's Birth (4 BC). A different kind of check than the other three — not a Jubilee-position claim, but a double consistency check, and worth stating with the exact precision it ac[...]
+
+The overall lesson, stated plainly: true evidence for a real 49-year continuum lies in each starting point's own, independent ability to justify that continuum — not in how well a chain of assum[...]
+
+Worked Example: Daniel's Seventy Weeks
+
+The decree of Ezra (457 BC) converts to B = 981, Cycle 21, Y = 1 — a Jubilee, matching Daniel 9:25's "seven sevens." Jesus' baptism (27 AD) converts to B = 1464, Cycle 30, Y = 43. The crucifixio[...]
+
+Three checks follow from arithmetic alone: 1464 − 981 = 483, exactly Daniel 9:25's stated span from decree to anointing (the baptism, not the crucifixion — the crucifixion's own B-value, 1467,[...]
+
+Note carefully what this does and does not establish: the calculation above identifies AD 30 as the correct *year*. It does not, by itself, identify the specific calendar day. That requires the se[...]
+
+Testing whether Daniel 9:25's grammar requires a separate rebuilding decree. A related question worth addressing directly: does "the street shall be built again, and the wall" require a different,[...]
+
+Why Nisan 14 Fell on Friday, April 7, Specifically
+
+This is a different kind of calculation than the Cycle/Year math above — real astronomical reconstruction, not modular arithmetic — and it requires its own chain of reasoning to reach a specif[...]
+
+The relevant lunar conjunction for spring AD 30 falls on March 22 — independently computable using a standard new-moon algorithm (Meeus's "Astronomical Algorithms" is the standard reference). T[...]
+
+Humphreys and Waddington's own paper does not conclude AD 30 — it concludes AD 33. Their reconstruction identifies exactly four years where Nisan 14 falls on a Friday within Pontius Pilate's go[...]
+
+This project evaluates that specific connection separately and does not find it persuasive: Joel 2:31 and Acts 2:20 describe a *future* "great and notable day of the Lord," not the crucifixion it[...]
+
+A separate, independent astronomical calculation — by J. K. Fotheringham, working earlier and without reference to the eclipse argument — arrives at the same April 7, AD 30 date for Nisan 14 [...]
+
+A conjunction is not the same moment as a visible crescent. The moon is astronomically invisible at conjunction — it sits directly between Earth and the sun. Ancient observers relied on the fir[...]
+
+Nisan 1 begins the evening the crescent is sighted. Counting forward 13 more days (inclusively, the same counting convention used throughout this kit) reaches Nisan 14 on Friday, April 7 — the [...]
+
+The weekday itself is then independently checked two ways: first, by direct calendar computation for that specific Julian date; second, using the 196-year exact weekday rule described below, whic[...]
+
+This result is also independently required by the Gospels themselves: all four place the crucifixion on the day before the weekly Sabbath (Mark 15:42 — "the day of Preparation, that is, the day[...]
+
+Why AD 30, Not AD 33: The Full Case, Independent of the Eclipse Argument
+
+The previous section established that astronomy alone, once the eclipse argument is set aside, does not decide between AD 30 and AD 33 — both are calendrically viable Fridays for Nisan 14. Sett[...]
+
+Daniel 9's mid-week position. AD 30 computes to Y = 46, the fourth-year/mid-point position within its seven-year nested week (46 mod 7 = 4), under the CJC's proposed interpretation of Daniel 9:27[...]
+
+Ministry length. John's Gospel implies roughly three Passovers during the ministry. Starting from the independently-anchored AD 27 baptism (established via Luke 3:1's fifteenth year of Tiberius, [...]
+
+Age at ministry start and death, checked as a typological parallel. Numbers 4:3 sets thirty as the age Levites began tabernacle service — a Levitical requirement, not a universal law imposed on[...]
+
+The High Sabbath overlap. John 19:31 describes the day after the crucifixion as a "high day" — both the weekly Sabbath and a festival day at once. This follows mechanically from the Nisan-14 re[...]
+
+Of these four, three actually discriminate between the candidates (mid-week position, ministry length, and the age parallel below); the High Sabbath overlap, as just noted, does not. None of the [...]
+
+A note on evidence tiers, and two nearby years checked against the same criteria. It's worth keeping three tiers of evidence distinct here: what Scripture requires (a Friday Preparation Day, Nisa[...]
+
+From Crucifixion to Pentecost: The Full Passion-Week Timeline, Computed and Cross-Checked
+
+With Nisan 14/April 7, AD 30 established as a Friday, the rest of the Passion Week sequence follows by direct calendar arithmetic from Scripture's own stated intervals — no new assumptions requ[...]
+
+Resurrection — April 9, AD 30, Sunday. The Gospels describe the resurrection on "the third day" from the crucifixion (Matthew 16:21, Luke 24:46, 1 Corinthians 15:4), using the standard inclusiv[...]
+
+Ascension — May 18, AD 30, Thursday. Acts 1:3 states Jesus appeared to the apostles "over a period of forty days" after the resurrection. Counting forty days inclusively from Sunday, April 9 (d[...]
+
+Pentecost — May 28, AD 30, Sunday. Leviticus 23:15-16 instructs counting fifty days from "the day after the Sabbath" (the Firstfruits offering) to reach the Feast of Weeks. Under the reading th[...]
+
+Temple destruction — Josephus places this around the 10th of Av, AD 70 (*Jewish War* 6.4.5-8), an event independent of the crucifixion-week calculation above and checked separately. Because the[...]
+
+CJC position for all four Passion-Week events: since Resurrection, Ascension, and Pentecost all fall within the same calendar year as the crucifixion itself, they share its Y-value (Y=46, Cycle 3[...]
+
+The Falsifiable Claim, With Real Dates
+
+Hezekiah's deliverance is the CJC's claimed Jubilee at 702 BC (B = 736, Y = 1) — but this needs a precise correction that earlier versions of this kit did not make. Sennacherib's own annals pla[...]
+
+The 702 BC Jubilee: The Double Rest-Year Argument
+
+Leviticus 25's own math produces a real, structural pattern worth presenting on its own strength: the year immediately before every Jubilee (Y=49) is mechanically also an ordinary sabbatical, sin[...]
+
+One honest flag worth keeping, briefly, and stated plainly rather than as an afterthought: this reading of Isaiah 37:30 (a rest period already in force before the invasion) is one of two live opt[...]
+
+The Epoch Derivation: What's Actually Independent, and What Isn't
+
+*This section is the detailed support for the "unresolved Exodus epoch" position above. It's included in full because the honesty of showing exactly why this anchor doesn't hold up, after extensi[...]
+
+Four biblical arguments are commonly cited as converging on a specific Exodus epoch. This session tested each rigorously, along with several additional proposed paths, and none succeeded in indep[...]
+
+1 Kings 6:1 (temple construction, 480 years after the Exodus): this is conditional, not standalone. Thiele's own rigorous, Assyrian-anchored reconstruction (Solomon's 4th year at 966/967 BC) prod[...]
+
+A specific chronological chain claiming to reach 1437 BC via Ahab's death date, tested directly against its own primary source: the original methodology (Larry Wilson, "Five Steps to Determine th[...]
+
+A separate "inclusive counting" argument, tested directly: a claim that "966 BC minus 479 years = 1445 BC, but inclusive overlap adjusts precisely to 1437 BC" asserts an 8-year shift with no show[...]
+
+The Tel Dan Stele regnal chain, tested directly: the stele itself ("Bet David," "House of David," discovered 1993-94) is genuine, uncontested archaeology confirming David as a historical figure �[...]
+
+An "astronomical Manna Test" claim, tested directly and decisively falsified: a claim that April 3, 1437 BC showed "approximately 95% illumination" — offered as a test of Nisan 14 per Exodus 12[...]
+
+Acts 13:20 (roughly 450 years for the judges period): this has a genuine, documented Greek syntax ambiguity, and separately, summing the individual periods given throughout Judges and Acts produc[...]
+
+A key structural finding that changes how all of this should be weighed: direct testing confirms that 457 BC, 702 BC, and AD 30 retain identical Y-values under any epoch that is a multiple of 49 [...]
+
+A credible rival reconstruction exists and deserves to be named directly, not passed over. Rodger Young's peer-reviewed work (*Andrews University Seminary Studies*, 2007) independently cross-chec[...]
+
+The 49-Year-vs-50-Year Question, and Why It Matters Here Specifically
+
+A related, older question resurfaces directly in the argument above: Leviticus 25 describes counting 49 years and then consecrating a distinct fiftieth year as the Jubilee. If the Jubilee is a ge[...]
+
+This is checkable, not merely a matter of preference. Three sabbatical years — 164/163 BC, 38/37 BC, and 68/69 AD — are independently reconstructed by historians (not by this research) from J[...]
+
+The Four Cycles the CJC Tracks, and How to Enumerate Each
+
+A user may ask for a single year's status, or for every occurrence of something across a range of centuries. The CJC actually tracks four distinct, easily-confused layers — keep them separate, [...]
+
+1. The literal historical weekday of a specific calendar date. This is ordinary calendar fact, unrelated to the CJC's own math — every date in history fell on some real day of the week, the sam[...]
+
+2. The Year-Type assigned to a year (Y mod 7). Every single year, without exception, gets a Year-Type label from its Y-value — this is never called a "weekday," to keep it fully distinct from p[...]
+
+3. The seven-year sabbatical cycle (an ordinary land-rest year). A year is an ordinary sabbatical when B mod 7 = 0. This is different from the weekly Sabbath (which occurs every seven days, every[...]
+
+4. The forty-nine-year Jubilee cycle. A year is a Jubilee precisely when Y = 1 (equivalently, B mod 49 = 1). To check one year: compute Y directly. To list every Jubilee in a range: convert both [...]
+
+When asked to "list all sabbaths" without further clarification, ask the user whether they mean the weekly Sabbath (trivial — every seventh day, no calculation needed), the seven-year sabbatica[...]
+
+The Seven-Year Sabbatical Chain, Externally Confirmed
+
+Three historically-attested sabbatical years, independently reconstructed by historians from Josephus, 1 Maccabees, and Judean Desert legal documents — with no connection to this research — a[...]
+
+Of these three, 164/163 BC has the strongest independent grounding: 1 Maccabees 6:49 specifically uses the Hebrew term for an ordinary sabbatical (shemittah), not Jubilee (yovel) — two distinct[...]
+
+An Exact Tool With Zero Uncertainty
+
+Because the Julian calendar's leap-year rule repeats exactly every four years, any 196-year span (four Jubilee cycles) contains exactly 49 leap days regardless of where it begins. Since 196 × 36[...]
+
+This identity holds only for the Julian calendar specifically, and does not carry over to the Gregorian calendar used today (adopted in 1582). The Gregorian calendar adds century-year exceptions [...]
+
+A second calendar-convention pitfall worth naming directly: astronomical year numbering includes a "year zero" between 1 BC and 1 AD, while the traditional BC/AD dating used throughout this kit d[...]
+
+General-Purpose Tools: Literal Weekday and Moon Phase for Any Date
+
+Everything above in this kit demonstrates the crucifixion week as one specific, fully-worked example. This section generalizes both calculations so they can be applied to *any* date — ancient o[...]
+
+Step 1 — Convert the target date to a Julian Day Number (JD). For a date in year Y, month M, day D:
+
+A critical conversion, easy to miss and severe if missed: the formulas below require *astronomical year numbering*, where 1 BC = year 0, 2 BC = year −1, 3 BC = year −2, and so on — a differ[...]
+
+If M ≤ 2, set Y = Y − 1 and M = M + 12.
+
+*For the proleptic Julian calendar* (standard for any date before the Gregorian reform of October 1582, and the default throughout this kit unless a date is explicitly modern):
+JD = floor(365.25 × (Y + 4716)) + floor(30.6001 × (M + 1)) + D − 1524.5
+
+*For the Gregorian calendar* (standard for dates after 1582, and always for the modern era):
+A = floor(Y / 100), B = 2 − A + floor(A / 4)
+JD = floor(365.25 × (Y + 4716)) + floor(30.6001 × (M + 1)) + D + B − 1524.5
+
+Step 2 — Literal weekday from JD. Compute floor(JD + 1.5), then take that number mod 7. Remainder 0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday. Thi[...]
+
+Step 3 — Moon phase from JD. Estimate which synodic month (k) the date falls in: k ≈ (JD − 2451550.1) / 29.530588861, rounded to the nearest whole number. Compute that new moon's JD:
+
+T = k / 1236.85
+JDE = 2451550.09766 + 29.530588861×k + 0.00015437×T² − 0.000000150×T³ + 0.00000000073×T⁴
+
+Apply the main correction terms (Meeus, *Astronomical Algorithms*, Ch. 49):
+M = 2.5534 + 29.10535669×k (mod 360, in degrees, then converted to radians)
+M′ = 201.5643 + 385.81693528×k + 0.0107582×T² (mod 360, radians)
+F = 160.7108 + 390.67050284×k − 0.0016118×T² (mod 360, radians)
+
+Correction = −0.40720×sin(M′) + 0.17241×sin(M) + 0.01608×sin(2M′) + 0.01039×sin(2F) + 0.00739×sin(M′−M) − 0.00514×sin(M′+M) + 0.00208×sin(2M)
+
+New moon JD = JDE + Correction. If this result is *after* the target date, recompute using k − 1 instead, so the new moon used is the most recent one before or on the target date.
+
+Step 4 — Age and illumination. Moon age (days) = target JD − new moon JD. Illumination percentage ≈ (1 − cos(2π × age / 29.530588861)) / 2 × 100. Phase name: 0-1.8 days = New Moon, 1.8[...]
+
+An honest precision note, consistent with the rest of this kit: the weekday result is exact. The moon-phase result carries the same low-precision limitation already noted for the crucifixion week[...]
+
+Worked check, so this can be verified against a known result: applying this procedure to August 26, AD 30 (Julian calendar) gives JD ≈ 1732252.5, a literal weekday of Saturday, a moon age of ab[...]
+
+When checking whether a date can be Nisan 14 specifically, cite the scriptural requirement being tested alongside the illumination result, not just the number on its own: Exodus 12:2 and 12:6 def[...]
+
+Worked example, Acts 12: Peter's imprisonment, verified against the primary source. Herod Agrippa I's death is independently fixed to AD 44 by Josephus. Parker and Dubberstein's *Babylonian Chron[...]
+
+A second worked check, this one testing the Exodus reconstruction directly: applying this procedure to Nisan 14 of the Exodus year (using the same epoch convention as elsewhere in this kit) — t[...]
+
+Testing the Epoch Itself: The Blind Phase Test
+
+A stronger test than checking individual dates one at a time is this: take a set of independently-dated ancient events, and instead of only checking whether they land on Y=1 under a candidate epo[...]
+
+The procedure: for a set of events with known B-values, and for each candidate offset from 0 to 48, count how many events satisfy (B − offset − 1) mod 49 = 0. Compare the count at offset 0 (t[...]
+
+This test has been run multiple times against genuinely independent secular datasets (spanning Assyrian, Babylonian, Persian, Hellenistic, and Roman history, deliberately excluding this kit's own[...]
+
+A related test worth naming directly: an apparent statistical anomaly was found in one targeted dataset of Jewish/Judean historical events (a "mid-point" position appearing more often than chance[...]
+
+A limitation worth knowing before running any version of this test: a small, hand-selected dataset — especially one partly chosen because some of its events were already known to be Y=1 hits ��[...]
+
+A Reasoning Error Worth Avoiding
+
+If two dates have a year-gap that is a multiple of 49, they will share the same Y-value under any consistently-applied starting point — not only under one specific candidate epoch. This is a re[...]
+
+A related and equally important caution: Year-Type (the symbolic weekday label) and literal weekday (a date's real position in the calendar week) are mathematically unrelated systems — one cycl[...]
+
+Keep this distinction in mind when testing new dates: a match is real evidence of unbroken continuity, not automatically evidence for the specific epoch, and a coincidence between two unrelated m[...]
+
+A CJC-internal alignment can establish that a date occupies a particular position within the CJC; it cannot by itself establish that the CJC's phase, epoch, or interpretation of Scripture is hist[...]
+
+What This Kit Does Not Include
+
+No probability or statistical figures are presented here as established conclusions, beyond the specific, shown calculations in the Blind Phase Test section above. That entire area of the underly[...]
+
+This kit also does not include the Daniel 7 "little horn" / 538-1798 AD framework, tested extensively and found unsupported on every mechanism attempted (direct CJC math, forward projection from [...]
+
+Sample Prompts to Try After Pasting This Document
+
+Copy any of these directly, or write your own in the same spirit:
+
+• "Using the formula above, compute the Cycle and Year for [any date you want to test]. Show every step."
+• "I have a historically-documented event dated to [year]. Does it land on a Jubilee, the cycle's mid-point, or an ordinary sabbatical position? What is your source for that date, and how confi[...]
+• "Test whether 457 BC, 702 BC, and AD 30 really do land on the same Y-values under different candidate epochs a multiple of 49 years apart (try 1437 BC, 1486 BC, 1388 BC). Then check what happ[...]
+• "Walk me through why AD 30 is preferred over AD 33 for the crucifixion, using only the four criteria that don't depend on the Humphreys-Waddington eclipse argument."
+• "Test the Sennacherib/Hezekiah reconciliation: show me the double rest-year mechanism, and be clear about what it does and doesn't prove about 702 BC being a true Jubilee."
+• "Check whether my proposed connection between [event A] and [event B] is a genuine epoch-confirming match or just an epoch-independent continuity match, using the reasoning-error section abov[...]
+• "Walk me through verifying the 196-year weekday rule's arithmetic yourself, step by step, without taking the document's word for it."
+• "Using the general-purpose moon-phase tool, check whether [any date] shows a genuine full moon, the way this kit's Nisan 14 reconstruction was corrected to do properly."
+• "Help me run a proper blind phase test using a genuinely large, independent dataset of ancient events you're aware of — not just the ones already mentioned in this document."
+• "Explain why this kit no longer requires a specific Exodus year to be resolved, and what would actually need to be true for 1437 BC specifically to be independently confirmed."
+
+The goal of this kit is not to hand you a finished conclusion — it is to give you and any AI system you're working with a shared, checkable starting point, so your own research can extend, test[...]
