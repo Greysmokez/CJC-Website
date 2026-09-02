@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CJC — AI Chat Seed</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:18px;color:#222}
+    header{margin-bottom:12px}
+    pre{white-space:pre-wrap;background:#f7f7f7;padding:12px;border-radius:6px;border:1px solid #e6e6e6;max-height:56vh;overflow:auto}
+    .controls{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    button{padding:8px 12px;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer}
+    input[type=text]{width:100%;padding:8px;border-radius:6px;border:1px solid #ddd}
+    .providers{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .provider-btn{padding:8px 10px;border-radius:6px;border:1px solid #ccc;background:#fafafa;cursor:pointer}
+    .response{margin-top:12px;padding:10px;border-radius:6px;background:#fffef8;border:1px solid #efe0b8}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>CJC — Repo content loader</h1>
+    <p id="desc">This page fetches important text from a repository and shows it so you can paste/send it into any AI assistant. If you have a serverless API deployed, this page will use it to produce provider-specific prefill links or to call model APIs (with keys set on the server).</p>
+  </header>
+
+  <label for="repoInput">Repo (owner/repo):</label>
+  <input id="repoInput" type="text" placeholder="Greysmokez/Continuous-Jubilee-Calendar" />
+
+  <div class="controls">
+    <button id="loadBtn">Load README & kit</button>
+    <button id="copyBtn">Copy combined text</button>
+    <button id="openRawBtn">Open raw kit file</button>
+  </div>
+
+  <h3>Extracted text (trimmed)</h3>
+  <pre id="output">No repo loaded yet. Use the button above or open this page with ?repo=owner/repo</pre>
+
+  <div class="response" id="serverResponse" style="display:none"></div>
+
+  <h3>Open in a provider (server-enhanced)</h3>
+  <div class="providers" id="providers">
+    <button class="provider-btn" data-provider="chatgpt">ChatGPT (OpenAI web)</button>
+    <button class="provider-btn" data-provider="perplexity">Perplexity</button>
+    <button class="provider-btn" data-provider="deepai">DeepAI</button>
+    <button class="provider-btn" data-provider="grok">Grok</button>
+    <button class="provider-btn" data-provider="claude">Claude</button>
+    <button class="provider-btn" data-provider="gemini">Gemini</button>
+    <button class="provider-btn" data-provider="copilot">Copilot</button>
+    <button class="provider-btn" data-provider="bing">Bing Chat</button>
+    <button class="provider-btn" data-provider="openai_api">OpenAI API (server call)</button>
+  </div>
+
+  <script>
+    const output = document.getElementById('output');
+    const repoInput = document.getElementById('repoInput');
+    const loadBtn = document.getElementById('loadBtn');
+    const openRawBtn = document.getElementById('openRawBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const serverResponseEl = document.getElementById('serverResponse');
+
+    function getQueryRepo() {
+      return new URLSearchParams(window.location.search).get('repo');
+    }
+
+    async function postJson(path, body) {
+      const res = await fetch(path, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      return res;
+    }
+
+    async function loadRepo(repoNwo) {
+      output.textContent = 'Loading...';
+      serverResponseEl.style.display = 'none';
+      try {
+        // Try serverless fetch first
+        const resp = await postJson('/api/fetch-repo', { action: 'fetch', repo: repoNwo });
+        if (resp.ok) {
+          const j = await resp.json();
+          if (j.text) {
+            output.textContent = j.text;
+            return;
+          }
+        }
+        // Fallback: client-side fetch README using GitHub API (public rate-limited)
+        const [owner, repo] = repoNwo.split('/');
+        const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/readme`);
+        if (!r.ok) throw new Error('GitHub API readme fetch failed: ' + r.status);
+        const j = await r.json();
+        const text = atob(j.content.replace(/\n/g,''));
+        output.textContent = text.slice(0, 20000) + (text.length>20000? '\n\n[TRUNCATED]' : '');
+      } catch (err) {
+        output.textContent = 'Error: ' + (err.message || err);
+      }
+    }
+
+    async function copyOutput() {
+      const txt = output.textContent;
+      if (!txt || txt.startsWith('Error') || txt.includes('No repo loaded')) return alert('Nothing to copy');
+      try {
+        await navigator.clipboard.writeText(txt);
+        alert('Copied repository text to clipboard.');
+      } catch (e) {
+        window.prompt('Copy this text:', txt);
+      }
+    }
+
+    loadBtn.addEventListener('click', () => {
+      const r = repoInput.value.trim();
+      if (!r) return alert('Enter owner/repo');
+      loadRepo(r);
+    });
+
+    openRawBtn.addEventListener('click', () => {
+      const r = repoInput.value.trim();
+      if (!r) return alert('Enter owner/repo');
+      const raw = `https://raw.githubusercontent.com/${r}/main/CJC_AI_Research_Kit_PasteReady.txt`;
+      window.open(raw, '_blank', 'noopener');
+    });
+
+    copyBtn.addEventListener('click', copyOutput);
+
+    // Provider buttons: call server to get best action
+    document.getElementById('providers').addEventListener('click', async (e) => {
+      if (!e.target.matches('.provider-btn')) return;
+      const provider = e.target.dataset.provider;
+      const repo = repoInput.value.trim();
+      if (!repo) return alert('Enter owner/repo first');
+      serverResponseEl.style.display = 'block';
+      serverResponseEl.textContent = 'Contacting server to prepare provider link...';
+
+      try {
+        const res = await postJson('/api/fetch-repo', { action: 'prefill', repo, provider });
+        if (!res.ok) {
+          const txt = await res.text();
+          serverResponseEl.textContent = 'Server error: ' + txt;
+          return;
+        }
+        const j = await res.json();
+        // Server returns { type, url?, text? }
+        if (j.type === 'redirect' && j.url) {
+          serverResponseEl.textContent = 'Opening provider...';
+          window.open(j.url, '_blank', 'noopener');
+        } else if (j.type === 'assistant' && j.text) {
+          serverResponseEl.textContent = 'Assistant response from server:\n\n' + j.text;
+        } else if (j.type === 'copied') {
+          serverResponseEl.textContent = 'Kit text was copied to clipboard; open the provider and paste into the chat.';
+          // optionally open provider page
+          if (j.openUrl) window.open(j.openUrl, '_blank', 'noopener');
+        } else {
+          serverResponseEl.textContent = 'Unknown server response';
+        }
+      } catch (err) {
+        serverResponseEl.textContent = 'Client error: ' + err.message;
+      }
+    });
+
+    // Autoload repo from query
+    const q = getQueryRepo();
+    if (q) { repoInput.value = q; loadRepo(q); } else { repoInput.value = 'Greysmokez/Continuous-Jubilee-Calendar'; }
+  </script>
+</body>
+</html>
