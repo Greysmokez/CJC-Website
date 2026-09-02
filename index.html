@@ -70,7 +70,7 @@
     color: var(--ink-soft);
     font-size: 1.05rem;
     max-width: 480px;
-    margin: 0 auto 46px;
+    margin: 0 auto 24px;
   }
 
   .kit-box {
@@ -78,7 +78,7 @@
     border: 1px solid var(--gold-line);
     border-radius: 3px;
     padding: 20px 22px;
-    margin-bottom: 40px;
+    margin-bottom: 18px;
   }
   .kit-box .label {
     font-size: 0.8rem;
@@ -124,14 +124,14 @@
 
   .steps {
     counter-reset: step;
-    margin: 0 0 44px;
+    margin: 0 0 18px;
     padding: 0;
     list-style: none;
   }
   .steps li {
     display: flex;
     gap: 14px;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     color: var(--ink-soft);
     font-size: 0.98rem;
   }
@@ -148,6 +148,18 @@
     display: flex; align-items: center; justify-content: center;
     margin-top: 1px;
   }
+
+  .howto {
+    background: #fffef8;
+    border: 1px solid var(--gold-line);
+    padding: 14px 16px;
+    border-radius: 4px;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+  }
+  .howto b { color: var(--ink); }
+  .sample-prompt { font-family: 'Source Sans 3', monospace; background: #fff; padding:8px; display:block; margin-top:8px; border-radius:3px; border:1px solid #eee; }
 
   .choose-label {
     text-align: center;
@@ -219,9 +231,19 @@
   <div class="kit-box">
     <div class="label">Kit link</div>
     <div class="kit-link-row">
-      <a class="kit-link" id="kitUrl" href="https://Greysmokez.github.io/CJC-Website/kit" target="_blank" rel="noopener">Scripture Timeline Calculator</a>
+      <a class="kit-link" id="kitUrl" href="https://Greysmokez.github.io/CJC-Website/kit.txt" target="_blank" rel="noopener">Scripture Timeline Calculator</a>
       <button class="copy-btn" id="copyBtn" onclick="copyKitLink()">Copy link</button>
     </div>
+  </div>
+
+  <div class="howto" aria-live="polite">
+    <b>How to use the CJC Kit with an AI (concise)</b>
+    <ol class="steps" style="margin-top:10px;">
+      <li>Click the link or press "Copy link" to get the kit URL.</li>
+      <li>Open your assistant (ChatGPT, Gemini, Claude, Copilot, Grok, etc.).</li>
+      <li>Paste the copied URL into the assistant chat and say: <span class="sample-prompt">"Fetch and use the CJC Research Kit at [paste-URL], then compute Cycle and Year for [date] and show every step."</span></li>
+      <li>If the assistant cannot fetch URLs, paste the full kit text (from <a href="/kit.txt" target="_blank" rel="noopener">/kit.txt</a>) directly into the chat and use the same prompt above.</li>
+    </ol>
   </div>
 
   <ol class="steps">
@@ -267,9 +289,9 @@
 </div>
 
 <script>
+const KIT_PAGES_URL = 'https://Greysmokez.github.io/CJC-Website/kit.txt';
 function copyKitLink() {
-  const text = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
-  navigator.clipboard.writeText(text).then(() => {
+  navigator.clipboard.writeText(KIT_PAGES_URL).then(() => {
     const btn = document.getElementById('copyBtn');
     const original = btn.textContent;
     btn.textContent = 'Copied';
