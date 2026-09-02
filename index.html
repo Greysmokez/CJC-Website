@@ -116,8 +116,9 @@
 
 <script>
 const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
-const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt';
+const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
 const REPO_NWO = 'Greysmokez/Continuous-Jubilee-Calendar';
+const MAX_COPY_CHARS = 18000; // limit to avoid huge clipboard writes and AI token limits
 
 // Short canonical prompt (single line) with placeholder for date
 function makePrompt(datePlaceholder='[DATE]'){
@@ -147,13 +148,47 @@ async function copyText(text, btn){
   }
 }
 
+// Fetch the raw kit file and copy it to clipboard before opening the AI platform
+async function fetchAndCopyRawToClipboard(){
+  try{
+    const res = await fetch(RAW_URL);
+    if(!res.ok) throw new Error('Fetch failed: ' + res.status);
+    const text = await res.text();
+    // Prefix with a short header so user knows source when they paste
+    const header = `Source: ${RAW_URL}\nRepository: ${REPO_NWO}\n\n`;
+    let toCopy = header + text;
+    if(toCopy.length > MAX_COPY_CHARS){
+      toCopy = toCopy.slice(0, MAX_COPY_CHARS) + '\n\n[TRUNCATED]';
+    }
+    await navigator.clipboard.writeText(toCopy);
+    return { ok: true, length: toCopy.length };
+  }catch(err){
+    console.warn('Could not fetch/copy raw kit:', err);
+    return { ok: false, error: String(err) };
+  }
+}
+
 // Open AI platform and also open the local ai-chat page that will fetch the repo README and show it
-function openAiAndSeed(repoNwo, aiUrl){
-  // Copy the single-line prompt to clipboard so the user can paste it into the AI
-  copyText(makePrompt('[DATE]'));
+async function openAiAndSeed(repoNwo, aiUrl){
+  // Try to fetch the raw kit and copy it to clipboard so the user can paste directly into the AI chat
+  const copyResult = await fetchAndCopyRawToClipboard();
+  if(!copyResult.ok){
+    // Fallback: copy the short prompt only
+    await copyText(makePrompt('[DATE]'));
+    alert('Could not fetch the full kit automatically; the short prompt was copied instead. You can open the kit file manually: ' + RAW_URL);
+  } else {
+    // Inform the user that kit text was copied
+    // Note: avoid alert spam on each AI open; use a small confirm so clipboard write is allowed
+    // We'll notify briefly using confirm so user is aware before the external site opens
+    const msg = `The CJC kit text (~${copyResult.length} characters) was copied to your clipboard.\nOpen the selected AI platform and paste into the chat input.`;
+    // Use confirm to let user cancel if they don't want the AI page opened immediately
+    const proceed = confirm(msg + '\n\nOpen AI now?');
+    if(!proceed) return;
+  }
+
   // Open the chosen AI platform in a new tab
   try{ window.open(aiUrl, '_blank', 'noopener'); }catch(e){ console.warn('Could not open AI platform', e); }
-  // Open the local ai-chat page (same repo) which will fetch README and display it for the user
+  // Also open the local ai-chat page (same repo) which will fetch README and display it for the user as an alternative
   try{ window.open('/ai-chat.html?repo=' + encodeURIComponent(repoNwo), '_blank', 'noopener'); }catch(e){ console.warn('Could not open local ai chat page', e); }
 }
 
@@ -178,21 +213,21 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   // AI buttons: open platform + local ai-chat view
   document.querySelectorAll('.ai-btn').forEach(link => {
-    link.addEventListener('click', (e) => {
+    link.addEventListener('click', async (e) => {
       e.preventDefault();
       const aiUrl = link.getAttribute('href');
-      openAiAndSeed(REPO_NWO, aiUrl);
+      await openAiAndSeed(REPO_NWO, aiUrl);
     });
   });
 
   // Random AI button: pick one of the ai-btn hrefs at random
   if(randomAiBtn){
-    randomAiBtn.addEventListener('click', (e) => {
+    randomAiBtn.addEventListener('click', async (e) => {
       const aiLinks = Array.from(document.querySelectorAll('.ai-btn')).map(a=>a.getAttribute('href'));
       if(aiLinks.length===0) return;
       if(!confirm('Open a random top AI to help you with the CJC Calendar?')) return;
       const choice = aiLinks[Math.floor(Math.random()*aiLinks.length)];
-      openAiAndSeed(REPO_NWO, choice);
+      await openAiAndSeed(REPO_NWO, choice);
     });
   }
 });
