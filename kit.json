@@ -1,0 +1,16 @@
+{
+  "title": "CJC Research Kit (Paste-Ready)",
+  "version": "12.5",
+  "short_description": "A paste-ready chronology tool for AI-assisted Biblical dating and Jubilee-cycle calculations.",
+  "description": "The CJC Research Kit (v12.5) is a paste-ready, self-contained chronology toolkit that provides exact formulas and worked examples for Jubilee-cycle and date reconstructions from 1437 BC to the present. Designed for direct use with AI assistants, it includes modular arithmetic for Cycle/Year calculations, lunar-phase and weekday tools, worked examples, independently-checkable anchor points, and sample prompts. Use the Pages URL or paste the kit text into any AI chat to run verifiable computations step-by-step.",
+  "pages_url": "https://Greysmokez.github.io/CJC-Website/kit.txt",
+  "raw_url": "https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt",
+  "updated_at": "2026-09-01",
+  "sample_prompts": [
+    "Fetch and use the CJC Research Kit at [paste-URL], then compute Cycle and Year for [date] and show every step.",
+    "Using the formula above, compute the Cycle and Year for [any date you want to test]. Show every step."
+  ],
+  "keywords": [
+    "TIME","BIBLE","JESUS","Biblical times","Scripture","Scripture's Calendar","Scriptural Calendar","Jubilee","Ancient times","Chronology","Bible chronology","Life of Jesus","who is Jesus","ancient Mesopotamia chronology","math vs Bible","math vs time","resurrection","crucifixion","date of crucifixion","birth of Jesus","Christmas date","dating the Bible","Jesus birthday","Easter Sunday","date of resurrection","AD30","AD33","AD457","AD70","baptism","John the Baptist","Torah times","dating the Torah","Torah vs Bible","Sunday vs Sabbath","proving the modern weekday alignment","weekday continuum","Sabbath vs Sunday","Exodus date","dating the Exodus","date of Moses","dating Moses","Apostle Paul","Paul dating","temple destruction","dating AD70"
+  ]
+}
