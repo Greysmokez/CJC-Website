@@ -100,11 +100,15 @@
     <button id="randomAiBtn" class="copy-btn ghost" style="padding:10px 14px;">Open a Random Top AI for me</button>
   </div>
   <div class="ai-list">
+    <!-- Ensuring the requested AI platforms are listed: Grok, Perplexity, DEEPAI, ChatGPT plus a few more -->
     <a class="ai-btn" href="https://chat.openai.com/" data-ai="ChatGPT"> <span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span> ChatGPT</a>
+    <a class="ai-btn" href="https://perplexity.ai/" data-ai="Perplexity"> <span style="width:10px;height:10px;border-radius:50%;background:#8A5BBA"></span> Perplexity</a>
+    <a class="ai-btn" href="https://deepai.org/" data-ai="DeepAI"> <span style="width:10px;height:10px;border-radius:50%;background:#3E8FC8"></span> DEEPAI</a>
+    <a class="ai-btn" href="https://grok.com" data-ai="Grok"> <span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span> Grok</a>
     <a class="ai-btn" href="https://claude.ai" data-ai="Claude"> <span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span> Claude</a>
     <a class="ai-btn" href="https://gemini.google.com" data-ai="Gemini"> <span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span> Gemini</a>
     <a class="ai-btn" href="https://copilot.microsoft.com" data-ai="Copilot"> <span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span> Copilot</a>
-    <a class="ai-btn" href="https://grok.com" data-ai="Grok"> <span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span> Grok</a>
+    <a class="ai-btn" href="https://www.bing.com/chat" data-ai="BingChat"> <span style="width:10px;height:10px;border-radius:50%;background:#107C10"></span> Bing Chat</a>
   </div>
 
   <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Raw source: <a href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar" target="_blank" rel="noopener">Continuous-Jubilee-Calendar</a></footer>
@@ -186,8 +190,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     randomAiBtn.addEventListener('click', (e) => {
       const aiLinks = Array.from(document.querySelectorAll('.ai-btn')).map(a=>a.getAttribute('href'));
       if(aiLinks.length===0) return;
-      const choice = aiLinks[Math.floor(Math.random()*aiLinks.length)];
       if(!confirm('Open a random top AI to help you with the CJC Calendar?')) return;
+      const choice = aiLinks[Math.floor(Math.random()*aiLinks.length)];
       openAiAndSeed(REPO_NWO, choice);
     });
   }
