@@ -63,6 +63,7 @@
   .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); cursor:pointer }
 
   .note { font-size:0.92rem; color:var(--ink-soft); text-align:center; margin-top:8px }
+  .test-box{ margin-top:8px; text-align:center; color:var(--ink-soft); font-size:0.9rem }
 
   footer{ text-align:center; font-size:0.88rem; color:var(--ink-soft); margin-top:28px }
 
@@ -99,8 +100,13 @@
 
   <div class="choose-label">CHOOSE AN ASSISTANT</div>
   <div style="text-align:center; margin-bottom:6px;">
-    <button id="randomAiBtn" class="copy-btn ghost" style="padding:10px 14px;">Open a Random Top AI (prefill-capable only)</button>
-    <div class="note">Random will only try providers known to accept a short URL (Perplexity, Bing). If automatic prefill fails you'll be prompted to report the issue and can copy the kit manually.</div>
+    <button id="randomAiBtn" class="copy-btn ghost" style="padding:10px 14px;">Open the Hosted Kit Page</button>
+    <div class="note">This opens the hosted kit page directly (https://greysmokez.github.io/CJC-Website/) and also opens the ai-chat fallback so you can copy the raw kit if needed. No shorteners are used.</div>
+    <div class="test-box">
+      <button id="copyCurlBtn" class="copy-btn ghost" style="margin-top:8px;padding:8px 10px">Copy curl test</button>
+      <button id="runHeadBtn" class="copy-btn ghost" style="margin-top:8px;padding:8px 10px">Run URL test (HEAD)</button>
+      <div id="testResult" style="margin-top:8px;color:var(--ink-soft)"></div>
+    </div>
   </div>
   <div class="ai-list" id="aiListContainer">
     <!-- Order: providers most likely to accept a web prefill (search-style) first, then others by likelihood to retrieve URL -->
@@ -115,14 +121,14 @@
     <a class="ai-btn" href="https://copilot.microsoft.com" data-name="Copilot" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span> Copilot</a>
   </div>
 
-  <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Raw source: <a href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar" target="_blank" rel="noopener">Continuous-Jubilee-Calendar</a></footer>
+  <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Hosted: <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">greysmokez.github.io/CJC-Website</a></footer>
 </div>
 
 <script>
-const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
+const RENDERED_URL = 'https://greysmokez.github.io/CJC-Website/';
 const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt';
 const REPO_NWO = 'Greysmokez/Continuous-Jubilee-Calendar';
-const PREFILL_SHORT_URL = 'https://bit.ly/4qTHJ8G'; // Short Bitly link that points to the raw kit file
+const PREFILL_SHORT_URL = RENDERED_URL; // direct hosted page (no shorteners)
 const MAX_COPY_CHARS = 18000; // limit to avoid huge clipboard writes and AI token limits
 
 function makePrompt(datePlaceholder='[DATE]'){
@@ -149,7 +155,7 @@ async function fetchRawKit(){
   return txt;
 }
 
-// Build provider prefill URL using the short Bitly link (avoid embedding full text in query)
+// Build provider prefill URL using the hosted rendered page (keeps the link short and provider-friendly)
 function buildSearchPrefillUrl(baseUrl){
   try{
     const q = encodeURIComponent(PREFILL_SHORT_URL);
@@ -166,51 +172,20 @@ function makePrefillIssueUrl(provider, details){
   return `https://github.com/Greysmokez/CJC-Website/issues/new?title=${title}&body=${body}`;
 }
 
-// Random chooser: select only providers that are marked data-prefill="true"
+// Random chooser now opens the hosted site directly (no shorteners), and also opens the ai-chat fallback
 async function openRandomProvider(){
-  const prefillAnchors = Array.from(document.querySelectorAll('#aiListContainer .ai-btn[data-prefill="true"]'));
-  if(prefillAnchors.length===0){
-    alert('No prefill-capable providers are configured. Falling back to opening a random provider normally.');
-    const all = Array.from(document.querySelectorAll('#aiListContainer .ai-btn'));
-    const choice = all[Math.floor(Math.random()*all.length)];
-    window.open(choice.getAttribute('href'), '_blank', 'noopener');
+  try{
+    window.open(RENDERED_URL, '_blank', 'noopener');
+    // open ai-chat as visible fallback so users can copy raw kit if needed
+    window.open('/ai-chat.html?repo=' + encodeURIComponent(REPO_NWO), '_blank', 'noopener');
     return;
-  }
-
-  const choiceEl = prefillAnchors[Math.floor(Math.random()*prefillAnchors.length)];
-  const providerName = choiceEl.dataset.name || 'Provider';
-  const url = choiceEl.getAttribute('href');
-  const prefillType = choiceEl.dataset.prefillType || null;
-
-  if(prefillType === 'search'){
-    try{
-      // Use the short Bitly URL for prefill instead of embedding the full kit
-      const prefillUrl = buildSearchPrefillUrl(url);
-      window.open(prefillUrl, '_blank', 'noopener');
-      // open ai-chat as visible fallback
-      window.open('/ai-chat.html?repo=' + encodeURIComponent(REPO_NWO), '_blank', 'noopener');
-      return;
-    }catch(err){
-      console.warn('Prefill failed, falling back to clipboard+open:', err);
-      // Offer the user a chance to file a lightweight report (opens a pre-filled GitHub issue)
-      if(confirm('Automatic prefill failed for ' + providerName + '. Would you like to report this so we can investigate?')){
-        const issueUrl = makePrefillIssueUrl(providerName, String(err));
-        window.open(issueUrl, '_blank', 'noopener');
-      }
+  }catch(err){
+    console.error('Opening hosted kit failed:', err);
+    if(confirm('Automatic open failed. Would you like to report this?')){
+      const issueUrl = makePrefillIssueUrl('HostedPage', String(err));
+      window.open(issueUrl, '_blank', 'noopener');
     }
   }
-
-  // Generic fallback: copy kit and open normally
-  try{
-    let kitText = '';
-    try{ kitText = await fetchRawKit(); } catch(e){ kitText = makePrompt('[DATE]'); }
-    const header = `Source: ${RAW_URL}\nRepository: ${REPO_NWO}\n\n`;
-    let toCopy = header + kitText;
-    if(toCopy.length > MAX_COPY_CHARS) toCopy = toCopy.slice(0, MAX_COPY_CHARS) + '\n\n[TRUNCATED]';
-    const ok = await copyTextToClipboard(toCopy);
-    if(!ok){ alert('Could not copy automatically — the kit page will open so you can copy manually.'); window.open('/ai-chat.html?repo=' + encodeURIComponent(REPO_NWO), '_blank', 'noopener'); }
-    window.open(url, '_blank', 'noopener');
-  }catch(err){ console.error('Random open failed:', err); window.open(url, '_blank', 'noopener'); }
 }
 
 function handleAiButtonClick(e){
@@ -226,6 +201,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const copyOpenBtn = document.getElementById('copyOpenBtn');
   const visiblePrompt = document.getElementById('visiblePrompt');
   const randomAiBtn = document.getElementById('randomAiBtn');
+  const copyCurlBtn = document.getElementById('copyCurlBtn');
+  const runHeadBtn = document.getElementById('runHeadBtn');
+  const testResult = document.getElementById('testResult');
 
   if(visiblePrompt) visiblePrompt.textContent = makePrompt('[DATE]');
 
@@ -237,13 +215,27 @@ document.addEventListener('DOMContentLoaded', ()=>{
     if(ok){ window.open('https://chat.openai.com/', '_blank'); }
   });
 
+  if(copyCurlBtn) copyCurlBtn.addEventListener('click', async ()=>{
+    const curlCmd = `curl -I '${RAW_URL}'`;
+    const ok = await copyTextToClipboard(curlCmd);
+    if(ok) alert('Copied curl test to clipboard:\n' + curlCmd); else prompt('Run this command to test the URL:', curlCmd);
+  });
+
+  if(runHeadBtn) runHeadBtn.addEventListener('click', async ()=>{
+    testResult.textContent = 'Running HEAD request...';
+    try{
+      const r = await fetch(RAW_URL, { method: 'HEAD' });
+      testResult.textContent = `HEAD ${r.status} ${r.statusText}`;
+    }catch(e){ testResult.textContent = 'HEAD request failed: ' + e.message; }
+  });
+
   document.querySelectorAll('#aiListContainer .ai-btn').forEach(a => {
     a.addEventListener('click', handleAiButtonClick);
   });
 
   if(randomAiBtn){
     randomAiBtn.addEventListener('click', async (e) => {
-      if(!confirm('Open a random prefill-capable AI to help you with the CJC Calendar?')) return;
+      if(!confirm('Open the hosted CJC kit page and the ai-chat fallback?')) return;
       await openRandomProvider();
     });
   }
