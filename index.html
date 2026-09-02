@@ -102,6 +102,8 @@
     flex: 1 1 auto;
     min-width: 200px;
     word-break: break-all;
+    display: inline-block;
+    text-decoration: none;
   }
   .copy-btn {
     font-family: inherit;
@@ -217,7 +219,7 @@
   <div class="kit-box">
     <div class="label">Kit link</div>
     <div class="kit-link-row">
-      <span class="kit-link" id="kitUrl">https://bit.ly/4cpi9Cu</span>
+      <a class="kit-link" id="kitUrl" href="https://Greysmokez.github.io/CJC-Website/kit" target="_blank" rel="noopener">Scripture Timeline Calculator</a>
       <button class="copy-btn" id="copyBtn" onclick="copyKitLink()">Copy link</button>
     </div>
   </div>
@@ -266,7 +268,7 @@
 
 <script>
 function copyKitLink() {
-  const text = document.getElementById('kitUrl').textContent;
+  const text = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById('copyBtn');
     const original = btn.textContent;
