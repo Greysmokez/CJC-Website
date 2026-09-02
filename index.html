@@ -38,7 +38,7 @@
     padding: 48px 20px 80px;
   }
 
-  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif }
+  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-weight:600 }
 
   h1 { font-family: 'Spectral', serif; font-weight:500; font-size:1.8rem; text-align:center; margin:0 0 6px }
   .subhead { text-align:center; color:var(--ink-soft); font-size:1.02rem; max-width:520px; margin:0 auto 18px }
@@ -46,7 +46,7 @@
   .kit-box { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:16px }
   .kit-box .label{ font-size:0.88rem; color:var(--ink-soft); margin-bottom:8px }
   .kit-link-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
-  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:180px; text-decoration:none }
+  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:0 }
 
   .copy-btn{ font-family:inherit; font-size:0.88rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:8px 12px; cursor:pointer }
   .copy-btn.secondary{ background:#5B6B58 }
@@ -60,7 +60,7 @@
 
   .choose-label{ text-align:center; font-size:0.9rem; color:var(--ink-soft); margin:18px 0 8px }
   .ai-list{ display:flex; flex-direction:column; gap:10px }
-  .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line) }
+  .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); cursor:pointer }
 
   footer{ text-align:center; font-size:0.88rem; color:var(--ink-soft); margin-top:28px }
 
@@ -96,12 +96,15 @@
   </div>
 
   <div class="choose-label">CHOOSE AN ASSISTANT</div>
+  <div style="text-align:center; margin-bottom:12px;">
+    <button id="randomAiBtn" class="copy-btn ghost" style="padding:10px 14px;">Open a Random Top AI for me</button>
+  </div>
   <div class="ai-list">
-    <a class="ai-btn" href="https://chat.openai.com/" target="_blank" rel="noopener"><span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span> ChatGPT</a>
-    <a class="ai-btn" href="https://claude.ai" target="_blank" rel="noopener"><span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span> Claude</a>
-    <a class="ai-btn" href="https://gemini.google.com" target="_blank" rel="noopener"><span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span> Gemini</a>
-    <a class="ai-btn" href="https://copilot.microsoft.com" target="_blank" rel="noopener"><span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span> Copilot</a>
-    <a class="ai-btn" href="https://grok.com" target="_blank" rel="noopener"><span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span> Grok</a>
+    <a class="ai-btn" href="https://chat.openai.com/" data-ai="ChatGPT"> <span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span> ChatGPT</a>
+    <a class="ai-btn" href="https://claude.ai" data-ai="Claude"> <span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span> Claude</a>
+    <a class="ai-btn" href="https://gemini.google.com" data-ai="Gemini"> <span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span> Gemini</a>
+    <a class="ai-btn" href="https://copilot.microsoft.com" data-ai="Copilot"> <span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span> Copilot</a>
+    <a class="ai-btn" href="https://grok.com" data-ai="Grok"> <span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span> Grok</a>
   </div>
 
   <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Raw source: <a href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar" target="_blank" rel="noopener">Continuous-Jubilee-Calendar</a></footer>
@@ -110,10 +113,11 @@
 <script>
 const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
 const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt';
+const REPO_NWO = 'Greysmokez/Continuous-Jubilee-Calendar';
 
 // Short canonical prompt (single line) with placeholder for date
 function makePrompt(datePlaceholder='[DATE]'){
-  return `Fetch and use the plain-text content at ${RAW_URL} exactly as given (do not summarize). Using its formulas, compute Cycle and Year for ${datePlaceholder}; show all arithmetic steps and the final conclusion.`;
+  return `Fetch and use the plain-text content at ${RAW_URL} exactly as given (do not summarize). Using its formulas, compute Cycle and Year for ${datePlaceholder}; show all arithmetic steps and explain assumptions.`;
 }
 
 // Robust copy with fallback
@@ -134,10 +138,19 @@ async function copyText(text, btn){
     if(btn){ btn.textContent = 'Copied'; btn.classList.add('copied'); setTimeout(()=>{ btn.textContent = original; btn.classList.remove('copied'); },1400); }
     return true;
   }catch(e){
-    // show prompt as fallback
     window.prompt('Copy this text:', text);
     return false;
   }
+}
+
+// Open AI platform and also open the local ai-chat page that will fetch the repo README and show it
+function openAiAndSeed(repoNwo, aiUrl){
+  // Copy the single-line prompt to clipboard so the user can paste it into the AI
+  copyText(makePrompt('[DATE]'));
+  // Open the chosen AI platform in a new tab
+  try{ window.open(aiUrl, '_blank', 'noopener'); }catch(e){ console.warn('Could not open AI platform', e); }
+  // Open the local ai-chat page (same repo) which will fetch README and display it for the user
+  try{ window.open('/ai-chat.html?repo=' + encodeURIComponent(repoNwo), '_blank', 'noopener'); }catch(e){ console.warn('Could not open local ai chat page', e); }
 }
 
 // Attach behavior after DOM loads
@@ -147,6 +160,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const copyPromptBtn = document.getElementById('copyPromptBtn');
   const copyOpenBtn = document.getElementById('copyOpenBtn');
   const visiblePrompt = document.getElementById('visiblePrompt');
+  const randomAiBtn = document.getElementById('randomAiBtn');
 
   if(visiblePrompt) visiblePrompt.textContent = makePrompt('[DATE]');
 
@@ -155,9 +169,28 @@ document.addEventListener('DOMContentLoaded', ()=>{
   if(copyPromptBtn) copyPromptBtn.addEventListener('click', (e)=> copyText(makePrompt('[DATE]'), e.currentTarget));
   if(copyOpenBtn) copyOpenBtn.addEventListener('click', async (e)=>{
     const ok = await copyText(makePrompt('[DATE]'), e.currentTarget);
-    // open ChatGPT in new tab after copying (do nothing if user agent blocks)
     if(ok){ window.open('https://chat.openai.com/', '_blank'); }
   });
+
+  // AI buttons: open platform + local ai-chat view
+  document.querySelectorAll('.ai-btn').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const aiUrl = link.getAttribute('href');
+      openAiAndSeed(REPO_NWO, aiUrl);
+    });
+  });
+
+  // Random AI button: pick one of the ai-btn hrefs at random
+  if(randomAiBtn){
+    randomAiBtn.addEventListener('click', (e) => {
+      const aiLinks = Array.from(document.querySelectorAll('.ai-btn')).map(a=>a.getAttribute('href'));
+      if(aiLinks.length===0) return;
+      const choice = aiLinks[Math.floor(Math.random()*aiLinks.length)];
+      if(!confirm('Open a random top AI to help you with the CJC Calendar?')) return;
+      openAiAndSeed(REPO_NWO, choice);
+    });
+  }
 });
 </script>
 </body>
