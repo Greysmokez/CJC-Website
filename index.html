@@ -38,7 +38,7 @@
     padding: 48px 20px 80px;
   }
 
-  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-weight:600 }
+  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,sans-serif;font-weight:600 }
 
   h1 { font-family: 'Spectral', serif; font-weight:500; font-size:1.8rem; text-align:center; margin:0 0 6px }
   .subhead { text-align:center; color:var(--ink-soft); font-size:1.02rem; max-width:520px; margin:0 auto 18px }
@@ -46,7 +46,7 @@
   .kit-box { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:16px }
   .kit-box .label{ font-size:0.88rem; color:var(--ink-soft); margin-bottom:8px }
   .kit-link-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
-  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:0 }
+  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:220px; text-decoration:none }
 
   .copy-btn{ font-family:inherit; font-size:0.88rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:8px 12px; cursor:pointer }
   .copy-btn.secondary{ background:#5B6B58 }
@@ -60,7 +60,7 @@
 
   .choose-label{ text-align:center; font-size:0.9rem; color:var(--ink-soft); margin:18px 0 8px }
   .ai-list{ display:flex; flex-direction:column; gap:10px }
-  .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); cursor:pointer }
+  .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); }
 
   .note { font-size:0.92rem; color:var(--ink-soft); text-align:center; margin-top:8px }
   .test-box{ margin-top:8px; text-align:center; color:var(--ink-soft); font-size:0.9rem }
@@ -85,7 +85,7 @@
     </div>
 
     <div class="kit-link-row">
-      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Plain text (for assistants)</a>
+      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Plain text kit (for assistants)</a>
       <button class="copy-btn" id="copyRawBtn" aria-label="Copy plain text URL">Copy URL</button>
       <button class="copy-btn" id="copyPromptBtn" aria-label="Copy short prompt">Copy Prompt</button>
       <button class="copy-btn" id="copyOpenBtn" aria-label="Copy prompt and open ChatGPT">Open Chat</button>
@@ -109,9 +109,9 @@
     </div>
   </div>
   <div class="ai-list" id="aiListContainer">
-    <!-- Order: providers most likely to accept a web prefill (search-style) first, then others by likelihood to retrieve URL -->
-    <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity" data-prefill="true" data-prefill-type="search"> <span style="width:10px;height:10px;border-radius:50%;background:#8A5BBA"></span> Perplexity</a>
-    <a class="ai-btn" href="https://www.bing.com/search" data-name="BingChat" data-prefill="true" data-prefill-type="search"> <span style="width:10px;height:10px;border-radius:50%;background:#107C10"></span> Bing Chat</a>
+    <!-- Order: providers most likely to accept a web prefill (search-style) first, then others by likelihood to retrieve/persist URL content -->
+    <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity" data-prefill="true" data-prefill-type="search"> <span style="width:10px;height:10px;border-radius:50%;background:#8A8C8F"></span> Perplexity</a>
+    <a class="ai-btn" href="https://www.bing.com/search" data-name="BingChat" data-prefill="true" data-prefill-type="search"> <span style="width:10px;height:10px;border-radius:50%;background:#1073D6"></span> BingChat</a>
     <!-- Non-prefill-capable providers (listed in order of estimated ability to retrieve/persist URL content) -->
     <a class="ai-btn" href="https://deepai.org/" data-name="DeepAI" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#3E8FC8"></span> DEEPAI</a>
     <a class="ai-btn" href="https://grok.com" data-name="Grok" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span> Grok</a>
@@ -131,7 +131,8 @@ const REPO_NWO = 'Greysmokez/Continuous-Jubilee-Calendar';
 const PREFILL_SHORT_URL = RENDERED_URL; // direct hosted page (no shorteners)
 const MAX_COPY_CHARS = 18000; // limit to avoid huge clipboard writes and AI token limits
 
-function makePrompt(datePlaceholder='[DATE]'){
+// Default date for prompts changed to a specific date: Friday April 7 AD30
+function makePrompt(datePlaceholder='Friday April 7 AD30'){
   return `Fetch and use the plain-text content at ${RAW_URL} exactly as given (do not summarize). Using its formulas, compute Cycle and Year for ${datePlaceholder}; show all arithmetic steps and explain assumptions.`;
 }
 
@@ -168,7 +169,8 @@ function buildSearchPrefillUrl(baseUrl){
 // Utility: create a GitHub issue URL to report a prefill failure (user must submit)
 function makePrefillIssueUrl(provider, details){
   const title = encodeURIComponent(`Prefill failed for ${provider} when opening CJC kit`);
-  const body = encodeURIComponent(`Provider: ${provider}\nPrefill URL: ${PREFILL_SHORT_URL}\nRepo: ${REPO_NWO}\nTime: ${new Date().toISOString()}\nUser Agent: ${navigator.userAgent}\n\nDetails:\n${details || 'No additional details.'}`);
+  const body = encodeURIComponent(`Provider: ${provider}\nPrefill URL: ${PREFILL_SHORT_URL}\nRepo: ${REPO_NWO}\nTime: ${new Date().toISOString()}\nUser Agent: ${navigator.userAgent}\n\nDetails:\n[...]
+`);
   return `https://github.com/Greysmokez/CJC-Website/issues/new?title=${title}&body=${body}`;
 }
 
@@ -205,13 +207,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const runHeadBtn = document.getElementById('runHeadBtn');
   const testResult = document.getElementById('testResult');
 
-  if(visiblePrompt) visiblePrompt.textContent = makePrompt('[DATE]');
+  if(visiblePrompt) visiblePrompt.textContent = makePrompt();
 
   if(copyRawBtn) copyRawBtn.addEventListener('click', (e)=> copyTextToClipboard(RAW_URL));
   if(copyRenderedBtn) copyRenderedBtn.addEventListener('click', (e)=> copyTextToClipboard(RENDERED_URL));
-  if(copyPromptBtn) copyPromptBtn.addEventListener('click', (e)=> copyTextToClipboard(makePrompt('[DATE]')));
+  if(copyPromptBtn) copyPromptBtn.addEventListener('click', (e)=> copyTextToClipboard(makePrompt()));
   if(copyOpenBtn) copyOpenBtn.addEventListener('click', async (e)=>{
-    const ok = await copyTextToClipboard(makePrompt('[DATE]'));
+    const ok = await copyTextToClipboard(makePrompt());
     if(ok){ window.open('https://chat.openai.com/', '_blank'); }
   });
 
