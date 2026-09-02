@@ -62,6 +62,8 @@
   .ai-list{ display:flex; flex-direction:column; gap:10px }
   .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); cursor:pointer }
 
+  .note { font-size:0.92rem; color:var(--ink-soft); text-align:center; margin-top:8px }
+
   footer{ text-align:center; font-size:0.88rem; color:var(--ink-soft); margin-top:28px }
 
   @media (max-width:560px){ .wrap{ padding:20px } }
@@ -96,13 +98,14 @@
   </div>
 
   <div class="choose-label">CHOOSE AN ASSISTANT</div>
-  <div style="text-align:center; margin-bottom:12px;">
+  <div style="text-align:center; margin-bottom:6px;">
     <button id="randomAiBtn" class="copy-btn ghost" style="padding:10px 14px;">Open a Random Top AI (prefill-capable only)</button>
+    <div class="note">Random will only try providers known to accept a short URL (Perplexity, Bing). If automatic prefill fails you'll be prompted to report the issue and can copy the kit manually.</div>
   </div>
   <div class="ai-list" id="aiListContainer">
     <!-- Order: providers most likely to accept a web prefill (search-style) first, then others by likelihood to retrieve URL -->
     <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity" data-prefill="true" data-prefill-type="search"> <span style="width:10px;height:10px;border-radius:50%;background:#8A5BBA"></span> Perplexity</a>
-    <a class="ai-btn" href="https://www.bing.com/chat" data-name="BingChat" data-prefill="true" data-prefill-type="search"> <span style="width:10px;height:10px;border-radius:50%;background:#107C10"></span> Bing Chat</a>
+    <a class="ai-btn" href="https://www.bing.com/search" data-name="BingChat" data-prefill="true" data-prefill-type="search"> <span style="width:10px;height:10px;border-radius:50%;background:#107C10"></span> Bing Chat</a>
     <!-- Non-prefill-capable providers (listed in order of estimated ability to retrieve/persist URL content) -->
     <a class="ai-btn" href="https://deepai.org/" data-name="DeepAI" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#3E8FC8"></span> DEEPAI</a>
     <a class="ai-btn" href="https://grok.com" data-name="Grok" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span> Grok</a>
@@ -119,6 +122,7 @@
 const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
 const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt';
 const REPO_NWO = 'Greysmokez/Continuous-Jubilee-Calendar';
+const PREFILL_SHORT_URL = 'https://bit.ly/4qTHJ8G'; // Short Bitly link that points to the raw kit file
 const MAX_COPY_CHARS = 18000; // limit to avoid huge clipboard writes and AI token limits
 
 function makePrompt(datePlaceholder='[DATE]'){
@@ -145,13 +149,21 @@ async function fetchRawKit(){
   return txt;
 }
 
-function buildSearchPrefillUrl(baseUrl, text){
+// Build provider prefill URL using the short Bitly link (avoid embedding full text in query)
+function buildSearchPrefillUrl(baseUrl){
   try{
-    const q = encodeURIComponent(text.slice(0, MAX_COPY_CHARS));
+    const q = encodeURIComponent(PREFILL_SHORT_URL);
     if(baseUrl.includes('perplexity.ai')) return `https://www.perplexity.ai/search?q=${q}`;
     if(baseUrl.includes('bing.com')) return `https://www.bing.com/search?q=${q}`;
     return baseUrl;
   }catch(e){ return baseUrl; }
+}
+
+// Utility: create a GitHub issue URL to report a prefill failure (user must submit)
+function makePrefillIssueUrl(provider, details){
+  const title = encodeURIComponent(`Prefill failed for ${provider} when opening CJC kit`);
+  const body = encodeURIComponent(`Provider: ${provider}\nPrefill URL: ${PREFILL_SHORT_URL}\nRepo: ${REPO_NWO}\nTime: ${new Date().toISOString()}\nUser Agent: ${navigator.userAgent}\n\nDetails:\n${details || 'No additional details.'}`);
+  return `https://github.com/Greysmokez/CJC-Website/issues/new?title=${title}&body=${body}`;
 }
 
 // Random chooser: select only providers that are marked data-prefill="true"
@@ -166,19 +178,25 @@ async function openRandomProvider(){
   }
 
   const choiceEl = prefillAnchors[Math.floor(Math.random()*prefillAnchors.length)];
+  const providerName = choiceEl.dataset.name || 'Provider';
   const url = choiceEl.getAttribute('href');
   const prefillType = choiceEl.dataset.prefillType || null;
 
   if(prefillType === 'search'){
     try{
-      const kit = await fetchRawKit();
-      const prefillUrl = buildSearchPrefillUrl(url, `Source: ${RAW_URL}\nRepository: ${REPO_NWO}\n\n${kit}`);
+      // Use the short Bitly URL for prefill instead of embedding the full kit
+      const prefillUrl = buildSearchPrefillUrl(url);
       window.open(prefillUrl, '_blank', 'noopener');
       // open ai-chat as visible fallback
       window.open('/ai-chat.html?repo=' + encodeURIComponent(REPO_NWO), '_blank', 'noopener');
       return;
     }catch(err){
-      console.warn('Prefill fetch failed, falling back to clipboard+open:', err);
+      console.warn('Prefill failed, falling back to clipboard+open:', err);
+      // Offer the user a chance to file a lightweight report (opens a pre-filled GitHub issue)
+      if(confirm('Automatic prefill failed for ' + providerName + '. Would you like to report this so we can investigate?')){
+        const issueUrl = makePrefillIssueUrl(providerName, String(err));
+        window.open(issueUrl, '_blank', 'noopener');
+      }
     }
   }
 
