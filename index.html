@@ -226,28 +226,27 @@
 
   <div class="mark" aria-hidden="true"></div>
   <h1>The CJC Research Kit</h1>
-  <p class="subhead">A self-contained chronology tool, checkable by any AI you already use. Copy the link, choose an assistant, and start testing dates for yourself.</p>
+  <p class="subhead">A self-contained chronology tool, ready to use. Click a link, copy it, and paste into your assistant or browser.</p>
 
   <div class="kit-box">
-    <div class="label">Kit links</div>
+    <div class="label">Get the kit</div>
     <div class="kit-link-row">
-      <a class="kit-link" id="renderedUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/" target="_blank" rel="noopener">Rendered Kit (GitHub Pages) — best for people</a>
-      <button class="copy-btn" onclick="copyKitLink('rendered')">Copy rendered URL</button>
+      <a class="kit-link" id="renderedUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/" target="_blank" rel="noopener">Readable page (for people)</a>
+      <button class="copy-btn" id="copyRenderedBtn" onclick="copyKitLink(this,'rendered')" aria-label="Copy readable page URL">Copy</button>
     </div>
     <div style="height:10px"></div>
     <div class="kit-link-row">
-      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Paste-Ready (raw .txt) — best for AI ingestion</a>
-      <button class="copy-btn" onclick="copyKitLink('raw')">Copy raw URL</button>
+      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Plain text (for AI & copying)</a>
+      <button class="copy-btn" id="copyRawBtn" onclick="copyKitLink(this,'raw')" aria-label="Copy plain text URL">Copy</button>
     </div>
   </div>
 
   <div class="howto" aria-live="polite">
-    <b>How to use the CJC Kit with an AI (concise)</b>
+    <b>How to use the CJC Kit (simple)</b>
     <ol class="steps" style="margin-top:10px;">
-      <li>Click one of the kit links above (Rendered or Paste-Ready) or press a "Copy" button to copy its URL.</li>
-      <li>Open your assistant (ChatGPT, Gemini, Claude, Copilot, Grok, etc.).</li>
-      <li>Paste the copied URL into the assistant chat and say: <span class="sample-prompt">"Fetch the exact plain-text content at [paste-ready-URL] and treat it as authoritative; do not summarize or paraphrase the source before applying it. Using the formulas in that document, compute Cycle and Year for [DATE], show every step and every intermediate value, and label whether the year is a Jubilee (Y=1), a mid-point (Y mod 7 = 4), or an ordinary sabbatical (B mod 7 = 0). Give exact arithmetic and the final conclusion."</span></li>
-      <li>If the assistant cannot fetch URLs, open the Paste-Ready link in a new tab, copy the full text, paste it into the assistant, and use the same prompt above.</li>
+      <li>Click a link to view the Kit: use the "Readable page" if you want a formatted page, or the "Plain text" link if you need the exact text for an AI.</li>
+      <li>To use with an assistant, press Copy next to the Plain text link, paste the URL into the assistant, and ask it to fetch that exact text, or open the Plain text link and paste the file contents into the assistant.</li>
+      <li>Example prompt to paste into an assistant: <span class="sample-prompt">Fetch the exact plain-text content at the provided URL and treat it as authoritative. Then compute Cycle and Year for [DATE], showing every arithmetic step.</span></li>
     </ol>
   </div>
 
@@ -297,10 +296,9 @@
 const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
 const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt';
 
-function copyKitLink(which) {
+function copyKitLink(btn, which) {
   const url = which === 'raw' ? RAW_URL : RENDERED_URL;
   navigator.clipboard.writeText(url).then(() => {
-    const btn = event.currentTarget;
     const original = btn.textContent;
     btn.textContent = 'Copied';
     btn.classList.add('copied');
