@@ -97,18 +97,19 @@
 
   <div class="choose-label">CHOOSE AN ASSISTANT</div>
   <div style="text-align:center; margin-bottom:12px;">
-    <button id="randomAiBtn" class="copy-btn ghost" style="padding:10px 14px;">Open a Random Top AI for me</button>
+    <button id="randomAiBtn" class="copy-btn ghost" style="padding:10px 14px;">Open a Random Top AI (prefill-capable only)</button>
   </div>
-  <div class="ai-list">
-    <!-- Ensuring the requested AI platforms are listed: Grok, Perplexity, DEEPAI, ChatGPT plus a few more -->
-    <a class="ai-btn" href="https://chat.openai.com/" data-ai="ChatGPT"> <span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span> ChatGPT</a>
-    <a class="ai-btn" href="https://perplexity.ai/" data-ai="Perplexity"> <span style="width:10px;height:10px;border-radius:50%;background:#8A5BBA"></span> Perplexity</a>
-    <a class="ai-btn" href="https://deepai.org/" data-ai="DeepAI"> <span style="width:10px;height:10px;border-radius:50%;background:#3E8FC8"></span> DEEPAI</a>
-    <a class="ai-btn" href="https://grok.com" data-ai="Grok"> <span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span> Grok</a>
-    <a class="ai-btn" href="https://claude.ai" data-ai="Claude"> <span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span> Claude</a>
-    <a class="ai-btn" href="https://gemini.google.com" data-ai="Gemini"> <span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span> Gemini</a>
-    <a class="ai-btn" href="https://copilot.microsoft.com" data-ai="Copilot"> <span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span> Copilot</a>
-    <a class="ai-btn" href="https://www.bing.com/chat" data-ai="BingChat"> <span style="width:10px;height:10px;border-radius:50%;background:#107C10"></span> Bing Chat</a>
+  <div class="ai-list" id="aiListContainer">
+    <!-- Order: providers most likely to accept a web prefill (search-style) first, then others by likelihood to retrieve URL -->
+    <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity" data-prefill="true" data-prefill-type="search"> <span style="width:10px;height:10px;border-radius:50%;background:#8A5BBA"></span> Perplexity</a>
+    <a class="ai-btn" href="https://www.bing.com/chat" data-name="BingChat" data-prefill="true" data-prefill-type="search"> <span style="width:10px;height:10px;border-radius:50%;background:#107C10"></span> Bing Chat</a>
+    <!-- Non-prefill-capable providers (listed in order of estimated ability to retrieve/persist URL content) -->
+    <a class="ai-btn" href="https://deepai.org/" data-name="DeepAI" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#3E8FC8"></span> DEEPAI</a>
+    <a class="ai-btn" href="https://grok.com" data-name="Grok" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span> Grok</a>
+    <a class="ai-btn" href="https://chat.openai.com/" data-name="ChatGPT" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span> ChatGPT</a>
+    <a class="ai-btn" href="https://claude.ai" data-name="Claude" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span> Claude</a>
+    <a class="ai-btn" href="https://gemini.google.com" data-name="Gemini" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span> Gemini</a>
+    <a class="ai-btn" href="https://copilot.microsoft.com" data-name="Copilot" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span> Copilot</a>
   </div>
 
   <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Raw source: <a href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar" target="_blank" rel="noopener">Continuous-Jubilee-Calendar</a></footer>
@@ -116,83 +117,90 @@
 
 <script>
 const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
-const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
+const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt';
 const REPO_NWO = 'Greysmokez/Continuous-Jubilee-Calendar';
 const MAX_COPY_CHARS = 18000; // limit to avoid huge clipboard writes and AI token limits
 
-// Short canonical prompt (single line) with placeholder for date
 function makePrompt(datePlaceholder='[DATE]'){
   return `Fetch and use the plain-text content at ${RAW_URL} exactly as given (do not summarize). Using its formulas, compute Cycle and Year for ${datePlaceholder}; show all arithmetic steps and explain assumptions.`;
 }
 
-// Robust copy with fallback
-async function copyText(text, btn){
-  const original = btn ? btn.textContent : null;
+async function copyTextToClipboard(text){
   try{
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      await navigator.clipboard.writeText(text);
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed'; ta.style.left = '-9999px';
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-    }
-    if(btn){ btn.textContent = 'Copied'; btn.classList.add('copied'); setTimeout(()=>{ btn.textContent = original; btn.classList.remove('copied'); },1400); }
+    await navigator.clipboard.writeText(text);
     return true;
   }catch(e){
-    window.prompt('Copy this text:', text);
-    return false;
-  }
-}
-
-// Fetch the raw kit file and copy it to clipboard before opening the AI platform
-async function fetchAndCopyRawToClipboard(){
-  try{
-    const res = await fetch(RAW_URL);
-    if(!res.ok) throw new Error('Fetch failed: ' + res.status);
-    const text = await res.text();
-    // Prefix with a short header so user knows source when they paste
-    const header = `Source: ${RAW_URL}\nRepository: ${REPO_NWO}\n\n`;
-    let toCopy = header + text;
-    if(toCopy.length > MAX_COPY_CHARS){
-      toCopy = toCopy.slice(0, MAX_COPY_CHARS) + '\n\n[TRUNCATED]';
+    try{
+      const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.left='-9999px'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); return true;
+    }catch(e2){
+      return false;
     }
-    await navigator.clipboard.writeText(toCopy);
-    return { ok: true, length: toCopy.length };
-  }catch(err){
-    console.warn('Could not fetch/copy raw kit:', err);
-    return { ok: false, error: String(err) };
   }
 }
 
-// Open AI platform and also open the local ai-chat page that will fetch the repo README and show it
-async function openAiAndSeed(repoNwo, aiUrl){
-  // Try to fetch the raw kit and copy it to clipboard so the user can paste directly into the AI chat
-  const copyResult = await fetchAndCopyRawToClipboard();
-  if(!copyResult.ok){
-    // Fallback: copy the short prompt only
-    await copyText(makePrompt('[DATE]'));
-    alert('Could not fetch the full kit automatically; the short prompt was copied instead. You can open the kit file manually: ' + RAW_URL);
-  } else {
-    // Inform the user that kit text was copied
-    // Note: avoid alert spam on each AI open; use a small confirm so clipboard write is allowed
-    // We'll notify briefly using confirm so user is aware before the external site opens
-    const msg = `The CJC kit text (~${copyResult.length} characters) was copied to your clipboard.\nOpen the selected AI platform and paste into the chat input.`;
-    // Use confirm to let user cancel if they don't want the AI page opened immediately
-    const proceed = confirm(msg + '\n\nOpen AI now?');
-    if(!proceed) return;
-  }
-
-  // Open the chosen AI platform in a new tab
-  try{ window.open(aiUrl, '_blank', 'noopener'); }catch(e){ console.warn('Could not open AI platform', e); }
-  // Also open the local ai-chat page (same repo) which will fetch README and display it for the user as an alternative
-  try{ window.open('/ai-chat.html?repo=' + encodeURIComponent(repoNwo), '_blank', 'noopener'); }catch(e){ console.warn('Could not open local ai chat page', e); }
+async function fetchRawKit(){
+  const resp = await fetch(RAW_URL);
+  if(!resp.ok) throw new Error('raw fetch failed: ' + resp.status);
+  const txt = await resp.text();
+  return txt;
 }
 
-// Attach behavior after DOM loads
+function buildSearchPrefillUrl(baseUrl, text){
+  try{
+    const q = encodeURIComponent(text.slice(0, MAX_COPY_CHARS));
+    if(baseUrl.includes('perplexity.ai')) return `https://www.perplexity.ai/search?q=${q}`;
+    if(baseUrl.includes('bing.com')) return `https://www.bing.com/search?q=${q}`;
+    return baseUrl;
+  }catch(e){ return baseUrl; }
+}
+
+// Random chooser: select only providers that are marked data-prefill="true"
+async function openRandomProvider(){
+  const prefillAnchors = Array.from(document.querySelectorAll('#aiListContainer .ai-btn[data-prefill="true"]'));
+  if(prefillAnchors.length===0){
+    alert('No prefill-capable providers are configured. Falling back to opening a random provider normally.');
+    const all = Array.from(document.querySelectorAll('#aiListContainer .ai-btn'));
+    const choice = all[Math.floor(Math.random()*all.length)];
+    window.open(choice.getAttribute('href'), '_blank', 'noopener');
+    return;
+  }
+
+  const choiceEl = prefillAnchors[Math.floor(Math.random()*prefillAnchors.length)];
+  const url = choiceEl.getAttribute('href');
+  const prefillType = choiceEl.dataset.prefillType || null;
+
+  if(prefillType === 'search'){
+    try{
+      const kit = await fetchRawKit();
+      const prefillUrl = buildSearchPrefillUrl(url, `Source: ${RAW_URL}\nRepository: ${REPO_NWO}\n\n${kit}`);
+      window.open(prefillUrl, '_blank', 'noopener');
+      // open ai-chat as visible fallback
+      window.open('/ai-chat.html?repo=' + encodeURIComponent(REPO_NWO), '_blank', 'noopener');
+      return;
+    }catch(err){
+      console.warn('Prefill fetch failed, falling back to clipboard+open:', err);
+    }
+  }
+
+  // Generic fallback: copy kit and open normally
+  try{
+    let kitText = '';
+    try{ kitText = await fetchRawKit(); } catch(e){ kitText = makePrompt('[DATE]'); }
+    const header = `Source: ${RAW_URL}\nRepository: ${REPO_NWO}\n\n`;
+    let toCopy = header + kitText;
+    if(toCopy.length > MAX_COPY_CHARS) toCopy = toCopy.slice(0, MAX_COPY_CHARS) + '\n\n[TRUNCATED]';
+    const ok = await copyTextToClipboard(toCopy);
+    if(!ok){ alert('Could not copy automatically — the kit page will open so you can copy manually.'); window.open('/ai-chat.html?repo=' + encodeURIComponent(REPO_NWO), '_blank', 'noopener'); }
+    window.open(url, '_blank', 'noopener');
+  }catch(err){ console.error('Random open failed:', err); window.open(url, '_blank', 'noopener'); }
+}
+
+function handleAiButtonClick(e){
+  e.preventDefault();
+  const href = e.currentTarget.getAttribute('href');
+  window.open(href, '_blank', 'noopener');
+}
+
 document.addEventListener('DOMContentLoaded', ()=>{
   const copyRawBtn = document.getElementById('copyRawBtn');
   const copyRenderedBtn = document.getElementById('copyRenderedBtn');
@@ -203,31 +211,22 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   if(visiblePrompt) visiblePrompt.textContent = makePrompt('[DATE]');
 
-  if(copyRawBtn) copyRawBtn.addEventListener('click', (e)=> copyText(RAW_URL, e.currentTarget));
-  if(copyRenderedBtn) copyRenderedBtn.addEventListener('click', (e)=> copyText(RENDERED_URL, e.currentTarget));
-  if(copyPromptBtn) copyPromptBtn.addEventListener('click', (e)=> copyText(makePrompt('[DATE]'), e.currentTarget));
+  if(copyRawBtn) copyRawBtn.addEventListener('click', (e)=> copyTextToClipboard(RAW_URL));
+  if(copyRenderedBtn) copyRenderedBtn.addEventListener('click', (e)=> copyTextToClipboard(RENDERED_URL));
+  if(copyPromptBtn) copyPromptBtn.addEventListener('click', (e)=> copyTextToClipboard(makePrompt('[DATE]')));
   if(copyOpenBtn) copyOpenBtn.addEventListener('click', async (e)=>{
-    const ok = await copyText(makePrompt('[DATE]'), e.currentTarget);
+    const ok = await copyTextToClipboard(makePrompt('[DATE]'));
     if(ok){ window.open('https://chat.openai.com/', '_blank'); }
   });
 
-  // AI buttons: open platform + local ai-chat view
-  document.querySelectorAll('.ai-btn').forEach(link => {
-    link.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const aiUrl = link.getAttribute('href');
-      await openAiAndSeed(REPO_NWO, aiUrl);
-    });
+  document.querySelectorAll('#aiListContainer .ai-btn').forEach(a => {
+    a.addEventListener('click', handleAiButtonClick);
   });
 
-  // Random AI button: pick one of the ai-btn hrefs at random
   if(randomAiBtn){
     randomAiBtn.addEventListener('click', async (e) => {
-      const aiLinks = Array.from(document.querySelectorAll('.ai-btn')).map(a=>a.getAttribute('href'));
-      if(aiLinks.length===0) return;
-      if(!confirm('Open a random top AI to help you with the CJC Calendar?')) return;
-      const choice = aiLinks[Math.floor(Math.random()*aiLinks.length)];
-      await openAiAndSeed(REPO_NWO, choice);
+      if(!confirm('Open a random prefill-capable AI to help you with the CJC Calendar?')) return;
+      await openRandomProvider();
     });
   }
 });
