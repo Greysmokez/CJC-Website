@@ -33,7 +33,7 @@
   }
 
   .wrap {
-    max-width: 680px;
+    max-width: 760px;
     margin: 0 auto;
     padding: 48px 20px 80px;
   }
@@ -41,205 +41,348 @@
   .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,sans-serif;font-weight:600 }
 
   h1 { font-family: 'Spectral', serif; font-weight:500; font-size:1.8rem; text-align:center; margin:0 0 6px }
-  .subhead { text-align:center; color:var(--ink-soft); font-size:1.02rem; max-width:520px; margin:0 auto 18px }
+  .subhead { text-align:center; color:var(--ink-soft); font-size:1.02rem; max-width:620px; margin:0 auto 18px }
 
-  .kit-box { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:16px }
-  .kit-box .label{ font-size:0.88rem; color:var(--ink-soft); margin-bottom:8px }
-  .kit-link-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
-  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:220px; text-decoration:none }
-
-  .copy-btn{ font-family:inherit; font-size:0.88rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:8px 12px; cursor:pointer }
+  .copy-btn{ font-family:inherit; font-size:0.92rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:10px 14px; cursor:pointer }
   .copy-btn.secondary{ background:#5B6B58 }
-  .copy-btn.ghost{ background:transparent; color:var(--ink); border:1px solid rgba(0,0,0,0.06) }
+  .copy-btn.ghost{ background:transparent; color:var(--ink); border:1px solid rgba(0,0,0,0.15) }
   .copy-btn:active{ transform:translateY(1px) }
-  .copy-btn.copied{ background:var(--gold); color:#2B2318 }
+  .copy-btn[disabled]{ opacity:.75; cursor:wait }
 
-  .howto{ background:#fffef8;border:1px solid var(--gold-line);padding:12px;border-radius:6px;color:var(--ink-soft);font-size:0.97rem;margin:14px 0 }
-  .howto b{ color:var(--ink) }
-  .short-prompt{ font-family:monospace; background:#fff;padding:8px;border-radius:6px;border:1px solid #eee; display:block; margin-top:10px; white-space:pre-wrap }
+  .widget-toggle-row { text-align:center; margin: 16px 0 8px; }
 
-  .choose-label{ text-align:center; font-size:0.9rem; color:var(--ink-soft); margin:18px 0 8px }
-  .ai-list{ display:flex; flex-direction:column; gap:10px }
-  .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); }
+  .widget-box { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:8px; padding:16px; margin-top:14px }
+  .step-grid{ display:grid; grid-template-columns:1fr; gap:12px }
+  .step { background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:12px }
+  .step h2{ font-size:1.05rem; margin:0 0 4px }
+  .helper { margin:0 0 10px; color:var(--ink-soft); font-size:0.94rem }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center }
 
-  .note { font-size:0.92rem; color:var(--ink-soft); text-align:center; margin-top:8px }
-  .test-box{ margin-top:8px; text-align:center; color:var(--ink-soft); font-size:0.9rem }
+  .status { margin-top:10px; font-size:0.93rem; color:var(--ink-soft) }
+  .status.success { color:#2F5E40 }
+  .status.error { color:#8A2D2D }
+
+  .preview-wrap, .demo-wrap { margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.08) }
+  .preview-box { margin-top:10px; background:#fffef8; border:1px solid var(--gold-line); border-radius:6px; padding:10px; max-height:260px; overflow:auto; white-space:pre-wrap; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:0.84rem }
+
+  .extra-links { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap }
+  .extra-links a { text-decoration:none; border:1px solid rgba(0,0,0,0.15); border-radius:6px; padding:9px 12px; color:var(--ink); background:var(--parchment) }
+
+  .demo-chat { margin-top:10px; background:#fffef8; border:1px solid var(--gold-line); border-radius:6px; padding:10px }
+  .demo-chat label { display:block; font-size:0.9rem; color:var(--ink-soft); margin-bottom:6px }
+  .demo-chat textarea { width:100%; min-height:110px; border:1px solid #D8CCB1; border-radius:6px; padding:8px; font-family:inherit; background:#fff }
+  .demo-chat textarea.active { box-shadow:0 0 0 2px rgba(75,90,69,0.2) }
+  .demo-send { margin-top:8px; min-width:84px }
+  .demo-send.ready { background:#3F6A4D }
+  .demo-send.sent { background:#9C7A3C; color:#2B2318 }
 
   footer{ text-align:center; font-size:0.88rem; color:var(--ink-soft); margin-top:28px }
 
-  @media (max-width:560px){ .wrap{ padding:20px } }
+  @media (max-width:560px){
+    .wrap{ padding:20px }
+    .row .copy-btn, .extra-links a { width:100%; text-align:center }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="mark" aria-hidden="true">CJC</div>
   <h1>The CJC Research Kit</h1>
-  <p class="subhead">A simple, checkable chronology tool. Use the readable page if you want to browse; use the plain-text file if you want an assistant to compute from the exact source.</p>
+  <p class="subhead">New here? Use this simple 3-step flow to open and copy the official plain-text Research Kit for AI use.</p>
 
-  <div class="kit-box">
-    <div class="label">Get the kit</div>
+  <div class="widget-toggle-row">
+    <button class="copy-btn" id="toggleWidgetBtn" aria-expanded="false" aria-controls="researchWidget">Show Research Kit</button>
+  </div>
 
-    <div class="kit-link-row" style="margin-bottom:8px">
-      <a class="kit-link" id="renderedUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/" target="_blank" rel="noopener">Readable page (for people)</a>
-      <button class="copy-btn ghost" id="copyRenderedBtn" aria-label="Copy readable page URL">Copy</button>
+  <section class="widget-box" id="researchWidget" hidden>
+    <div class="step-grid">
+      <article class="step">
+        <h2>1) Open Plain Text</h2>
+        <p class="helper">Open the official pinned plain-text source in a new tab.</p>
+        <div class="row">
+          <a class="copy-btn ghost" id="openPlainLink" target="_blank" rel="noopener">Open Plain Text</a>
+        </div>
+      </article>
+
+      <article class="step">
+        <h2>2) Copy Plain</h2>
+        <p class="helper">Copies the exact text so you can paste it directly into a chat.</p>
+        <div class="row">
+          <button class="copy-btn secondary" id="copyPlainBtn">Copy Plain</button>
+        </div>
+      </article>
+
+      <article class="step">
+        <h2>3) Copy for AI</h2>
+        <p class="helper">Adds clear delimiters so AI tools can detect the full block easily.</p>
+        <div class="row">
+          <button class="copy-btn" id="copyAiBtn">Copy for AI</button>
+        </div>
+      </article>
     </div>
 
-    <div class="kit-link-row">
-      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Plain text kit (for assistants)</a>
-      <button class="copy-btn" id="copyRawBtn" aria-label="Copy plain text URL">Copy URL</button>
-      <button class="copy-btn" id="copyPromptBtn" aria-label="Copy short prompt">Copy Prompt</button>
-      <button class="copy-btn" id="copyOpenBtn" aria-label="Copy prompt and open ChatGPT">Open Chat</button>
+    <div class="extra-links">
+      <button class="copy-btn ghost" id="downloadBtn">Download .txt</button>
+      <a id="githubFileLink" target="_blank" rel="noopener">View on GitHub</a>
     </div>
-  </div>
 
-  <div class="howto" aria-live="polite">
-    <strong>Quick use (one click)</strong>
-    <div class="short-prompt" id="visiblePrompt">Paste this into your assistant after copying: a short prompt is available via the "Copy Prompt" button.</div>
-    <div style="margin-top:8px; color:var(--ink-soft); font-size:0.94rem">Tip: click "Open Chat" to copy the prompt and open ChatGPT in a new tab — then just paste and send.</div>
-  </div>
+    <div class="status" id="statusText" aria-live="polite">Ready. Choose a step above.</div>
 
-  <div class="choose-label">CHOOSE AN ASSISTANT</div>
-  <div style="text-align:center; margin-bottom:6px;">
-    <button id="randomAiBtn" class="copy-btn ghost" style="padding:10px 14px;">Open the Hosted Kit Page</button>
-    <div class="note">This opens the hosted kit page directly (https://greysmokez.github.io/CJC-Website/) and also opens the ai-chat fallback so you can copy the raw kit if needed. No shorteners are used.</div>
-    <div class="test-box">
-      <button id="copyCurlBtn" class="copy-btn ghost" style="margin-top:8px;padding:8px 10px">Copy curl test</button>
-      <button id="runHeadBtn" class="copy-btn ghost" style="margin-top:8px;padding:8px 10px">Run URL test (HEAD)</button>
-      <div id="testResult" style="margin-top:8px;color:var(--ink-soft)"></div>
+    <div class="preview-wrap">
+      <button class="copy-btn ghost" id="togglePreviewBtn" aria-expanded="false" aria-controls="previewText">Show Preview Text</button>
+      <pre class="preview-box" id="previewText" hidden></pre>
     </div>
-  </div>
-  <div class="ai-list" id="aiListContainer">
-    <!-- Order: providers most likely to accept a web prefill (search-style) first, then others by likelihood to retrieve/persist URL content -->
-    <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity" data-prefill="true" data-prefill-type="search"> <span style="width:10px;height:10px;border-radius:50%;background:#8A8C8F"></span> Perplexity</a>
-    <a class="ai-btn" href="https://www.bing.com/search" data-name="BingChat" data-prefill="true" data-prefill-type="search"> <span style="width:10px;height:10px;border-radius:50%;background:#1073D6"></span> BingChat</a>
-    <!-- Non-prefill-capable providers (listed in order of estimated ability to retrieve/persist URL content) -->
-    <a class="ai-btn" href="https://deepai.org/" data-name="DeepAI" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#3E8FC8"></span> DEEPAI</a>
-    <a class="ai-btn" href="https://grok.com" data-name="Grok" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span> Grok</a>
-    <a class="ai-btn" href="https://chat.openai.com/" data-name="ChatGPT" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span> ChatGPT</a>
-    <a class="ai-btn" href="https://claude.ai" data-name="Claude" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span> Claude</a>
-    <a class="ai-btn" href="https://gemini.google.com" data-name="Gemini" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span> Gemini</a>
-    <a class="ai-btn" href="https://copilot.microsoft.com" data-name="Copilot" data-prefill="false"> <span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span> Copilot</a>
-  </div>
+
+    <div class="demo-wrap">
+      <button class="copy-btn ghost" id="toggleDemoBtn" aria-expanded="false" aria-controls="demoPanel">How to paste into AI (demo)</button>
+      <div id="demoPanel" hidden>
+        <p class="helper" style="margin-top:10px">Optional mini demo: click Run Demo to see a quick paste/send example.</p>
+        <button class="copy-btn ghost" id="runDemoBtn">Run Demo</button>
+        <div class="demo-chat" aria-live="polite">
+          <label for="demoInput">AI chat input (demo)</label>
+          <textarea id="demoInput" readonly placeholder="Paste appears here when demo runs."></textarea>
+          <button class="copy-btn demo-send" id="demoSendBtn" disabled>Send</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Hosted: <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">greysmokez.github.io/CJC-Website</a></footer>
 </div>
 
 <script>
-const RENDERED_URL = 'https://greysmokez.github.io/CJC-Website/';
-const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt';
-const REPO_NWO = 'Greysmokez/Continuous-Jubilee-Calendar';
-const PREFILL_SHORT_URL = RENDERED_URL; // direct hosted page (no shorteners)
-const MAX_COPY_CHARS = 18000; // limit to avoid huge clipboard writes and AI token limits
+const PRIMARY_KIT_URL = 'https://cdn.jsdelivr.net/gh/Greysmokez/Continuous-Jubilee-Calendar@6462df911a9f360c7c82d22538acfca96294509b/CJC_AI_Research_Kit_PasteReady.txt';
+const FALLBACK_KIT_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/6462df911a9f360c7c82d22538acfca96294509b/CJC_AI_Research_Kit_PasteReady.txt';
+const GITHUB_FILE_URL = 'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit_PasteReady.txt';
+const COPY_PREFIX = '---BEGIN RESEARCH KIT---\n';
+const COPY_SUFFIX = '\n---END RESEARCH KIT---';
 
-// Default date for prompts changed to a specific date: Friday April 7 AD30
-function makePrompt(datePlaceholder='Friday April 7 AD30'){
-  return `Fetch and use the plain-text content at ${RAW_URL} exactly as given (do not summarize). Using its formulas, compute Cycle and Year for ${datePlaceholder}; show all arithmetic steps and explain assumptions.`;
+let kitTextCache = null;
+let kitSourceCache = null;
+
+function setStatus(message, type) {
+  const el = document.getElementById('statusText');
+  if (!el) return;
+  el.textContent = message;
+  el.className = 'status' + (type ? ' ' + type : '');
 }
 
-async function copyTextToClipboard(text){
-  try{
+async function copyTextToClipboard(text) {
+  try {
     await navigator.clipboard.writeText(text);
     return true;
-  }catch(e){
-    try{
-      const ta = document.createElement('textarea'); ta.value = text; ta.style.position='fixed'; ta.style.left='-9999px'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); return true;
-    }catch(e2){
+  } catch (err) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return !!ok;
+    } catch (fallbackErr) {
       return false;
     }
   }
 }
 
-async function fetchRawKit(){
-  const resp = await fetch(RAW_URL);
-  if(!resp.ok) throw new Error('raw fetch failed: ' + resp.status);
-  const txt = await resp.text();
-  return txt;
-}
+async function fetchKitText() {
+  if (kitTextCache) return { text: kitTextCache, source: kitSourceCache };
 
-// Build provider prefill URL using the hosted rendered page (keeps the link short and provider-friendly)
-function buildSearchPrefillUrl(baseUrl){
-  try{
-    const q = encodeURIComponent(PREFILL_SHORT_URL);
-    if(baseUrl.includes('perplexity.ai')) return `https://www.perplexity.ai/search?q=${q}`;
-    if(baseUrl.includes('bing.com')) return `https://www.bing.com/search?q=${q}`;
-    return baseUrl;
-  }catch(e){ return baseUrl; }
-}
+  const sources = [
+    { label: 'primary', url: PRIMARY_KIT_URL },
+    { label: 'fallback', url: FALLBACK_KIT_URL }
+  ];
 
-// Utility: create a GitHub issue URL to report a prefill failure (user must submit)
-function makePrefillIssueUrl(provider, details){
-  const title = encodeURIComponent(`Prefill failed for ${provider} when opening CJC kit`);
-  const body = encodeURIComponent(`Provider: ${provider}\nPrefill URL: ${PREFILL_SHORT_URL}\nRepo: ${REPO_NWO}\nTime: ${new Date().toISOString()}\nUser Agent: ${navigator.userAgent}\n\nDetails:\n[...]
-`);
-  return `https://github.com/Greysmokez/CJC-Website/issues/new?title=${title}&body=${body}`;
-}
-
-// Random chooser now opens the hosted site directly (no shorteners), and also opens the ai-chat fallback
-async function openRandomProvider(){
-  try{
-    window.open(RENDERED_URL, '_blank', 'noopener');
-    // open ai-chat as visible fallback so users can copy raw kit if needed
-    window.open('/ai-chat.html?repo=' + encodeURIComponent(REPO_NWO), '_blank', 'noopener');
-    return;
-  }catch(err){
-    console.error('Opening hosted kit failed:', err);
-    if(confirm('Automatic open failed. Would you like to report this?')){
-      const issueUrl = makePrefillIssueUrl('HostedPage', String(err));
-      window.open(issueUrl, '_blank', 'noopener');
+  let lastError = null;
+  for (const source of sources) {
+    try {
+      const response = await fetch(source.url, { cache: 'no-store' });
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const text = await response.text();
+      if (!text || !text.trim()) throw new Error('Empty response');
+      kitTextCache = text;
+      kitSourceCache = source.label;
+      return { text, source: source.label };
+    } catch (err) {
+      lastError = err;
     }
+  }
+
+  throw new Error(lastError ? lastError.message : 'Unable to fetch kit text');
+}
+
+function setBusy(button, busyText, isBusy) {
+  if (!button) return;
+  if (isBusy) {
+    button.dataset.originalText = button.textContent;
+    button.textContent = busyText;
+    button.disabled = true;
+  } else {
+    button.textContent = button.dataset.originalText || button.textContent;
+    button.disabled = false;
   }
 }
 
-function handleAiButtonClick(e){
-  e.preventDefault();
-  const href = e.currentTarget.getAttribute('href');
-  window.open(href, '_blank', 'noopener');
+function runPasteDemo() {
+  const input = document.getElementById('demoInput');
+  const send = document.getElementById('demoSendBtn');
+  const run = document.getElementById('runDemoBtn');
+  if (!input || !send || !run) return;
+
+  run.disabled = true;
+  input.value = '';
+  input.classList.remove('active');
+  send.disabled = true;
+  send.textContent = 'Send';
+  send.classList.remove('ready', 'sent');
+
+  setTimeout(() => {
+    input.classList.add('active');
+    input.focus();
+  }, 250);
+
+  setTimeout(() => {
+    input.value = COPY_PREFIX + '[kit text pasted here]' + COPY_SUFFIX;
+  }, 850);
+
+  setTimeout(() => {
+    send.disabled = false;
+    send.classList.add('ready');
+  }, 1350);
+
+  setTimeout(() => {
+    send.textContent = 'Sent ✓';
+    send.classList.remove('ready');
+    send.classList.add('sent');
+    run.disabled = false;
+  }, 1950);
 }
 
-document.addEventListener('DOMContentLoaded', ()=>{
-  const copyRawBtn = document.getElementById('copyRawBtn');
-  const copyRenderedBtn = document.getElementById('copyRenderedBtn');
-  const copyPromptBtn = document.getElementById('copyPromptBtn');
-  const copyOpenBtn = document.getElementById('copyOpenBtn');
-  const visiblePrompt = document.getElementById('visiblePrompt');
-  const randomAiBtn = document.getElementById('randomAiBtn');
-  const copyCurlBtn = document.getElementById('copyCurlBtn');
-  const runHeadBtn = document.getElementById('runHeadBtn');
-  const testResult = document.getElementById('testResult');
+document.addEventListener('DOMContentLoaded', () => {
+  const openPlainLink = document.getElementById('openPlainLink');
+  const githubFileLink = document.getElementById('githubFileLink');
+  const toggleWidgetBtn = document.getElementById('toggleWidgetBtn');
+  const widget = document.getElementById('researchWidget');
+  const copyPlainBtn = document.getElementById('copyPlainBtn');
+  const copyAiBtn = document.getElementById('copyAiBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const togglePreviewBtn = document.getElementById('togglePreviewBtn');
+  const previewText = document.getElementById('previewText');
+  const toggleDemoBtn = document.getElementById('toggleDemoBtn');
+  const demoPanel = document.getElementById('demoPanel');
+  const runDemoBtn = document.getElementById('runDemoBtn');
 
-  if(visiblePrompt) visiblePrompt.textContent = makePrompt();
+  if (openPlainLink) openPlainLink.href = PRIMARY_KIT_URL;
+  if (githubFileLink) githubFileLink.href = GITHUB_FILE_URL;
 
-  if(copyRawBtn) copyRawBtn.addEventListener('click', (e)=> copyTextToClipboard(RAW_URL));
-  if(copyRenderedBtn) copyRenderedBtn.addEventListener('click', (e)=> copyTextToClipboard(RENDERED_URL));
-  if(copyPromptBtn) copyPromptBtn.addEventListener('click', (e)=> copyTextToClipboard(makePrompt()));
-  if(copyOpenBtn) copyOpenBtn.addEventListener('click', async (e)=>{
-    const ok = await copyTextToClipboard(makePrompt());
-    if(ok){ window.open('https://chat.openai.com/', '_blank'); }
-  });
-
-  if(copyCurlBtn) copyCurlBtn.addEventListener('click', async ()=>{
-    const curlCmd = `curl -I '${RAW_URL}'`;
-    const ok = await copyTextToClipboard(curlCmd);
-    if(ok) alert('Copied curl test to clipboard:\n' + curlCmd); else prompt('Run this command to test the URL:', curlCmd);
-  });
-
-  if(runHeadBtn) runHeadBtn.addEventListener('click', async ()=>{
-    testResult.textContent = 'Running HEAD request...';
-    try{
-      const r = await fetch(RAW_URL, { method: 'HEAD' });
-      testResult.textContent = `HEAD ${r.status} ${r.statusText}`;
-    }catch(e){ testResult.textContent = 'HEAD request failed: ' + e.message; }
-  });
-
-  document.querySelectorAll('#aiListContainer .ai-btn').forEach(a => {
-    a.addEventListener('click', handleAiButtonClick);
-  });
-
-  if(randomAiBtn){
-    randomAiBtn.addEventListener('click', async (e) => {
-      if(!confirm('Open the hosted CJC kit page and the ai-chat fallback?')) return;
-      await openRandomProvider();
+  if (toggleWidgetBtn && widget) {
+    toggleWidgetBtn.addEventListener('click', () => {
+      const isHidden = widget.hasAttribute('hidden');
+      widget.toggleAttribute('hidden');
+      toggleWidgetBtn.textContent = isHidden ? 'Hide Research Kit' : 'Show Research Kit';
+      toggleWidgetBtn.setAttribute('aria-expanded', String(isHidden));
     });
+  }
+
+  if (copyPlainBtn) {
+    copyPlainBtn.addEventListener('click', async () => {
+      setBusy(copyPlainBtn, 'Copying...', true);
+      setStatus('Loading kit text…');
+      try {
+        const { text, source } = await fetchKitText();
+        const ok = await copyTextToClipboard(text);
+        if (!ok) throw new Error('Clipboard copy failed');
+        setStatus('Copied plain text from ' + source + ' source.', 'success');
+      } catch (err) {
+        setStatus('Could not copy plain text. Please open the text and copy manually.', 'error');
+      } finally {
+        setBusy(copyPlainBtn, 'Copying...', false);
+      }
+    });
+  }
+
+  if (copyAiBtn) {
+    copyAiBtn.addEventListener('click', async () => {
+      setBusy(copyAiBtn, 'Preparing...', true);
+      setStatus('Loading kit text…');
+      try {
+        const { text, source } = await fetchKitText();
+        const payload = COPY_PREFIX + text + COPY_SUFFIX;
+        const ok = await copyTextToClipboard(payload);
+        if (!ok) throw new Error('Clipboard copy failed');
+        setStatus('Copied AI-formatted text from ' + source + ' source.', 'success');
+      } catch (err) {
+        setStatus('Could not copy AI-formatted text. Please try Open Plain Text.', 'error');
+      } finally {
+        setBusy(copyAiBtn, 'Preparing...', false);
+      }
+    });
+  }
+
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', async () => {
+      setBusy(downloadBtn, 'Preparing...', true);
+      setStatus('Loading kit text…');
+      try {
+        const { text, source } = await fetchKitText();
+        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'CJC_AI_Research_Kit_PasteReady.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        setStatus('Download ready from ' + source + ' source.', 'success');
+      } catch (err) {
+        setStatus('Could not prepare download right now.', 'error');
+      } finally {
+        setBusy(downloadBtn, 'Preparing...', false);
+      }
+    });
+  }
+
+  if (togglePreviewBtn && previewText) {
+    togglePreviewBtn.addEventListener('click', async () => {
+      const isHidden = previewText.hasAttribute('hidden');
+      if (isHidden) {
+        togglePreviewBtn.textContent = 'Hide Preview Text';
+        togglePreviewBtn.setAttribute('aria-expanded', 'true');
+        previewText.hidden = false;
+        if (!previewText.textContent) {
+          setStatus('Loading preview…');
+          try {
+            const { text, source } = await fetchKitText();
+            previewText.textContent = text;
+            setStatus('Preview loaded from ' + source + ' source.', 'success');
+          } catch (err) {
+            previewText.textContent = 'Preview unavailable. Please use Open Plain Text.';
+            setStatus('Could not load preview.', 'error');
+          }
+        }
+      } else {
+        previewText.hidden = true;
+        togglePreviewBtn.textContent = 'Show Preview Text';
+        togglePreviewBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  if (toggleDemoBtn && demoPanel) {
+    toggleDemoBtn.addEventListener('click', () => {
+      const isHidden = demoPanel.hasAttribute('hidden');
+      demoPanel.toggleAttribute('hidden');
+      toggleDemoBtn.setAttribute('aria-expanded', String(isHidden));
+      toggleDemoBtn.textContent = isHidden ? 'Hide AI paste demo' : 'How to paste into AI (demo)';
+    });
+  }
+
+  if (runDemoBtn) {
+    runDemoBtn.addEventListener('click', runPasteDemo);
   }
 });
 </script>
