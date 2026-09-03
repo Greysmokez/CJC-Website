@@ -40,7 +40,7 @@
     padding: 48px 20px 80px;
   }
 
-  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-weight:600;letter-spacing:0.06em }
+  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-weight:600 }
 
   h1 { font-family: 'Spectral', serif; font-weight:500; font-size:1.8rem; text-align:center; margin:0 0 6px }
   .subhead { text-align:center; color:var(--ink-soft); font-size:1.02rem; max-width:520px; margin:0 auto 18px }
@@ -48,7 +48,7 @@
   .kit-box { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:16px }
   .kit-box .label{ font-size:0.88rem; color:var(--ink-soft); margin-bottom:8px }
   .kit-link-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
-  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-height:38px; display:inline-flex; align-items:center; text-decoration:none }
+  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:0; text-decoration:none; }
 
   .copy-btn{ font-family:inherit; font-size:0.88rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:8px 12px; cursor:pointer }
   .copy-btn.secondary{ background:#5B6B58 }
@@ -82,7 +82,7 @@
 
   .choose-label{ text-align:center; font-size:0.9rem; color:var(--ink-soft); margin:18px 0 8px }
   .ai-list{ display:flex; flex-direction:column; gap:10px }
-  .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); font-weight:600; cursor:pointer }
+  .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line);}
   .ai-btn:hover{ background:#f4ecd8 }
 
   .note { font-size:0.92rem; color:var(--ink-soft); text-align:center; margin-top:8px }
@@ -111,8 +111,13 @@
       <button class="copy-btn ghost" id="copyRenderedBtn" aria-label="Copy hosted kit page URL">Copy URL</button>
     </div>
 
+    <div class="kit-link-row" style="margin-bottom:8px">
+      <a class="kit-link" id="pdfUrl" href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf" target="_blank" rel="noopener">CJC PDF Version</a>
+      <button class="copy-btn ghost" id="copyPdfUrlBtn" aria-label="Copy PDF URL">Copy PDF URL</button>
+    </div>
+
     <div class="kit-link-row">
-      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Raw kit text source</a>
+      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Raw .txt source</a>
       <button class="copy-btn" id="copyRawUrlBtn" aria-label="Copy raw text URL">Copy Raw URL</button>
     </div>
 
@@ -140,6 +145,7 @@
 <script>
 const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
 const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
+const PDF_URL = 'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf';
 
 function makePrompt(){
   return `Fetch and use the plain-text content at ${RAW_URL} exactly as given (do not summarize). Then run the CJC computation from that source and show steps.`;
@@ -185,6 +191,7 @@ function flashCopied(btn, ok, successText='Copied'){
 
 document.addEventListener('DOMContentLoaded', () => {
   const copyRenderedBtn = document.getElementById('copyRenderedBtn');
+  const copyPdfUrlBtn = document.getElementById('copyPdfUrlBtn');
   const copyRawUrlBtn = document.getElementById('copyRawUrlBtn');
   const copyRawTextBtn = document.getElementById('copyRawTextBtn');
   const openChatBtn = document.getElementById('openChatBtn');
@@ -194,6 +201,13 @@ document.addEventListener('DOMContentLoaded', () => {
     copyRenderedBtn.addEventListener('click', async () => {
       const ok = await copyTextToClipboard(RENDERED_URL);
       flashCopied(copyRenderedBtn, ok);
+    });
+  }
+
+  if(copyPdfUrlBtn){
+    copyPdfUrlBtn.addEventListener('click', async () => {
+      const ok = await copyTextToClipboard(PDF_URL);
+      flashCopied(copyPdfUrlBtn, ok);
     });
   }
 
