@@ -16,6 +16,8 @@
     --gold-line: #C9A961;
     --olive: #4B5A45;
     --action: #4B5A45;
+    --primary: #2f6f52;
+    --primary-hover: #245842;
   }
 
   * { box-sizing: border-box; }
@@ -54,6 +56,28 @@
   .copy-btn:active{ transform:translateY(1px) }
   .copy-btn.copied{ background:var(--gold); color:#2B2318 }
 
+  .copy-btn.primary-cta{
+    background: var(--primary);
+    padding: 12px 18px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(47,111,82,0.25);
+  }
+  .copy-btn.primary-cta:hover{ background: var(--primary-hover) }
+
+  .cta-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px }
+  .cta-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:3px 8px;
+    border-radius:999px;
+    font-size:0.75rem;
+    font-weight:700;
+    letter-spacing:0.02em;
+    color:#fff;
+    background:var(--primary);
+  }
+
   .quick-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:8px }
 
   .choose-label{ text-align:center; font-size:0.9rem; color:var(--ink-soft); margin:18px 0 8px }
@@ -77,6 +101,11 @@
   <div class="kit-box">
     <div class="label">Run the CJC Kit</div>
 
+    <div class="cta-row">
+      <button class="copy-btn primary-cta" id="openChatBtn" aria-label="Open AI chat and copy prompt">Open AI + Copy Prompt</button>
+      <span class="cta-badge" aria-hidden="true">Recommended</span>
+    </div>
+
     <div class="kit-link-row" style="margin-bottom:8px">
       <a class="kit-link" id="renderedUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/" target="_blank" rel="noopener">Hosted kit page</a>
       <button class="copy-btn ghost" id="copyRenderedBtn" aria-label="Copy hosted kit page URL">Copy URL</button>
@@ -89,7 +118,6 @@
 
     <div class="quick-actions">
       <button class="copy-btn secondary" id="copyRawTextBtn" aria-label="Copy raw kit text">Copy Raw Text</button>
-      <button class="copy-btn" id="openChatBtn" aria-label="Open AI chat and copy prompt">Open AI + Copy Prompt</button>
       <button class="copy-btn ghost" id="openHostedBtn" aria-label="Open hosted kit page">Open Hosted Kit</button>
     </div>
   </div>
@@ -104,7 +132,7 @@
     <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
   </div>
 
-  <p class="note">No large manual copy box. Streamlined button-first flow only.</p>
+  <p class="note">Selecting any assistant link now also copies your CJC prompt automatically.</p>
 
   <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Hosted: <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">greysmokez.github.io/CJC-Website</a></footer>
 </div>
@@ -203,9 +231,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.querySelectorAll('#aiListContainer .ai-btn').forEach(a => {
-    a.addEventListener('click', (e) => {
+    a.addEventListener('click', async (e) => {
       e.preventDefault();
       const href = e.currentTarget.getAttribute('href');
+      await copyTextToClipboard(makePrompt());
       if(href) window.open(href, '_blank', 'noopener');
     });
   });
