@@ -40,15 +40,17 @@
     padding: 48px 20px 80px;
   }
 
-  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-weight:600 }
+  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-size:0.75rem;font-weight:600;letter-spacing:0.08em }
 
   h1 { font-family: 'Spectral', serif; font-weight:500; font-size:1.8rem; text-align:center; margin:0 0 6px }
+  h2 { font-family: 'Spectral', serif; font-weight:500; font-size:1.3rem; margin:20px 0 12px; color:var(--ink) }
   .subhead { text-align:center; color:var(--ink-soft); font-size:1.02rem; max-width:520px; margin:0 auto 18px }
 
   .kit-box { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:16px }
   .kit-box .label{ font-size:0.88rem; color:var(--ink-soft); margin-bottom:8px }
   .kit-link-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
-  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:0; text-decoration:none; }
+  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:140px; text-decoration:none; display:flex; align-items:center; justify-content:center }
+  .kit-link:hover{ background:#f0e8d8 }
 
   .copy-btn{ font-family:inherit; font-size:0.88rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:8px 12px; cursor:pointer }
   .copy-btn.secondary{ background:#5B6B58 }
@@ -82,10 +84,38 @@
 
   .choose-label{ text-align:center; font-size:0.9rem; color:var(--ink-soft); margin:18px 0 8px }
   .ai-list{ display:flex; flex-direction:column; gap:10px }
-  .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line);}
+  .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); cursor:pointer; font-size:0.95rem }
   .ai-btn:hover{ background:#f4ecd8 }
 
   .note { font-size:0.92rem; color:var(--ink-soft); text-align:center; margin-top:8px }
+
+  /* Supporting Documents Styles */
+  .documents-section { margin-top:32px; scroll-margin-top:60px }
+  .documents-section h2 { text-align:center }
+  .document-item { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:14px }
+  .document-title { font-weight:600; font-size:0.98rem; color:var(--ink); margin-bottom:10px }
+  .doc-buttons { display:flex; gap:8px; flex-wrap:wrap }
+  .doc-btn { 
+    flex:1; 
+    min-width:120px; 
+    padding:10px 12px; 
+    border:1px solid var(--gold-line); 
+    background:var(--parchment); 
+    color:var(--ink); 
+    border-radius:6px; 
+    font-size:0.88rem; 
+    font-weight:600;
+    cursor:pointer;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    transition:background 0.2s;
+  }
+  .doc-btn:hover{ background:#f0e8d8 }
+  .doc-btn.pdf::before { content:'📄' }
+  .doc-btn.docx::before { content:'📝' }
 
   footer{ text-align:center; font-size:0.88rem; color:var(--ink-soft); margin-top:28px }
 
@@ -117,8 +147,8 @@
     </div>
 
     <div class="kit-link-row">
-      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Raw .txt source</a>
-      <button class="copy-btn" id="copyRawUrlBtn" aria-label="Copy raw text URL">Copy Raw URL</button>
+      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Raw Text</a>
+      <button class="copy-btn ghost" id="copyRawUrlBtn" aria-label="Copy raw text URL">Copy Raw URL</button>
     </div>
 
     <div class="quick-actions">
@@ -126,6 +156,20 @@
       <button class="copy-btn ghost" id="openHostedBtn" aria-label="Open hosted kit page">Open Hosted Kit</button>
     </div>
   </div>
+
+  <!-- SUPPORTING DOCUMENTS SECTION -->
+  <div class="documents-section" id="supporting-documents">
+    <h2>Supporting Documents</h2>
+    
+    <div class="document-item">
+      <div class="document-title">The Crucifixion Date of Jesus: Messiah and Son of God</div>
+      <div class="doc-buttons">
+        <a href="https://github.com/Greysmokez/CJC-Website/raw/main/AD30_vs_AD33_Comparison%20(2).pdf" class="doc-btn pdf" download>PDF</a>
+        <a href="https://github.com/Greysmokez/CJC-Website/raw/main/AD30_vs_AD33_Comparison%20(1).docx" class="doc-btn docx" download>Word</a>
+      </div>
+    </div>
+  </div>
+  <!-- END SUPPORTING DOCUMENTS -->
 
   <div class="choose-label">CHOOSE AN ASSISTANT</div>
   <div class="ai-list" id="aiListContainer">
@@ -139,7 +183,7 @@
 
   <p class="note">Selecting any assistant link now also copies your CJC prompt automatically.</p>
 
-  <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Hosted: <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">greysmokez.github.io/CJC-Website</a></footer>
+  <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Hosted: <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">GitHub Pages</a></footer>
 </div>
 
 <script>
