@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Preview · CJC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment: #F6F1E4;
+      --parchment-deep: #EDE4CE;
+      --ink: #2B2318;
+      --ink-soft: #5B4F3E;
+      --gold-line: #C9A961;
+      --action: #4B5A45;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--parchment);
+      background-image: radial-gradient(ellipse at top left, rgba(156,122,60,0.06), transparent 55%), radial-gradient(ellipse at bottom right, rgba(75,90,69,0.05), transparent 55%);
+      color: var(--ink);
+      font-family: 'Source Sans 3', sans-serif;
+      line-height: 1.55;
+    }
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 12px;
+    }
+    h1 {
+      font-family: 'Spectral', serif;
+      font-size: 1.7rem;
+      margin: 0;
+      font-weight: 500;
+    }
+    .subhead {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 0.96rem;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    .btn {
+      text-decoration: none;
+      border: 1px solid var(--gold-line);
+      border-radius: 6px;
+      background: var(--parchment-deep);
+      color: var(--ink);
+      padding: 10px 14px;
+      font-weight: 600;
+    }
+    .btn.primary {
+      background: var(--action);
+      color: #fff;
+      border-color: var(--action);
+    }
+    .viewer-shell {
+      flex: 1;
+      min-height: 70vh;
+      border: 1px solid var(--gold-line);
+      border-radius: 6px;
+      overflow: hidden;
+      background: #f4ecd8;
+    }
+    .viewer-shell iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+    .word-info {
+      border: 1px solid var(--gold-line);
+      border-radius: 6px;
+      background: var(--parchment-deep);
+      padding: 16px;
+      max-width: 760px;
+    }
+    @media (max-width: 640px) {
+      .page { padding: 14px; }
+      .viewer-shell { min-height: 75vh; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <h1 id="title">Supporting Document</h1>
+    <p class="subhead" id="subhead">Open, view, or download this document.</p>
+    <div class="actions" id="actions"></div>
+    <div id="content"></div>
+  </main>
+  <script>
+    function getParam(name) {
+      return new URLSearchParams(window.location.search).get(name) || '';
+    }
+    function safeHttpUrl(url) {
+      if (!url) return '';
+      try {
+        const parsed = new URL(url, window.location.href);
+        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return '';
+        return parsed.href;
+      } catch (_) {
+        return '';
+      }
+    }
+
+    const title = getParam('title') || 'Supporting Document';
+    const type = (getParam('type') || '').toLowerCase();
+    const fileUrl = safeHttpUrl(getParam('file'));
+    const fallbackUrl = safeHttpUrl(getParam('fallback')) || fileUrl;
+
+    document.title = title + ' · CJC';
+    document.getElementById('title').textContent = title;
+
+    const actions = document.getElementById('actions');
+    const content = document.getElementById('content');
+    const subhead = document.getElementById('subhead');
+
+    function addButton(text, href, primary, download) {
+      if (!href) return;
+      const a = document.createElement('a');
+      a.className = 'btn' + (primary ? ' primary' : '');
+      a.href = href;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      if (download) a.setAttribute('download', '');
+      a.textContent = text;
+      actions.appendChild(a);
+    }
+
+    if (type === 'pdf' && fileUrl) {
+      subhead.textContent = 'View in a larger reading area. If your browser blocks embedded viewing, use the open or download buttons.';
+      addButton('Open PDF', fallbackUrl, false, false);
+      addButton('Download PDF', fileUrl, true, true);
+
+      const shell = document.createElement('div');
+      shell.className = 'viewer-shell';
+      const frame = document.createElement('iframe');
+      frame.title = title + ' PDF preview';
+      frame.src = 'https://docs.google.com/gview?embedded=1&url=' + encodeURIComponent(fileUrl);
+      shell.appendChild(frame);
+      content.appendChild(shell);
+    } else if (type === 'docx' && fileUrl) {
+      subhead.textContent = 'This Word document can be downloaded. If you cancel the browser prompt, this page remains open so you can try again.';
+      addButton('Download Word Document', fileUrl, true, true);
+      addButton('Open Document URL', fileUrl, false, false);
+
+      const info = document.createElement('div');
+      info.className = 'word-info';
+      info.innerHTML = '<p><strong>Word preview:</strong> your browser may download DOCX files instead of rendering them inline.</p><p>Use the download button above whenever you are ready. This page stays open to provide a stable place to return to the file.</p>';
+      content.appendChild(info);
+    } else {
+      subhead.textContent = 'This document link is missing or invalid.';
+      const info = document.createElement('div');
+      info.className = 'word-info';
+      info.textContent = 'Please return to the main page and open the document again.';
+      content.appendChild(info);
+    }
+  </script>
+</body>
+</html>
