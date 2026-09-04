@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supporting Document Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --parchment: #F6F1E4;
+      --parchment-deep: #EDE4CE;
+      --ink: #2B2318;
+      --ink-soft: #5B4F3E;
+      --gold-line: #C9A961;
+      --action: #4B5A45;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--parchment);
+      background-image: radial-gradient(ellipse at top left, rgba(156,122,60,0.06), transparent 55%), radial-gradient(ellipse at bottom right, rgba(75,90,69,0.05), transparent 55%);
+      color: var(--ink);
+      font-family: 'Source Sans 3', sans-serif;
+      line-height: 1.55;
+    }
+    .wrap { max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; }
+    .panel {
+      background: var(--parchment-deep);
+      border: 1px solid var(--gold-line);
+      border-radius: 6px;
+      padding: 20px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+      font-family: 'Spectral', serif;
+      font-weight: 500;
+    }
+    p { margin: 0 0 14px; color: var(--ink-soft); }
+    .doc-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-width: 150px;
+      padding: 10px 12px;
+      border: 1px solid var(--gold-line);
+      background: var(--parchment);
+      color: var(--ink);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .doc-btn:hover { background: #f0e8d8; }
+    .doc-btn::before { content: '📝'; }
+    .direct-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: var(--ink);
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <h1 id="documentTitle">Supporting Document</h1>
+      <p>
+        This page keeps a stable preview tab open. If download is canceled, use the button below to try again.
+      </p>
+      <a id="downloadLink" class="doc-btn" href="#" target="_blank" rel="noopener">Download Document</a>
+      <div>
+        <a id="directLink" class="direct-link" href="#" target="_blank" rel="noopener">Open direct file link</a>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function initPreviewPage() {
+      const params = new URLSearchParams(window.location.search);
+      const title = params.get('title') || 'Supporting Document';
+      const file = params.get('file');
+      const type = (params.get('type') || 'document').toUpperCase();
+      const documentTitle = document.getElementById('documentTitle');
+      const downloadLink = document.getElementById('downloadLink');
+      const directLink = document.getElementById('directLink');
+
+      documentTitle.textContent = title;
+      downloadLink.textContent = `Download ${type}`;
+
+      if (!file) {
+        downloadLink.removeAttribute('href');
+        downloadLink.setAttribute('aria-disabled', 'true');
+        downloadLink.style.pointerEvents = 'none';
+        downloadLink.style.opacity = '0.7';
+        directLink.remove();
+        return;
+      }
+
+      downloadLink.href = file;
+      downloadLink.setAttribute('download', '');
+      directLink.href = file;
+    })();
+  </script>
+</body>
+</html>
