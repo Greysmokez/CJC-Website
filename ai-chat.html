@@ -1,160 +1,271 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>CJC — AI Chat Seed</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CJC AI Chat Research Kit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:18px;color:#222}
-    header{margin-bottom:12px}
-    pre{white-space:pre-wrap;background:#f7f7f7;padding:12px;border-radius:6px;border:1px solid #e6e6e6;max-height:56vh;overflow:auto}
-    .controls{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-    button{padding:8px 12px;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer}
-    input[type=text]{width:100%;padding:8px;border-radius:6px;border:1px solid #ddd}
-    .providers{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .provider-btn{padding:8px 10px;border-radius:6px;border:1px solid #ccc;background:#fafafa;cursor:pointer}
-    .response{margin-top:12px;padding:10px;border-radius:6px;background:#fffef8;border:1px solid #efe0b8}
+    :root {
+      --parchment: #F6F1E4;
+      --parchment-deep: #EDE4CE;
+      --ink: #2B2318;
+      --ink-soft: #5B4F3E;
+      --gold: #9C7A3C;
+      --gold-line: #C9A961;
+      --olive: #4B5A45;
+      --action: #4B5A45;
+      --primary: #2f6f52;
+      --primary-hover: #245842;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--parchment);
+      background-image:
+        radial-gradient(ellipse at top left, rgba(156,122,60,0.06), transparent 55%),
+        radial-gradient(ellipse at bottom right, rgba(75,90,69,0.05), transparent 55%);
+      color: var(--ink);
+      font-family: 'Source Sans 3', sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+    }
+
+    .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-size:0.75rem;font-weight:600;letter-spacing:0.08em }
+
+    h1 { font-family: 'Spectral', serif; font-weight:500; font-size:1.8rem; text-align:center; margin:0 0 6px }
+    h2 { font-family: 'Spectral', serif; font-weight:500; font-size:1.3rem; margin:20px 0 12px; color:var(--ink) }
+    .subhead { text-align:center; color:var(--ink-soft); font-size:1.02rem; max-width:520px; margin:0 auto 18px }
+
+    .kit-box { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:16px }
+    .kit-box .label{ font-size:0.88rem; color:var(--ink-soft); margin-bottom:8px }
+    .kit-link-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
+    .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:140px; text-decoration:none; display:flex; align-items:center; justify-content:center }
+    .kit-link:hover{ background:#f0e8d8 }
+
+    .copy-btn{ font-family:inherit; font-size:0.88rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:8px 12px; cursor:pointer; border:none }
+    .copy-btn.secondary{ background:#5B6B58 }
+    .copy-btn.ghost{ background:transparent; color:var(--ink); border:1px solid rgba(0,0,0,0.12) }
+    .copy-btn:active{ transform:translateY(1px) }
+    .copy-btn.copied{ background:var(--gold); color:#2B2318 }
+
+    .copy-btn.primary-cta{
+      background: var(--primary);
+      padding: 12px 18px;
+      font-size: 0.98rem;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(47,111,82,0.25);
+    }
+    .copy-btn.primary-cta:hover{ background: var(--primary-hover) }
+
+    .cta-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px }
+    .cta-badge{
+      display:inline-flex;
+      align-items:center;
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:0.75rem;
+      font-weight:700;
+      letter-spacing:0.02em;
+      color:#fff;
+      background:var(--primary);
+    }
+
+    .quick-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:8px }
+
+    .choose-label{ text-align:center; font-size:0.9rem; color:var(--ink-soft); margin:18px 0 8px }
+    .ai-list{ display:flex; flex-direction:column; gap:10px }
+    .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); cursor:pointer; font-size:0.95rem }
+    .ai-btn:hover{ background:#f4ecd8 }
+
+    .note { font-size:0.92rem; color:var(--ink-soft); text-align:center; margin-top:8px }
+
+    /* Supporting Documents Styles */
+    .documents-section { margin-top:32px; scroll-margin-top:60px }
+    .documents-section h2 { text-align:center }
+    .document-item { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:14px }
+    .document-title { font-weight:600; font-size:0.98rem; color:var(--ink); margin-bottom:10px }
+    .doc-buttons { display:flex; gap:8px; flex-wrap:wrap }
+    .doc-btn { 
+      flex:1; 
+      min-width:120px; 
+      padding:10px 12px; 
+      border:1px solid var(--gold-line); 
+      background:var(--parchment); 
+      color:var(--ink); 
+      border-radius:6px; 
+      font-size:0.88rem; 
+      font-weight:600;
+      cursor:pointer;
+      text-decoration:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      transition:background 0.2s;
+    }
+    .doc-btn:hover{ background:#f0e8d8 }
+    .doc-btn.pdf::before { content:'📄' }
+    .doc-btn.docx::before { content:'📝' }
+
+    footer{ text-align:center; font-size:0.88rem; color:var(--ink-soft); margin-top:28px }
+
+    @media (max-width:560px){ .wrap{ padding:20px } }
   </style>
 </head>
 <body>
-  <header>
-    <h1>CJC — Repo content loader</h1>
-    <p id="desc">This page fetches important text from a repository and shows it so you can paste/send it into any AI assistant. If you have a serverless API deployed, this page will use it to produce provider-specific prefill links or to call model APIs (with keys set on the server).</p>
-  </header>
+<div class="wrap">
+  <div class="mark" aria-hidden="true">CJC</div>
+  <h1>CJC AI Chat Research Kit</h1>
+  <p class="subhead">Select your AI assistant and paste the CJC prompt for instant research compilation.</p>
 
-  <label for="repoInput">Repo (owner/repo):</label>
-  <input id="repoInput" type="text" placeholder="Greysmokez/Continuous-Jubilee-Calendar" />
-
-  <div class="controls">
-    <button id="loadBtn">Load README & kit</button>
-    <button id="copyBtn">Copy combined text</button>
-    <button id="openRawBtn">Open raw kit file</button>
+  <div class="kit-box">
+    <div class="label">Select Your AI Assistant</div>
+    <div class="ai-list" id="aiListContainer">
+      <a class="ai-btn" href="https://chat.openai.com/" data-name="ChatGPT"><span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span>ChatGPT</a>
+      <a class="ai-btn" href="https://claude.ai" data-name="Claude"><span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span>Claude</a>
+      <a class="ai-btn" href="https://gemini.google.com" data-name="Gemini"><span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span>Gemini</a>
+      <a class="ai-btn" href="https://grok.com" data-name="Grok"><span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span>Grok</a>
+      <a class="ai-btn" href="https://copilot.microsoft.com" data-name="Copilot"><span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span>Copilot</a>
+      <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
+    </div>
   </div>
 
-  <h3>Extracted text (trimmed)</h3>
-  <pre id="output">No repo loaded yet. Use the button above or open this page with ?repo=owner/repo</pre>
-
-  <div class="response" id="serverResponse" style="display:none"></div>
-
-  <h3>Open in a provider (server-enhanced)</h3>
-  <div class="providers" id="providers">
-    <button class="provider-btn" data-provider="chatgpt">ChatGPT (OpenAI web)</button>
-    <button class="provider-btn" data-provider="perplexity">Perplexity</button>
-    <button class="provider-btn" data-provider="deepai">DeepAI</button>
-    <button class="provider-btn" data-provider="grok">Grok</button>
-    <button class="provider-btn" data-provider="claude">Claude</button>
-    <button class="provider-btn" data-provider="gemini">Gemini</button>
-    <button class="provider-btn" data-provider="copilot">Copilot</button>
-    <button class="provider-btn" data-provider="bing">Bing Chat</button>
-    <button class="provider-btn" data-provider="openai_api">OpenAI API (server call)</button>
+  <div class="kit-box">
+    <div class="label">Your CJC Prompt</div>
+    <div style="background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:12px; margin-bottom:8px; font-size:0.85rem; line-height:1.5; max-height:150px; overflow-y:auto; font-family:monospace" id="promptDisplay"></div>
+    <div class="quick-actions">
+      <button class="copy-btn secondary" id="copyPromptBtn" aria-label="Copy prompt">Copy Prompt</button>
+      <button class="copy-btn ghost" id="pasteReadyBtn" aria-label="Copy paste-ready text">Raw Text</button>
+    </div>
   </div>
 
-  <script>
-    const output = document.getElementById('output');
-    const repoInput = document.getElementById('repoInput');
-    const loadBtn = document.getElementById('loadBtn');
-    const openRawBtn = document.getElementById('openRawBtn');
-    const copyBtn = document.getElementById('copyBtn');
-    const serverResponseEl = document.getElementById('serverResponse');
+  <div class="kit-box">
+    <div class="label">Related Resources</div>
+    <div class="kit-link-row" style="margin-bottom:8px">
+      <a class="kit-link" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/" target="_blank" rel="noopener">Hosted Kit</a>
+      <button class="copy-btn ghost" id="copyKitLinkBtn" aria-label="Copy hosted kit URL">Copy URL</button>
+    </div>
+  </div>
 
-    function getQueryRepo() {
-      return new URLSearchParams(window.location.search).get('repo');
+  <!-- SUPPORTING DOCUMENTS SECTION -->
+  <div class="documents-section" id="supporting-documents">
+    <h2>Supporting Documents</h2>
+    
+    <div class="document-item">
+      <div class="document-title">The Crucifixion Date of Jesus: Messiah and Son of God</div>
+      <div class="doc-buttons">
+        <a href="https://github.com/Greysmokez/CJC-Website/raw/main/AD30_vs_AD33_Comparison%20(2).pdf" class="doc-btn pdf" download>PDF</a>
+        <a href="https://github.com/Greysmokez/CJC-Website/raw/main/AD30_vs_AD33_Comparison%20(1).docx" class="doc-btn docx" download>Word</a>
+      </div>
+    </div>
+  </div>
+  <!-- END SUPPORTING DOCUMENTS -->
+
+  <p class="note">Clicking an assistant link will open it in a new tab. Click "Copy Prompt" to copy the research prompt to your clipboard.</p>
+
+  <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Hosted: <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">GitHub Pages</a></footer>
+</div>
+
+<script>
+const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
+const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
+
+function makePrompt(){
+  return `Fetch and use the plain-text content at ${RAW_URL} exactly as given (do not summarize). Then run the CJC computation from that source and show steps.`;
+}
+
+async function copyTextToClipboard(text){
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (e) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      return true;
+    } catch (e2) {
+      return false;
     }
+  }
+}
 
-    async function postJson(path, body) {
-      const res = await fetch(path, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-      return res;
-    }
+async function fetchRawKit(){
+  const resp = await fetch(RAW_URL);
+  if(!resp.ok) throw new Error('raw fetch failed: ' + resp.status);
+  return await resp.text();
+}
 
-    async function loadRepo(repoNwo) {
-      output.textContent = 'Loading...';
-      serverResponseEl.style.display = 'none';
+function flashCopied(btn, ok, successText='Copied'){
+  if(!btn) return;
+  const original = btn.textContent;
+  btn.textContent = ok ? successText : 'Copy failed';
+  btn.classList.add('copied');
+  setTimeout(() => {
+    btn.textContent = original;
+    btn.classList.remove('copied');
+  }, 1200);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const promptDisplay = document.getElementById('promptDisplay');
+  const copyPromptBtn = document.getElementById('copyPromptBtn');
+  const pasteReadyBtn = document.getElementById('pasteReadyBtn');
+  const copyKitLinkBtn = document.getElementById('copyKitLinkBtn');
+
+  const prompt = makePrompt();
+  if(promptDisplay) promptDisplay.textContent = prompt;
+
+  if(copyPromptBtn){
+    copyPromptBtn.addEventListener('click', async () => {
+      const ok = await copyTextToClipboard(prompt);
+      flashCopied(copyPromptBtn, ok, 'Prompt copied');
+    });
+  }
+
+  if(pasteReadyBtn){
+    pasteReadyBtn.addEventListener('click', async () => {
       try {
-        // Try serverless fetch first
-        const resp = await postJson('/api/fetch-repo', { action: 'fetch', repo: repoNwo });
-        if (resp.ok) {
-          const j = await resp.json();
-          if (j.text) {
-            output.textContent = j.text;
-            return;
-          }
-        }
-        // Fallback: client-side fetch README using GitHub API (public rate-limited)
-        const [owner, repo] = repoNwo.split('/');
-        const r = await fetch(`https://api.github.com/repos/${owner}/${repo}/readme`);
-        if (!r.ok) throw new Error('GitHub API readme fetch failed: ' + r.status);
-        const j = await r.json();
-        const text = atob(j.content.replace(/\n/g,''));
-        output.textContent = text.slice(0, 20000) + (text.length>20000? '\n\n[TRUNCATED]' : '');
+        const txt = await fetchRawKit();
+        const ok = await copyTextToClipboard(txt);
+        flashCopied(pasteReadyBtn, ok, 'Raw copied');
       } catch (err) {
-        output.textContent = 'Error: ' + (err.message || err);
-      }
-    }
-
-    async function copyOutput() {
-      const txt = output.textContent;
-      if (!txt || txt.startsWith('Error') || txt.includes('No repo loaded')) return alert('Nothing to copy');
-      try {
-        await navigator.clipboard.writeText(txt);
-        alert('Copied repository text to clipboard.');
-      } catch (e) {
-        window.prompt('Copy this text:', txt);
-      }
-    }
-
-    loadBtn.addEventListener('click', () => {
-      const r = repoInput.value.trim();
-      if (!r) return alert('Enter owner/repo');
-      loadRepo(r);
-    });
-
-    openRawBtn.addEventListener('click', () => {
-      const r = repoInput.value.trim();
-      if (!r) return alert('Enter owner/repo');
-      const raw = `https://raw.githubusercontent.com/${r}/main/CJC_AI_Research_Kit_PasteReady.txt`;
-      window.open(raw, '_blank', 'noopener');
-    });
-
-    copyBtn.addEventListener('click', copyOutput);
-
-    // Provider buttons: call server to get best action
-    document.getElementById('providers').addEventListener('click', async (e) => {
-      if (!e.target.matches('.provider-btn')) return;
-      const provider = e.target.dataset.provider;
-      const repo = repoInput.value.trim();
-      if (!repo) return alert('Enter owner/repo first');
-      serverResponseEl.style.display = 'block';
-      serverResponseEl.textContent = 'Contacting server to prepare provider link...';
-
-      try {
-        const res = await postJson('/api/fetch-repo', { action: 'prefill', repo, provider });
-        if (!res.ok) {
-          const txt = await res.text();
-          serverResponseEl.textContent = 'Server error: ' + txt;
-          return;
-        }
-        const j = await res.json();
-        // Server returns { type, url?, text? }
-        if (j.type === 'redirect' && j.url) {
-          serverResponseEl.textContent = 'Opening provider...';
-          window.open(j.url, '_blank', 'noopener');
-        } else if (j.type === 'assistant' && j.text) {
-          serverResponseEl.textContent = 'Assistant response from server:\n\n' + j.text;
-        } else if (j.type === 'copied') {
-          serverResponseEl.textContent = 'Kit text was copied to clipboard; open the provider and paste into the chat.';
-          // optionally open provider page
-          if (j.openUrl) window.open(j.openUrl, '_blank', 'noopener');
-        } else {
-          serverResponseEl.textContent = 'Unknown server response';
-        }
-      } catch (err) {
-        serverResponseEl.textContent = 'Client error: ' + err.message;
+        flashCopied(pasteReadyBtn, false);
       }
     });
+  }
 
-    // Autoload repo from query
-    const q = getQueryRepo();
-    if (q) { repoInput.value = q; loadRepo(q); } else { repoInput.value = 'Greysmokez/Continuous-Jubilee-Calendar'; }
-  </script>
+  if(copyKitLinkBtn){
+    copyKitLinkBtn.addEventListener('click', async () => {
+      const ok = await copyTextToClipboard(RENDERED_URL);
+      flashCopied(copyKitLinkBtn, ok);
+    });
+  }
+
+  document.querySelectorAll('#aiListContainer .ai-btn').forEach(a => {
+    a.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const href = e.currentTarget.getAttribute('href');
+      await copyTextToClipboard(prompt);
+      if(href) window.open(href, '_blank', 'noopener');
+    });
+  });
+});
+</script>
 </body>
 </html>
