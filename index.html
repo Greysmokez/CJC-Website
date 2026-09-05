@@ -79,7 +79,7 @@
       <button class="copy-btn ghost" id="copyPdfUrlBtn" aria-label="Copy PDF URL">Copy PDF URL</button>
     </div>
     <div class="kit-link-row">
-      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Raw text version</a>
+      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/CJC-Website/main/cjckit.txt" target="_blank" rel="noopener">Raw text version</a>
       <button class="copy-btn ghost" id="copyRawUrlBtn" aria-label="Copy raw text URL">Copy Raw URL</button>
     </div>
     <div class="quick-actions">
@@ -111,7 +111,7 @@
 </div>
 <script>
 const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
-const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
+const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/CJC-Website/main/cjckit.txt';
 const PDF_URL = 'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf';
 function makePrompt(){ return `Fetch and use the plain-text content at ${RAW_URL} exactly as given (do not summarize). Then run the CJC computation from that source and show steps.`; }
 async function copyTextToClipboard(text){ try { await navigator.clipboard.writeText(text); return true; } catch (e) { try { const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.left = '-9999px'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); return true; } catch (e2) { return false; } } }
