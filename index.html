@@ -20,16 +20,16 @@
     --primary-hover: #245842;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--parchment); background-image: radial-gradient(ellipse at top left, rgba(156,122,60,0.06), transparent 55%), radial-gradient(ellipse at bottom right, rgba(75,90,69,0.05), transparent 55%); color: var(--ink); font-family: 'Source Sans 3', sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  body { margin: 0; background: var(--parchment); background-image: radial-gradient(ellipse at top left, rgba(156,122,60,0.06), transparent 55%), radial-gradient(ellipse at bottom right, rgba(75,90,69,0.05), transparent 60%); color: var(--ink); font-family: 'Source Sans 3', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
   .wrap { max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; }
-  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-size:1rem;font-weight:600;letter-spacing:0.04em }
+  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-size:0.95rem;letter-spacing:0.08em }
   h1 { font-family: 'Spectral', serif; font-weight:500; font-size:1.8rem; text-align:center; margin:0 0 6px }
   h2 { font-family: 'Spectral', serif; font-weight:500; font-size:1.3rem; margin:20px 0 12px; color:var(--ink) }
   .subhead { text-align:center; color:var(--ink-soft); font-size:1.02rem; max-width:520px; margin:0 auto 18px }
   .kit-box { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:16px }
   .kit-box .label{ font-size:0.88rem; color:var(--ink-soft); margin-bottom:8px }
   .kit-link-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
-  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-height:40px; text-decoration:none; display:flex; align-items:center }
+  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:0; flex:1; text-decoration:none }
   .kit-link:hover{ background:#f0e8d8 }
   .copy-btn{ font-family:inherit; font-size:0.88rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:8px 12px; cursor:pointer }
   .copy-btn.secondary{ background:#5B6B58 }
@@ -46,12 +46,22 @@
   .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); font-weight:600 }
   .ai-btn:hover{ background:#f4ecd8 }
   .note { font-size:0.92rem; color:var(--ink-soft); text-align:center; margin-top:8px }
+  .platform-select {
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid var(--gold-line);
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .status { font-size: 0.92rem; color: var(--ink-soft); margin-top: 8px; min-height: 1.2em; }
   .documents-section { margin-top:32px; scroll-margin-top:60px }
   .documents-section h2 { text-align:center }
   .document-item { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:14px }
   .document-title { font-weight:600; font-size:0.98rem; color:var(--ink); margin-bottom:10px }
   .doc-buttons { display:flex; gap:8px; flex-wrap:wrap }
-  .doc-btn { flex:1; min-width:120px; padding:10px 12px; border:1px solid var(--gold-line); background:var(--parchment); color:var(--ink); border-radius:6px; font-size:0.88rem; font-weight:600; cursor:pointer; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px; transition:background 0.2s; }
+  .doc-btn { flex:1; min-width:120px; padding:10px 12px; border:1px solid var(--gold-line); background:var(--parchment); color:var(--ink); border-radius:6px; font-size:0.88rem; font-weight:600; cursor:pointer; text-decoration:none; text-align:center }
   .doc-btn:hover{ background:#f0e8d8 }
   .doc-btn.pdf::before { content:'📄' }
   .doc-btn.docx::before { content:'📝' }
@@ -64,12 +74,22 @@
   <div class="mark" aria-hidden="true">CJC</div>
   <h1>The CJC Research Kit</h1>
   <p class="subhead">Use buttons only: open, copy URL, or copy raw kit text for fast paste into your AI assistant.</p>
+
   <div class="kit-box">
     <div class="label">Run the CJC Kit</div>
+
     <div class="cta-row">
-      <button class="copy-btn primary-cta" id="openChatBtn" aria-label="Open AI chat and copy prompt">Open AI + Copy Prompt</button>
+      <label for="aiPlatform" class="label" style="margin:0;">Choose AI:</label>
+      <select id="aiPlatform" class="platform-select" aria-label="Choose AI platform">
+        <option value="chatgpt">ChatGPT</option>
+        <option value="grok">Grok</option>
+        <option value="perplexity">Perplexity</option>
+      </select>
+      <button class="copy-btn primary-cta" id="openAiPromptBtn" aria-label="Open selected AI and copy CJC prompt">Open AI + Prompt</button>
       <span class="cta-badge" aria-hidden="true">Recommended</span>
     </div>
+    <div class="status" id="openAiStatus"></div>
+
     <div class="kit-link-row" style="margin-bottom:8px">
       <a class="kit-link" id="renderedUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/" target="_blank" rel="noopener">Hosted kit page</a>
       <button class="copy-btn ghost" id="copyRenderedBtn" aria-label="Copy hosted kit page URL">Copy URL</button>
@@ -79,7 +99,7 @@
       <button class="copy-btn ghost" id="copyPdfUrlBtn" aria-label="Copy PDF URL">Copy PDF URL</button>
     </div>
     <div class="kit-link-row">
-      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Raw text version</a>
+      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Raw text version (best for direct AI paste)</a>
       <button class="copy-btn ghost" id="copyRawUrlBtn" aria-label="Copy raw text URL">Copy Raw URL</button>
     </div>
     <div class="quick-actions">
@@ -87,14 +107,15 @@
       <button class="copy-btn ghost" id="openHostedBtn" aria-label="Open hosted kit page">Open Hosted Kit</button>
     </div>
   </div>
+
   <div class="documents-section" id="supporting-documents">
-    <h2>Supporting Documents</h2> 
+    <h2>Supporting Documents</h2>
     <div class="document-item">
-  <div class="document-title">Chapter 1 — Scriptures Core Calendar Framework</div>
-  <div class="doc-buttons">
-    <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/chapter1.html" class="doc-btn" target="_blank" rel="noopener">Open Chapter 1</a>
-  </div>
-</div>
+      <div class="document-title">Chapter 1 — Scriptures Core Calendar Framework</div>
+      <div class="doc-buttons">
+        <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/chapter1.html" class="doc-btn" target="_blank" rel="noopener">Open Chapter 1</a>
+      </div>
+    </div>
     <div class="document-item">
       <div class="document-title">The Crucifixion Date of Jesus: Messiah and Son of God</div>
       <div class="doc-buttons">
@@ -103,6 +124,7 @@
       </div>
     </div>
   </div>
+
   <div class="choose-label">CHOOSE AN ASSISTANT</div>
   <div class="ai-list" id="aiListContainer">
     <a class="ai-btn" href="https://chat.openai.com/" data-name="ChatGPT"><span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span>ChatGPT</a>
@@ -113,30 +135,118 @@
     <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
   </div>
   <p class="note">Selecting any assistant link now also copies your CJC prompt automatically.</p>
-  <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Hosted: <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">CJC-Website</a></footer>
+  <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Hosted: <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">greysmokez.github.io/CJC-Website</a></footer>
 </div>
+
 <script>
 const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
 const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
 const PDF_URL = 'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf';
-function makePrompt(){ return `Fetch and use the plain-text content at ${RAW_URL} exactly as given (do not summarize). Then run the CJC computation from that source and show steps.`; }
-async function copyTextToClipboard(text){ try { await navigator.clipboard.writeText(text); return true; } catch (e) { try { const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.left = '-9999px'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); return true; } catch (e2) { return false; } } }
-async function fetchRawKit(){ const resp = await fetch(RAW_URL); if(!resp.ok) throw new Error('raw fetch failed: ' + resp.status); return await resp.text(); }
-function flashCopied(btn, ok, successText='Copied'){ if(!btn) return; const original = btn.textContent; btn.textContent = ok ? successText : 'Copy failed'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1200); }
+
+const CJC_TUTOR_PROMPT = `You are an expert tutor for the Continuous Jubilee Calendar (CJC) method.
+
+Primary source materials:
+1) https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJCKit.txt
+2) https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJC_AI_Research_Kit_PasteReady.txt
+3) https://greysmokez.github.io/Continuous-Jubilee-Calendar/chapter1.html
+
+Your job:
+- Teach the CJC method clearly to beginners and advanced users.
+- Answer user questions using the CJC sources above.
+- When uncertain, state uncertainty clearly.
+- Keep explanations step-by-step.
+- Cite which source content the answer is based on.
+- If asked for calculations, show exact math and assumptions.
+- If asked about scripture links, provide references and explain relevance.
+- Do not invent unsupported claims outside provided CJC materials.
+
+Response format:
+1) Short direct answer
+2) Step-by-step explanation
+3) Supporting CJC references used
+4) Optional “next question you can ask me”`;
+
+function makePrompt(){ return CJC_TUTOR_PROMPT; }
+
+async function copyTextToClipboard(text){
+  try { await navigator.clipboard.writeText(text); return true; }
+  catch (e) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      const ok = document.execCommand('copy');
+      ta.remove();
+      return !!ok;
+    } catch { return false; }
+  }
+}
+
+async function fetchRawKit(){
+  const resp = await fetch(RAW_URL);
+  if(!resp.ok) throw new Error('raw fetch failed: ' + resp.status);
+  return await resp.text();
+}
+
+function flashCopied(btn, ok, successText='Copied'){
+  if(!btn) return;
+  const original = btn.textContent;
+  btn.textContent = ok ? successText : 'Copy failed';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const copyRenderedBtn = document.getElementById('copyRenderedBtn');
   const copyPdfUrlBtn = document.getElementById('copyPdfUrlBtn');
   const copyRawUrlBtn = document.getElementById('copyRawUrlBtn');
   const copyRawTextBtn = document.getElementById('copyRawTextBtn');
-  const openChatBtn = document.getElementById('openChatBtn');
+  const openAiPromptBtn = document.getElementById('openAiPromptBtn');
   const openHostedBtn = document.getElementById('openHostedBtn');
+  const aiPlatform = document.getElementById('aiPlatform');
+  const openAiStatus = document.getElementById('openAiStatus');
+
+  const platformUrls = {
+    chatgpt: 'https://chat.openai.com/',
+    grok: 'https://grok.com/',
+    perplexity: 'https://www.perplexity.ai/'
+  };
+
   if(copyRenderedBtn){ copyRenderedBtn.addEventListener('click', async () => { const ok = await copyTextToClipboard(RENDERED_URL); flashCopied(copyRenderedBtn, ok); }); }
   if(copyPdfUrlBtn){ copyPdfUrlBtn.addEventListener('click', async () => { const ok = await copyTextToClipboard(PDF_URL); flashCopied(copyPdfUrlBtn, ok); }); }
   if(copyRawUrlBtn){ copyRawUrlBtn.addEventListener('click', async () => { const ok = await copyTextToClipboard(RAW_URL); flashCopied(copyRawUrlBtn, ok); }); }
-  if(copyRawTextBtn){ copyRawTextBtn.addEventListener('click', async () => { try { const txt = await fetchRawKit(); const ok = await copyTextToClipboard(txt); flashCopied(copyRawTextBtn, ok, 'Raw copied'); } catch (err) { flashCopied(copyRawTextBtn, false); } }); }
-  if(openChatBtn){ openChatBtn.addEventListener('click', async () => { const ok = await copyTextToClipboard(makePrompt()); window.open('https://chat.openai.com/', '_blank', 'noopener'); flashCopied(openChatBtn, ok, 'Prompt copied'); }); }
+  if(copyRawTextBtn){ copyRawTextBtn.addEventListener('click', async () => { try { const txt = await fetchRawKit(); const ok = await copyTextToClipboard(txt); flashCopied(copyRawTextBtn, ok, 'Raw Text Copied'); } catch { flashCopied(copyRawTextBtn, false); } }); }
+
+  if(openAiPromptBtn){
+    openAiPromptBtn.addEventListener('click', async () => {
+      const selected = (aiPlatform && aiPlatform.value) ? aiPlatform.value : 'chatgpt';
+      const targetUrl = platformUrls[selected] || platformUrls.chatgpt;
+      const platformName = selected.charAt(0).toUpperCase() + selected.slice(1);
+      const ok = await copyTextToClipboard(makePrompt());
+      if(openAiStatus){
+        openAiStatus.textContent = ok
+          ? `Prompt copied. Paste into ${platformName}.`
+          : 'Clipboard copy failed. Try again or copy manually from Chapter 1 page.';
+      }
+      window.open(targetUrl, '_blank', 'noopener');
+      flashCopied(openAiPromptBtn, ok, 'Prompt Copied + Opened');
+    });
+  }
+
   if(openHostedBtn){ openHostedBtn.addEventListener('click', () => { window.open(RENDERED_URL, '_blank', 'noopener'); }); }
-  document.querySelectorAll('#aiListContainer .ai-btn').forEach(a => { a.addEventListener('click', async (e) => { e.preventDefault(); const href = e.currentTarget.getAttribute('href'); await copyTextToClipboard(makePrompt()); if(href) window.open(href, '_blank', 'noopener'); }); });
+
+  document.querySelectorAll('#aiListContainer .ai-btn').forEach(a => {
+    a.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const href = e.currentTarget.getAttribute('href');
+      await copyTextToClipboard(makePrompt());
+      window.open(href, '_blank', 'noopener');
+    });
+  });
 });
 </script>
 </body>
