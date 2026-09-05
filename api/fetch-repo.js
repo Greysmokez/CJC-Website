@@ -36,10 +36,10 @@ export default async function handler(req, res) {
       let readme = '';
       try { readme = await fetchReadme(); } catch (e) { readme = '' }
       let kit = '';
-      try { kit = await fetchRaw('CJC_AI_Research_Kit_PasteReady.txt'); } catch (e) { kit = '' }
+      try { kit = await fetchRaw('cjckit.txt'); } catch (e) { kit = '' }
       let combined = `Repository: ${owner}/${repoName}\n\n`;
       if (readme) combined += `README:\n\n${readme}\n\n`;
-      if (kit) combined += `KIT FILE (CJC_AI_Research_Kit_PasteReady.txt):\n\n${kit}\n\n`;
+      if (kit) combined += `KIT FILE (cjckit.txt):\n\n${kit}\n\n`;
       if (!readme && !kit) combined += `No README or kit file found.`;
       // Trim to reasonable size
       const MAX = parseInt(process.env.MAX_CHARS || '20000', 10);
@@ -53,7 +53,7 @@ export default async function handler(req, res) {
     }
 
     if (action === 'prefill') {
-      const kitText = await (async () => { try { return await fetchRaw('CJC_AI_Research_Kit_PasteReady.txt'); } catch(e){ return null } })();
+      const kitText = await (async () => { try { return await fetchRaw('cjckit.txt'); } catch(e){ return null } })();
       const combined = await combinedText();
 
       // Provider-specific behaviors
