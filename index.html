@@ -257,9 +257,10 @@
       </div>
       <div class="status" id="openAiStatus"></div>
 
+      <div class="label" style="margin-top:10px;">What is the CJC</div>
       <div class="kit-link-row">
-        <a class="kit-link" id="renderedUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/" target="_blank" rel="noopener">Hosted kit page</a>
-        <button class="copy-btn ghost" id="copyRenderedBtn" aria-label="Copy hosted kit page URL">Copy URL</button>
+        <a class="kit-link" id="chapter1Url" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/393f1d3e984c626f3ee7de52bec3ccec5d08f5bf/Chapter1.pdf" target="_blank" rel="noopener">Chapter 1 (What is the CJC)</a>
+        <button class="copy-btn ghost" id="copyChapter1Btn" aria-label="Copy Chapter 1 URL">Copy Chapter 1 URL</button>
       </div>
 
       <div class="kit-link-row">
@@ -274,7 +275,6 @@
 
       <div class="quick-actions">
         <button class="copy-btn secondary" id="copyRawTextBtn" aria-label="Copy raw kit text">Copy Raw Text</button>
-        <button class="copy-btn ghost" id="openHostedBtn" aria-label="Open hosted kit page">Open Hosted Kit</button>
       </div>
     </div>
 
@@ -319,9 +319,9 @@
   </div>
 
   <script>
-    const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
     const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
     const PDF_URL = 'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf';
+    const CHAPTER1_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/393f1d3e984c626f3ee7de52bec3ccec5d08f5bf/Chapter1.pdf';
 
     const CJC_TUTOR_PROMPT = `You are an expert tutor for the Continuous Jubilee Calendar (CJC) method.
 
@@ -401,12 +401,11 @@ Response format:
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      const copyRenderedBtn = document.getElementById('copyRenderedBtn');
       const copyPdfUrlBtn = document.getElementById('copyPdfUrlBtn');
       const copyRawUrlBtn = document.getElementById('copyRawUrlBtn');
+      const copyChapter1Btn = document.getElementById('copyChapter1Btn');
       const copyRawTextBtn = document.getElementById('copyRawTextBtn');
       const openAiPromptBtn = document.getElementById('openAiPromptBtn');
-      const openHostedBtn = document.getElementById('openHostedBtn');
       const aiPlatform = document.getElementById('aiPlatform');
       const openAiStatus = document.getElementById('openAiStatus');
 
@@ -416,10 +415,10 @@ Response format:
         perplexity: 'https://www.perplexity.ai/'
       };
 
-      if(copyRenderedBtn){
-        copyRenderedBtn.addEventListener('click', async () => {
-          const ok = await copyTextToClipboard(RENDERED_URL);
-          flashCopied(copyRenderedBtn, ok);
+      if(copyChapter1Btn){
+        copyChapter1Btn.addEventListener('click', async () => {
+          const ok = await copyTextToClipboard(CHAPTER1_URL);
+          flashCopied(copyChapter1Btn, ok);
         });
       }
 
@@ -465,10 +464,6 @@ Response format:
           safeOpen(targetUrl, openAiStatus);
           flashCopied(openAiPromptBtn, ok, 'Prompt Copied + Opened');
         });
-      }
-
-      if(openHostedBtn){
-        openHostedBtn.addEventListener('click', () => safeOpen(RENDERED_URL, openAiStatus));
       }
 
       document.querySelectorAll('#aiListContainer .ai-btn').forEach(a => {
