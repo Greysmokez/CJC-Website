@@ -20,16 +20,16 @@
     --primary-hover: #245842;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--parchment); background-image: radial-gradient(ellipse at top left, rgba(156,122,60,0.06), transparent 55%), radial-gradient(ellipse at bottom right, rgba(75,90,69,0.05), transparent 60%); color: var(--ink); font-family: 'Source Sans 3', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+  body { margin: 0; background: var(--parchment); background-image: radial-gradient(ellipse at top left, rgba(156,122,60,0.06), transparent 55%), radial-gradient(ellipse at bottom right, rgba(75,90,69,0.05), transparent 60%); color: var(--ink); font-family: 'Source Sans 3', sans-serif; }
   .wrap { max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; }
-  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-size:0.95rem;letter-spacing:0.08em }
+  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-weight:600;letter-spacing:0.04em }
   h1 { font-family: 'Spectral', serif; font-weight:500; font-size:1.8rem; text-align:center; margin:0 0 6px }
   h2 { font-family: 'Spectral', serif; font-weight:500; font-size:1.3rem; margin:20px 0 12px; color:var(--ink) }
   .subhead { text-align:center; color:var(--ink-soft); font-size:1.02rem; max-width:520px; margin:0 auto 18px }
   .kit-box { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:16px }
   .kit-box .label{ font-size:0.88rem; color:var(--ink-soft); margin-bottom:8px }
   .kit-link-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
-  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:0; flex:1; text-decoration:none }
+  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:0; text-decoration:none; flex:1 }
   .kit-link:hover{ background:#f0e8d8 }
   .copy-btn{ font-family:inherit; font-size:0.88rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:8px 12px; cursor:pointer }
   .copy-btn.secondary{ background:#5B6B58 }
@@ -61,10 +61,17 @@
   .document-item { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:14px }
   .document-title { font-weight:600; font-size:0.98rem; color:var(--ink); margin-bottom:10px }
   .doc-buttons { display:flex; gap:8px; flex-wrap:wrap }
-  .doc-btn { flex:1; min-width:120px; padding:10px 12px; border:1px solid var(--gold-line); background:var(--parchment); color:var(--ink); border-radius:6px; font-size:0.88rem; font-weight:600; cursor:pointer; text-decoration:none; text-align:center }
+  .doc-btn { flex:1; min-width:120px; padding:10px 12px; border:1px solid var(--gold-line); background:var(--parchment); color:var(--ink); border-radius:6px; font-size:0.88rem; font-weight:600; cursor:pointer }
   .doc-btn:hover{ background:#f0e8d8 }
-  .doc-btn.pdf::before { content:'📄' }
-  .doc-btn.docx::before { content:'📝' }
+  .doc-btn.pdf::before { content:'📄 '; }
+  .doc-btn.docx::before { content:'📝 '; }
+  .section-mini-title{
+    font-family:'Spectral', serif;
+    font-size:1.05rem;
+    font-weight:500;
+    color:var(--ink);
+    margin:6px 0 8px;
+  }
   footer{ text-align:center; font-size:0.88rem; color:var(--ink-soft); margin-top:28px }
   @media (max-width:560px){ .wrap{ padding:20px } }
 </style>
@@ -92,16 +99,25 @@
 
     <div class="kit-link-row" style="margin-bottom:8px">
       <a class="kit-link" id="renderedUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/" target="_blank" rel="noopener">Hosted kit page</a>
-      <button class="copy-btn ghost" id="copyRenderedBtn" aria-label="Copy hosted kit page URL">Copy URL</button>
+      <button class="copy-btn ghost" id="copyRenderedBtn" aria-label="Copy hosted kit page URL and open it">Copy + Open</button>
     </div>
+
+    <div class="section-mini-title">What is the CJC</div>
+    <div class="kit-link-row" style="margin-bottom:8px">
+      <a class="kit-link" id="chapter1Url" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/393f1d3e984c626f3ee7de52bec3ccec5d08f5bf/Chapter1.pdf" target="_blank" rel="noopener">Chapter1</a>
+      <button class="copy-btn ghost" id="chapter1Btn" aria-label="Download and open Chapter1">Download + Open</button>
+    </div>
+
     <div class="kit-link-row" style="margin-bottom:8px">
       <a class="kit-link" id="pdfUrl" href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf" target="_blank" rel="noopener">CJC PDF Version</a>
-      <button class="copy-btn ghost" id="copyPdfUrlBtn" aria-label="Copy PDF URL">Copy PDF URL</button>
+      <button class="copy-btn ghost" id="copyPdfUrlBtn" aria-label="Download and open PDF">Download + Open</button>
     </div>
+
     <div class="kit-link-row">
-      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">Raw text version (best for direct AI paste)</a>
-      <button class="copy-btn ghost" id="copyRawUrlBtn" aria-label="Copy raw text URL">Copy Raw URL</button>
+      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">CJC Raw Text Version</a>
+      <button class="copy-btn ghost" id="copyRawUrlBtn" aria-label="Copy raw text URL and open it">Copy + Open</button>
     </div>
+
     <div class="quick-actions">
       <button class="copy-btn secondary" id="copyRawTextBtn" aria-label="Copy raw kit text">Copy Raw Text</button>
       <button class="copy-btn ghost" id="openHostedBtn" aria-label="Open hosted kit page">Open Hosted Kit</button>
@@ -110,21 +126,19 @@
 
   <div class="documents-section" id="supporting-documents">
     <h2>Supporting Documents</h2>
+
     <div class="document-item">
       <div class="document-title">Chapter 1 — Scriptures Core Calendar Framework</div>
       <div class="doc-buttons">
-       <div class="document-item">
-  <div class="document-title">Chapter 1 — Scriptures Core Calendar Framework</div>
-  <div class="doc-buttons">
-    <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/393f1d3e984c626f3ee7de52bec3ccec5d08f5bf/Chapter1.pdf" class="doc-btn" target="_blank" rel="noopener">Open Chapter 1</a>
-  </div>
-</div>
+        <button class="doc-btn pdf" id="chapter1DocBtn" data-url="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/393f1d3e984c626f3ee7de52bec3ccec5d08f5bf/Chapter1.pdf">Download + Open PDF</button>
+      </div>
     </div>
+
     <div class="document-item">
       <div class="document-title">The Crucifixion Date of Jesus: Messiah and Son of God</div>
       <div class="doc-buttons">
-        <a href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/Crucifixion.pdf" class="doc-btn pdf" target="_blank" rel="noopener">PDF</a>
-        <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/Crucifixion.docx" class="doc-btn docx" target="_blank" rel="noopener" download>Word</a>
+        <button class="doc-btn pdf" id="crucifixionPdfBtn" data-url="https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/Crucifixion.pdf">Download + Open PDF</button>
+        <button class="doc-btn docx" id="crucifixionDocxBtn" data-url="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/Crucifixion.docx">Download + Open Word</button>
       </div>
     </div>
   </div>
@@ -138,14 +152,21 @@
     <a class="ai-btn" href="https://copilot.microsoft.com" data-name="Copilot"><span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span>Copilot</a>
     <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
   </div>
+
   <p class="note">Selecting any assistant link now also copies your CJC prompt automatically.</p>
-  <footer>Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a> · Hosted: <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">greysmokez.github.io/CJC-Website</a></footer>
+  <footer>
+    Source:
+    <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a>
+    · Hosted:
+    <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">CJC-Website Page</a>
+  </footer>
 </div>
 
 <script>
 const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
 const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
 const PDF_URL = 'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf';
+const CHAPTER1_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/393f1d3e984c626f3ee7de52bec3ccec5d08f5bf/Chapter1.pdf';
 
 const CJC_TUTOR_PROMPT = `You are an expert tutor for the Continuous Jubilee Calendar (CJC) method.
 
@@ -204,15 +225,33 @@ function flashCopied(btn, ok, successText='Copied'){
   setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
 }
 
+function openAndDownload(url){
+  if(!url) return;
+  const a = document.createElement('a');
+  a.href = url;
+  a.setAttribute('download', '');
+  a.target = '_blank';
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.open(url, '_blank', 'noopener');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const copyRenderedBtn = document.getElementById('copyRenderedBtn');
   const copyPdfUrlBtn = document.getElementById('copyPdfUrlBtn');
   const copyRawUrlBtn = document.getElementById('copyRawUrlBtn');
+  const chapter1Btn = document.getElementById('chapter1Btn');
   const copyRawTextBtn = document.getElementById('copyRawTextBtn');
   const openAiPromptBtn = document.getElementById('openAiPromptBtn');
   const openHostedBtn = document.getElementById('openHostedBtn');
   const aiPlatform = document.getElementById('aiPlatform');
   const openAiStatus = document.getElementById('openAiStatus');
+
+  const chapter1DocBtn = document.getElementById('chapter1DocBtn');
+  const crucifixionPdfBtn = document.getElementById('crucifixionPdfBtn');
+  const crucifixionDocxBtn = document.getElementById('crucifixionDocxBtn');
 
   const platformUrls = {
     chatgpt: 'https://chat.openai.com/',
@@ -220,10 +259,47 @@ document.addEventListener('DOMContentLoaded', () => {
     perplexity: 'https://www.perplexity.ai/'
   };
 
-  if(copyRenderedBtn){ copyRenderedBtn.addEventListener('click', async () => { const ok = await copyTextToClipboard(RENDERED_URL); flashCopied(copyRenderedBtn, ok); }); }
-  if(copyPdfUrlBtn){ copyPdfUrlBtn.addEventListener('click', async () => { const ok = await copyTextToClipboard(PDF_URL); flashCopied(copyPdfUrlBtn, ok); }); }
-  if(copyRawUrlBtn){ copyRawUrlBtn.addEventListener('click', async () => { const ok = await copyTextToClipboard(RAW_URL); flashCopied(copyRawUrlBtn, ok); }); }
-  if(copyRawTextBtn){ copyRawTextBtn.addEventListener('click', async () => { try { const txt = await fetchRawKit(); const ok = await copyTextToClipboard(txt); flashCopied(copyRawTextBtn, ok, 'Raw Text Copied'); } catch { flashCopied(copyRawTextBtn, false); } }); }
+  if(copyRenderedBtn){
+    copyRenderedBtn.addEventListener('click', async () => {
+      const ok = await copyTextToClipboard(RENDERED_URL);
+      window.open(RENDERED_URL, '_blank', 'noopener');
+      flashCopied(copyRenderedBtn, ok, 'Copied + Opened');
+    });
+  }
+
+  if(copyPdfUrlBtn){
+    copyPdfUrlBtn.addEventListener('click', async () => {
+      openAndDownload(PDF_URL);
+      flashCopied(copyPdfUrlBtn, true, 'Downloaded + Opened');
+    });
+  }
+
+  if(copyRawUrlBtn){
+    copyRawUrlBtn.addEventListener('click', async () => {
+      const ok = await copyTextToClipboard(RAW_URL);
+      window.open(RAW_URL, '_blank', 'noopener');
+      flashCopied(copyRawUrlBtn, ok, 'Copied + Opened');
+    });
+  }
+
+  if(chapter1Btn){
+    chapter1Btn.addEventListener('click', async () => {
+      openAndDownload(CHAPTER1_URL);
+      flashCopied(chapter1Btn, true, 'Downloaded + Opened');
+    });
+  }
+
+  if(copyRawTextBtn){
+    copyRawTextBtn.addEventListener('click', async () => {
+      try {
+        const txt = await fetchRawKit();
+        const ok = await copyTextToClipboard(txt);
+        flashCopied(copyRawTextBtn, ok, 'Raw Text Copied');
+      } catch {
+        flashCopied(copyRawTextBtn, false);
+      }
+    });
+  }
 
   if(openAiPromptBtn){
     openAiPromptBtn.addEventListener('click', async () => {
@@ -241,7 +317,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  if(openHostedBtn){ openHostedBtn.addEventListener('click', () => { window.open(RENDERED_URL, '_blank', 'noopener'); }); }
+  if(openHostedBtn){
+    openHostedBtn.addEventListener('click', () => {
+      window.open(RENDERED_URL, '_blank', 'noopener');
+    });
+  }
+
+  if(chapter1DocBtn){
+    chapter1DocBtn.addEventListener('click', () => {
+      openAndDownload(chapter1DocBtn.dataset.url);
+      flashCopied(chapter1DocBtn, true, 'Downloaded + Opened');
+    });
+  }
+
+  if(crucifixionPdfBtn){
+    crucifixionPdfBtn.addEventListener('click', () => {
+      openAndDownload(crucifixionPdfBtn.dataset.url);
+      flashCopied(crucifixionPdfBtn, true, 'Downloaded + Opened');
+    });
+  }
+
+  if(crucifixionDocxBtn){
+    crucifixionDocxBtn.addEventListener('click', () => {
+      openAndDownload(crucifixionDocxBtn.dataset.url);
+      flashCopied(crucifixionDocxBtn, true, 'Downloaded + Opened');
+    });
+  }
 
   document.querySelectorAll('#aiListContainer .ai-btn').forEach(a => {
     a.addEventListener('click', async (e) => {
