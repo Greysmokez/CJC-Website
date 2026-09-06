@@ -1,174 +1,329 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The CJC Research Kit</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --parchment: #F6F1E4;
-    --parchment-deep: #EDE4CE;
-    --ink: #2B2318;
-    --ink-soft: #5B4F3E;
-    --gold: #9C7A3C;
-    --gold-line: #C9A961;
-    --olive: #4B5A45;
-    --action: #4B5A45;
-    --primary: #2f6f52;
-    --primary-hover: #245842;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--parchment); background-image: radial-gradient(ellipse at top left, rgba(156,122,60,0.06), transparent 55%), radial-gradient(ellipse at bottom right, rgba(75,90,69,0.05), transparent 60%); color: var(--ink); font-family: 'Source Sans 3', sans-serif; }
-  .wrap { max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; }
-  .mark { width:46px;height:46px;margin:0 auto 20px;border:1.5px solid var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:Spectral,serif;font-weight:600;letter-spacing:0.04em }
-  h1 { font-family: 'Spectral', serif; font-weight:500; font-size:1.8rem; text-align:center; margin:0 0 6px }
-  h2 { font-family: 'Spectral', serif; font-weight:500; font-size:1.3rem; margin:20px 0 12px; color:var(--ink) }
-  .subhead { text-align:center; color:var(--ink-soft); font-size:1.02rem; max-width:520px; margin:0 auto 18px }
-  .kit-box { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:16px }
-  .kit-box .label{ font-size:0.88rem; color:var(--ink-soft); margin-bottom:8px }
-  .kit-link-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
-  .kit-link{ font-family: 'Source Sans 3', monospace; font-size:0.92rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 10px; min-width:0; text-decoration:none; flex:1 }
-  .kit-link:hover{ background:#f0e8d8 }
-  .copy-btn{ font-family:inherit; font-size:0.88rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:8px 12px; cursor:pointer }
-  .copy-btn.secondary{ background:#5B6B58 }
-  .copy-btn.ghost{ background:transparent; color:var(--ink); border:1px solid rgba(0,0,0,0.12) }
-  .copy-btn:active{ transform:translateY(1px) }
-  .copy-btn.copied{ background:var(--gold); color:#2B2318 }
-  .copy-btn.primary-cta{ background: var(--primary); padding: 12px 18px; font-size: 0.98rem; font-weight: 700; box-shadow: 0 4px 12px rgba(47,111,82,0.25); }
-  .copy-btn.primary-cta:hover{ background: var(--primary-hover) }
-  .cta-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px }
-  .cta-badge{ display:inline-flex; align-items:center; padding:3px 8px; border-radius:999px; font-size:0.75rem; font-weight:700; letter-spacing:0.02em; color:#fff; background:var(--primary); }
-  .quick-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:8px }
-  .choose-label{ text-align:center; font-size:0.9rem; color:var(--ink-soft); margin:18px 0 8px }
-  .ai-list{ display:flex; flex-direction:column; gap:10px }
-  .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); font-weight:600 }
-  .ai-btn:hover{ background:#f4ecd8 }
-  .note { font-size:0.92rem; color:var(--ink-soft); text-align:center; margin-top:8px }
-  .platform-select {
-    background: #fff;
-    color: var(--ink);
-    border: 1px solid var(--gold-line);
-    border-radius: 6px;
-    padding: 10px 12px;
-    font-size: 0.95rem;
-    font-weight: 600;
-  }
-  .status { font-size: 0.92rem; color: var(--ink-soft); margin-top: 8px; min-height: 1.2em; }
-  .documents-section { margin-top:32px; scroll-margin-top:60px }
-  .documents-section h2 { text-align:center }
-  .document-item { background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:6px; padding:16px; margin-bottom:14px }
-  .document-title { font-weight:600; font-size:0.98rem; color:var(--ink); margin-bottom:10px }
-  .doc-buttons { display:flex; gap:8px; flex-wrap:wrap }
-  .doc-btn { flex:1; min-width:120px; padding:10px 12px; border:1px solid var(--gold-line); background:var(--parchment); color:var(--ink); border-radius:6px; font-size:0.88rem; font-weight:600; cursor:pointer }
-  .doc-btn:hover{ background:#f0e8d8 }
-  .doc-btn.pdf::before { content:'📄 '; }
-  .doc-btn.docx::before { content:'📝 '; }
-  .section-mini-title{
-    font-family:'Spectral', serif;
-    font-size:1.05rem;
-    font-weight:500;
-    color:var(--ink);
-    margin:6px 0 8px;
-  }
-  footer{ text-align:center; font-size:0.88rem; color:var(--ink-soft); margin-top:28px }
-  @media (max-width:560px){ .wrap{ padding:20px } }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The CJC Research Kit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --parchment:#F6F1E4;
+      --parchment-deep:#EDE4CE;
+      --ink:#2B2318;
+      --ink-soft:#5B4F3E;
+      --gold:#9C7A3C;
+      --gold-line:#C9A961;
+      --action:#4B5A45;
+      --primary:#2f6f52;
+      --primary-hover:#245842;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:'Source Sans 3', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:var(--parchment);
+      background-image:
+        radial-gradient(ellipse at top left, rgba(156,122,60,0.06), transparent 55%),
+        radial-gradient(ellipse at bottom right, rgba(75,90,69,0.06), transparent 55%);
+    }
+    .wrap{ max-width:760px; margin:0 auto; padding:40px 20px 80px; }
+    .mark{
+      width:46px; height:46px; margin:0 auto 18px;
+      border:1.5px solid var(--gold); border-radius:8px;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--gold); font-family:'Spectral', serif; font-weight:600;
+      letter-spacing:.5px;
+    }
+    h1{
+      font-family:'Spectral', serif;
+      font-weight:500;
+      font-size:1.9rem;
+      text-align:center;
+      margin:0 0 8px;
+    }
+    h2{
+      font-family:'Spectral', serif;
+      font-weight:500;
+      font-size:1.3rem;
+      margin:0 0 12px;
+      color:var(--ink);
+      text-align:center;
+    }
+    .subhead{
+      text-align:center;
+      color:var(--ink-soft);
+      font-size:1.02rem;
+      max-width:620px;
+      margin:0 auto 20px;
+    }
+
+    .kit-box{
+      background:var(--parchment-deep);
+      border:1px solid var(--gold-line);
+      border-radius:8px;
+      padding:16px;
+      margin-bottom:18px;
+    }
+    .label{ font-size:.88rem; color:var(--ink-soft); margin-bottom:8px; }
+
+    .cta-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+    .platform-select{
+      background:#fff;
+      color:var(--ink);
+      border:1px solid var(--gold-line);
+      border-radius:6px;
+      padding:10px 12px;
+      font-size:.95rem;
+      font-weight:600;
+    }
+    .cta-badge{
+      display:inline-flex;
+      align-items:center;
+      padding:3px 8px;
+      border-radius:999px;
+      font-size:.75rem;
+      font-weight:700;
+      letter-spacing:.02em;
+      color:#fff;
+      background:var(--primary);
+    }
+    .status{
+      font-size:.92rem;
+      color:var(--ink-soft);
+      margin-top:8px;
+      min-height:1.2em;
+    }
+
+    .kit-link-row{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:8px;
+    }
+    .kit-link{
+      font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size:.90rem;
+      color:var(--ink);
+      background:var(--parchment);
+      border:1px solid var(--gold-line);
+      border-radius:6px;
+      padding:8px 10px;
+      text-decoration:none;
+      flex:1 1 340px;
+      min-width:240px;
+    }
+    .kit-link:hover{ background:#f0e8d8; }
+
+    .copy-btn{
+      font-family:inherit;
+      font-size:.88rem;
+      font-weight:600;
+      color:#fff;
+      background:var(--action);
+      border:none;
+      border-radius:6px;
+      padding:8px 12px;
+      cursor:pointer;
+    }
+    .copy-btn.secondary{ background:#5B6B58; }
+    .copy-btn.ghost{
+      background:transparent;
+      color:var(--ink);
+      border:1px solid rgba(0,0,0,0.14);
+    }
+    .copy-btn.primary-cta{
+      background:var(--primary);
+      padding:12px 18px;
+      font-size:.98rem;
+      font-weight:700;
+      box-shadow:0 4px 12px rgba(47,111,82,.25);
+    }
+    .copy-btn.primary-cta:hover{ background:var(--primary-hover); }
+    .copy-btn:active{ transform:translateY(1px); }
+    .copy-btn.copied{ background:var(--gold); color:#2B2318; }
+
+    .quick-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:8px;
+    }
+
+    .documents-section{
+      margin-top:28px;
+      scroll-margin-top:60px;
+    }
+    .document-item{
+      background:var(--parchment-deep);
+      border:1px solid var(--gold-line);
+      border-radius:8px;
+      padding:16px;
+      margin-bottom:14px;
+    }
+    .document-title{
+      font-weight:600;
+      font-size:.98rem;
+      color:var(--ink);
+      margin-bottom:10px;
+    }
+    .doc-buttons{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .doc-btn{
+      flex:0 1 auto;
+      min-width:140px;
+      padding:10px 12px;
+      border:1px solid var(--gold-line);
+      background:var(--parchment);
+      color:var(--ink);
+      border-radius:6px;
+      font-size:.88rem;
+      font-weight:600;
+      text-decoration:none;
+      text-align:center;
+      cursor:pointer;
+    }
+    .doc-btn:hover{ background:#f0e8d8; }
+    .doc-btn.pdf::before{ content:'📄 '; }
+    .doc-btn.docx::before{ content:'📝 '; }
+
+    .choose-label{
+      text-align:center;
+      font-size:.9rem;
+      color:var(--ink-soft);
+      margin:18px 0 8px;
+      letter-spacing:.03em;
+    }
+    .ai-list{ display:flex; flex-direction:column; gap:10px; }
+    .ai-btn{
+      display:flex; align-items:center; gap:12px;
+      padding:12px 14px;
+      border-radius:6px;
+      text-decoration:none;
+      color:var(--ink);
+      background:var(--parchment);
+      border:1px solid var(--gold-line);
+      font-weight:600;
+    }
+    .ai-btn:hover{ background:#f4ecd8; }
+
+    .note{
+      font-size:.92rem;
+      color:var(--ink-soft);
+      text-align:center;
+      margin-top:8px;
+    }
+    footer{
+      text-align:center;
+      font-size:.88rem;
+      color:var(--ink-soft);
+      margin-top:28px;
+    }
+    @media (max-width:560px){
+      .wrap{ padding:20px 16px 64px; }
+      h1{ font-size:1.6rem; }
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="mark" aria-hidden="true">CJC</div>
-  <h1>The CJC Research Kit</h1>
-  <p class="subhead">Use buttons only: open, copy URL, or copy raw kit text for fast paste into your AI assistant.</p>
+  <div class="wrap">
+    <div class="mark" aria-hidden="true">CJC</div>
+    <h1>The CJC Research Kit</h1>
+    <p class="subhead">Use buttons only: open, copy URL, or copy raw kit text for fast paste into your AI assistant.</p>
 
-  <div class="kit-box">
-    <div class="label">Run the CJC Kit</div>
+    <div class="kit-box">
+      <div class="label">Run the CJC Kit</div>
 
-    <div class="cta-row">
-      <label for="aiPlatform" class="label" style="margin:0;">Choose AI:</label>
-      <select id="aiPlatform" class="platform-select" aria-label="Choose AI platform">
-        <option value="chatgpt">ChatGPT</option>
-        <option value="grok">Grok</option>
-        <option value="perplexity">Perplexity</option>
-      </select>
-      <button class="copy-btn primary-cta" id="openAiPromptBtn" aria-label="Open selected AI and copy CJC prompt">Open AI + Prompt</button>
-      <span class="cta-badge" aria-hidden="true">Recommended</span>
-    </div>
-    <div class="status" id="openAiStatus"></div>
+      <div class="cta-row">
+        <label for="aiPlatform" class="label" style="margin:0;">Choose AI:</label>
+        <select id="aiPlatform" class="platform-select" aria-label="Choose AI platform">
+          <option value="chatgpt">ChatGPT</option>
+          <option value="grok">Grok</option>
+          <option value="perplexity">Perplexity</option>
+        </select>
+        <button class="copy-btn primary-cta" id="openAiPromptBtn" aria-label="Open selected AI and copy CJC prompt">Open AI + Prompt</button>
+        <span class="cta-badge" aria-hidden="true">Recommended</span>
+      </div>
+      <div class="status" id="openAiStatus"></div>
 
-    <div class="kit-link-row" style="margin-bottom:8px">
-      <a class="kit-link" id="renderedUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/" target="_blank" rel="noopener">Hosted kit page</a>
-      <button class="copy-btn ghost" id="copyRenderedBtn" aria-label="Copy hosted kit page URL and open it">Copy + Open</button>
-    </div>
+      <div class="kit-link-row">
+        <a class="kit-link" id="renderedUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/" target="_blank" rel="noopener">Hosted kit page</a>
+        <button class="copy-btn ghost" id="copyRenderedBtn" aria-label="Copy hosted kit page URL">Copy URL</button>
+      </div>
 
-    <div class="section-mini-title">What is the CJC</div>
-    <div class="kit-link-row" style="margin-bottom:8px">
-      <a class="kit-link" id="chapter1Url" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/393f1d3e984c626f3ee7de52bec3ccec5d08f5bf/Chapter1.pdf" target="_blank" rel="noopener">Chapter1</a>
-      <button class="copy-btn ghost" id="chapter1Btn" aria-label="Download and open Chapter1">Download + Open</button>
-    </div>
+      <div class="kit-link-row">
+        <a class="kit-link" id="pdfUrl" href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf" target="_blank" rel="noopener">CJC PDF Version</a>
+        <button class="copy-btn ghost" id="copyPdfUrlBtn" aria-label="Copy PDF URL">Copy PDF URL</button>
+      </div>
 
-    <div class="kit-link-row" style="margin-bottom:8px">
-      <a class="kit-link" id="pdfUrl" href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf" target="_blank" rel="noopener">CJC PDF Version</a>
-      <button class="copy-btn ghost" id="copyPdfUrlBtn" aria-label="Download and open PDF">Download + Open</button>
-    </div>
+      <div class="kit-link-row">
+        <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">CJC Raw Paste-Ready Text</a>
+        <button class="copy-btn ghost" id="copyRawUrlBtn" aria-label="Copy raw text URL">Copy Raw URL</button>
+      </div>
 
-    <div class="kit-link-row">
-      <a class="kit-link" id="rawUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt" target="_blank" rel="noopener">CJC Raw Text Version</a>
-      <button class="copy-btn ghost" id="copyRawUrlBtn" aria-label="Copy raw text URL and open it">Copy + Open</button>
-    </div>
-
-    <div class="quick-actions">
-      <button class="copy-btn secondary" id="copyRawTextBtn" aria-label="Copy raw kit text">Copy Raw Text</button>
-      <button class="copy-btn ghost" id="openHostedBtn" aria-label="Open hosted kit page">Open Hosted Kit</button>
-    </div>
-  </div>
-
-  <div class="documents-section" id="supporting-documents">
-    <h2>Supporting Documents</h2>
-
-    <div class="document-item">
-      <div class="document-title">Chapter 1 — Scriptures Core Calendar Framework</div>
-      <div class="doc-buttons">
-        <button class="doc-btn pdf" id="chapter1DocBtn" data-url="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/393f1d3e984c626f3ee7de52bec3ccec5d08f5bf/Chapter1.pdf">Download + Open PDF</button>
+      <div class="quick-actions">
+        <button class="copy-btn secondary" id="copyRawTextBtn" aria-label="Copy raw kit text">Copy Raw Text</button>
+        <button class="copy-btn ghost" id="openHostedBtn" aria-label="Open hosted kit page">Open Hosted Kit</button>
       </div>
     </div>
 
-    <div class="document-item">
-      <div class="document-title">The Crucifixion Date of Jesus: Messiah and Son of God</div>
-      <div class="doc-buttons">
-        <button class="doc-btn pdf" id="crucifixionPdfBtn" data-url="https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/Crucifixion.pdf">Download + Open PDF</button>
-        <button class="doc-btn docx" id="crucifixionDocxBtn" data-url="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/Crucifixion.docx">Download + Open Word</button>
+    <div class="documents-section" id="supporting-documents">
+      <h2>Supporting Documents</h2>
+
+      <div class="document-item">
+        <div class="document-title">Chapter 1 — Scriptures Core Calendar Framework</div>
+        <div class="doc-buttons">
+          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/393f1d3e984c626f3ee7de52bec3ccec5d08f5bf/Chapter1.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Open PDF</a>
+          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/393f1d3e984c626f3ee7de52bec3ccec5d08f5bf/Chapter1.pdf" class="doc-btn pdf" download>Download PDF</a>
+        </div>
+      </div>
+
+      <div class="document-item">
+        <div class="document-title">The Crucifixion Date of Jesus: Messiah and Son of God</div>
+        <div class="doc-buttons">
+          <a href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/Crucifixion.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Open PDF</a>
+          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/Crucifixion.pdf" class="doc-btn pdf" download>Download PDF</a>
+          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/Crucifixion.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
+          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/Crucifixion.docx" class="doc-btn docx" download>Download Word</a>
+        </div>
       </div>
     </div>
+
+    <div class="choose-label">CHOOSE AN ASSISTANT</div>
+    <div class="ai-list" id="aiListContainer">
+      <a class="ai-btn" href="https://chat.openai.com/" data-name="ChatGPT"><span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span>ChatGPT</a>
+      <a class="ai-btn" href="https://claude.ai" data-name="Claude"><span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span>Claude</a>
+      <a class="ai-btn" href="https://gemini.google.com" data-name="Gemini"><span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span>Gemini</a>
+      <a class="ai-btn" href="https://grok.com/" data-name="Grok"><span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span>Grok</a>
+      <a class="ai-btn" href="https://copilot.microsoft.com" data-name="Copilot"><span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span>Copilot</a>
+      <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
+    </div>
+
+    <p class="note">Selecting any assistant link now also copies your CJC prompt automatically.</p>
+
+    <footer>
+      Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a>
+      · Hosted: <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">GitHub Pages</a>
+    </footer>
   </div>
 
-  <div class="choose-label">CHOOSE AN ASSISTANT</div>
-  <div class="ai-list" id="aiListContainer">
-    <a class="ai-btn" href="https://chat.openai.com/" data-name="ChatGPT"><span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span>ChatGPT</a>
-    <a class="ai-btn" href="https://claude.ai" data-name="Claude"><span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span>Claude</a>
-    <a class="ai-btn" href="https://gemini.google.com" data-name="Gemini"><span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span>Gemini</a>
-    <a class="ai-btn" href="https://grok.com" data-name="Grok"><span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span>Grok</a>
-    <a class="ai-btn" href="https://copilot.microsoft.com" data-name="Copilot"><span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span>Copilot</a>
-    <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
-  </div>
+  <script>
+    const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
+    const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
+    const PDF_URL = 'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf';
 
-  <p class="note">Selecting any assistant link now also copies your CJC prompt automatically.</p>
-  <footer>
-    Source:
-    <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a>
-    · Hosted:
-    <a href="https://greysmokez.github.io/CJC-Website/" target="_blank" rel="noopener">CJC-Website Page</a>
-  </footer>
-</div>
-
-<script>
-const RENDERED_URL = 'https://greysmokez.github.io/Continuous-Jubilee-Calendar/';
-const RAW_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/refs/heads/main/CJC_AI_Research_Kit_PasteReady.txt';
-const PDF_URL = 'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf';
-const CHAPTER1_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/393f1d3e984c626f3ee7de52bec3ccec5d08f5bf/Chapter1.pdf';
-
-const CJC_TUTOR_PROMPT = `You are an expert tutor for the Continuous Jubilee Calendar (CJC) method.
+    const CJC_TUTOR_PROMPT = `You are an expert tutor for the Continuous Jubilee Calendar (CJC) method.
 
 Primary source materials:
 1) https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJCKit.txt
@@ -191,168 +346,140 @@ Response format:
 3) Supporting CJC references used
 4) Optional “next question you can ask me”`;
 
-function makePrompt(){ return CJC_TUTOR_PROMPT; }
+    function makePrompt(){ return CJC_TUTOR_PROMPT; }
 
-async function copyTextToClipboard(text){
-  try { await navigator.clipboard.writeText(text); return true; }
-  catch (e) {
-    try {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.left = '-9999px';
-      document.body.appendChild(ta);
-      ta.focus();
-      ta.select();
-      const ok = document.execCommand('copy');
-      ta.remove();
-      return !!ok;
-    } catch { return false; }
-  }
-}
-
-async function fetchRawKit(){
-  const resp = await fetch(RAW_URL);
-  if(!resp.ok) throw new Error('raw fetch failed: ' + resp.status);
-  return await resp.text();
-}
-
-function flashCopied(btn, ok, successText='Copied'){
-  if(!btn) return;
-  const original = btn.textContent;
-  btn.textContent = ok ? successText : 'Copy failed';
-  btn.classList.add('copied');
-  setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
-}
-
-function openAndDownload(url){
-  if(!url) return;
-  const a = document.createElement('a');
-  a.href = url;
-  a.setAttribute('download', '');
-  a.target = '_blank';
-  a.rel = 'noopener';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  window.open(url, '_blank', 'noopener');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const copyRenderedBtn = document.getElementById('copyRenderedBtn');
-  const copyPdfUrlBtn = document.getElementById('copyPdfUrlBtn');
-  const copyRawUrlBtn = document.getElementById('copyRawUrlBtn');
-  const chapter1Btn = document.getElementById('chapter1Btn');
-  const copyRawTextBtn = document.getElementById('copyRawTextBtn');
-  const openAiPromptBtn = document.getElementById('openAiPromptBtn');
-  const openHostedBtn = document.getElementById('openHostedBtn');
-  const aiPlatform = document.getElementById('aiPlatform');
-  const openAiStatus = document.getElementById('openAiStatus');
-
-  const chapter1DocBtn = document.getElementById('chapter1DocBtn');
-  const crucifixionPdfBtn = document.getElementById('crucifixionPdfBtn');
-  const crucifixionDocxBtn = document.getElementById('crucifixionDocxBtn');
-
-  const platformUrls = {
-    chatgpt: 'https://chat.openai.com/',
-    grok: 'https://grok.com/',
-    perplexity: 'https://www.perplexity.ai/'
-  };
-
-  if(copyRenderedBtn){
-    copyRenderedBtn.addEventListener('click', async () => {
-      const ok = await copyTextToClipboard(RENDERED_URL);
-      window.open(RENDERED_URL, '_blank', 'noopener');
-      flashCopied(copyRenderedBtn, ok, 'Copied + Opened');
-    });
-  }
-
-  if(copyPdfUrlBtn){
-    copyPdfUrlBtn.addEventListener('click', async () => {
-      openAndDownload(PDF_URL);
-      flashCopied(copyPdfUrlBtn, true, 'Downloaded + Opened');
-    });
-  }
-
-  if(copyRawUrlBtn){
-    copyRawUrlBtn.addEventListener('click', async () => {
-      const ok = await copyTextToClipboard(RAW_URL);
-      window.open(RAW_URL, '_blank', 'noopener');
-      flashCopied(copyRawUrlBtn, ok, 'Copied + Opened');
-    });
-  }
-
-  if(chapter1Btn){
-    chapter1Btn.addEventListener('click', async () => {
-      openAndDownload(CHAPTER1_URL);
-      flashCopied(chapter1Btn, true, 'Downloaded + Opened');
-    });
-  }
-
-  if(copyRawTextBtn){
-    copyRawTextBtn.addEventListener('click', async () => {
+    async function copyTextToClipboard(text){
       try {
-        const txt = await fetchRawKit();
-        const ok = await copyTextToClipboard(txt);
-        flashCopied(copyRawTextBtn, ok, 'Raw Text Copied');
+        await navigator.clipboard.writeText(text);
+        return true;
       } catch {
-        flashCopied(copyRawTextBtn, false);
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          const ok = document.execCommand('copy');
+          ta.remove();
+          return !!ok;
+        } catch {
+          return false;
+        }
       }
-    });
-  }
+    }
 
-  if(openAiPromptBtn){
-    openAiPromptBtn.addEventListener('click', async () => {
-      const selected = (aiPlatform && aiPlatform.value) ? aiPlatform.value : 'chatgpt';
-      const targetUrl = platformUrls[selected] || platformUrls.chatgpt;
-      const platformName = selected.charAt(0).toUpperCase() + selected.slice(1);
-      const ok = await copyTextToClipboard(makePrompt());
-      if(openAiStatus){
-        openAiStatus.textContent = ok
-          ? `Prompt copied. Paste into ${platformName}.`
-          : 'Clipboard copy failed. Try again or copy manually from Chapter 1 page.';
+    async function fetchRawKit(){
+      const resp = await fetch(RAW_URL);
+      if(!resp.ok) throw new Error('raw fetch failed: ' + resp.status);
+      return await resp.text();
+    }
+
+    function flashCopied(btn, ok, successText='Copied'){
+      if(!btn) return;
+      const original = btn.textContent;
+      btn.textContent = ok ? successText : 'Copy failed';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.classList.remove('copied');
+      }, 1500);
+    }
+
+    function safeOpen(url, statusEl){
+      try {
+        const win = window.open(url, '_blank', 'noopener');
+        if(!win && statusEl){
+          statusEl.textContent = 'Popup blocked. Please allow popups for this site.';
+        }
+      } catch {
+        if(statusEl){
+          statusEl.textContent = 'Could not open link. Please try again.';
+        }
       }
-      window.open(targetUrl, '_blank', 'noopener');
-      flashCopied(openAiPromptBtn, ok, 'Prompt Copied + Opened');
-    });
-  }
+    }
 
-  if(openHostedBtn){
-    openHostedBtn.addEventListener('click', () => {
-      window.open(RENDERED_URL, '_blank', 'noopener');
-    });
-  }
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyRenderedBtn = document.getElementById('copyRenderedBtn');
+      const copyPdfUrlBtn = document.getElementById('copyPdfUrlBtn');
+      const copyRawUrlBtn = document.getElementById('copyRawUrlBtn');
+      const copyRawTextBtn = document.getElementById('copyRawTextBtn');
+      const openAiPromptBtn = document.getElementById('openAiPromptBtn');
+      const openHostedBtn = document.getElementById('openHostedBtn');
+      const aiPlatform = document.getElementById('aiPlatform');
+      const openAiStatus = document.getElementById('openAiStatus');
 
-  if(chapter1DocBtn){
-    chapter1DocBtn.addEventListener('click', () => {
-      openAndDownload(chapter1DocBtn.dataset.url);
-      flashCopied(chapter1DocBtn, true, 'Downloaded + Opened');
-    });
-  }
+      const platformUrls = {
+        chatgpt: 'https://chat.openai.com/',
+        grok: 'https://grok.com/',
+        perplexity: 'https://www.perplexity.ai/'
+      };
 
-  if(crucifixionPdfBtn){
-    crucifixionPdfBtn.addEventListener('click', () => {
-      openAndDownload(crucifixionPdfBtn.dataset.url);
-      flashCopied(crucifixionPdfBtn, true, 'Downloaded + Opened');
-    });
-  }
+      if(copyRenderedBtn){
+        copyRenderedBtn.addEventListener('click', async () => {
+          const ok = await copyTextToClipboard(RENDERED_URL);
+          flashCopied(copyRenderedBtn, ok);
+        });
+      }
 
-  if(crucifixionDocxBtn){
-    crucifixionDocxBtn.addEventListener('click', () => {
-      openAndDownload(crucifixionDocxBtn.dataset.url);
-      flashCopied(crucifixionDocxBtn, true, 'Downloaded + Opened');
-    });
-  }
+      if(copyPdfUrlBtn){
+        copyPdfUrlBtn.addEventListener('click', async () => {
+          const ok = await copyTextToClipboard(PDF_URL);
+          flashCopied(copyPdfUrlBtn, ok);
+        });
+      }
 
-  document.querySelectorAll('#aiListContainer .ai-btn').forEach(a => {
-    a.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const href = e.currentTarget.getAttribute('href');
-      await copyTextToClipboard(makePrompt());
-      window.open(href, '_blank', 'noopener');
+      if(copyRawUrlBtn){
+        copyRawUrlBtn.addEventListener('click', async () => {
+          const ok = await copyTextToClipboard(RAW_URL);
+          flashCopied(copyRawUrlBtn, ok);
+        });
+      }
+
+      if(copyRawTextBtn){
+        copyRawTextBtn.addEventListener('click', async () => {
+          try {
+            const txt = await fetchRawKit();
+            const ok = await copyTextToClipboard(txt);
+            flashCopied(copyRawTextBtn, ok, 'Raw Text Copied');
+          } catch {
+            flashCopied(copyRawTextBtn, false);
+          }
+        });
+      }
+
+      if(openAiPromptBtn){
+        openAiPromptBtn.addEventListener('click', async () => {
+          const selected = (aiPlatform && aiPlatform.value) ? aiPlatform.value : 'chatgpt';
+          const targetUrl = platformUrls[selected] || platformUrls.chatgpt;
+          const platformName = selected.charAt(0).toUpperCase() + selected.slice(1);
+
+          const ok = await copyTextToClipboard(makePrompt());
+          if(openAiStatus){
+            openAiStatus.textContent = ok
+              ? `Prompt copied. Paste into ${platformName}.`
+              : 'Clipboard copy failed. Copy manually if needed.';
+          }
+
+          safeOpen(targetUrl, openAiStatus);
+          flashCopied(openAiPromptBtn, ok, 'Prompt Copied + Opened');
+        });
+      }
+
+      if(openHostedBtn){
+        openHostedBtn.addEventListener('click', () => safeOpen(RENDERED_URL, openAiStatus));
+      }
+
+      document.querySelectorAll('#aiListContainer .ai-btn').forEach(a => {
+        a.addEventListener('click', async (e) => {
+          e.preventDefault();
+          const href = e.currentTarget.getAttribute('href');
+          await copyTextToClipboard(makePrompt());
+          safeOpen(href, openAiStatus);
+        });
+      });
     });
-  });
-});
-</script>
+  </script>
 </body>
 </html>
