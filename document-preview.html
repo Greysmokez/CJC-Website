@@ -218,6 +218,10 @@
       documentDescription.textContent = selectedDocument.description;
       openWordBtn.href = previewAvailable ? viewerUrl : downloadUrl;
       downloadWordBtn.href = downloadUrl;
+      if (!previewAvailable) {
+        openWordBtn.textContent = 'Open Word file';
+        openWordBtn.setAttribute('aria-label', 'Open the Word file in a new tab');
+      }
 
       documentActions.classList.remove('hidden');
       if (previewAvailable) {
