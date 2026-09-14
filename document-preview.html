@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supporting Document Reader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --parchment:#F6F1E4;
+      --parchment-deep:#EDE4CE;
+      --ink:#2B2318;
+      --ink-soft:#5B4F3E;
+      --gold:#9C7A3C;
+      --gold-line:#C9A961;
+      --action:#4B5A45;
+      --action-hover:#39443a;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:'Source Sans 3', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:var(--parchment);
+      background-image:
+        radial-gradient(ellipse at top left, rgba(156,122,60,0.06), transparent 55%),
+        radial-gradient(ellipse at bottom right, rgba(75,90,69,0.06), transparent 55%);
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:28px 20px 40px;
+    }
+    .panel{
+      background:var(--parchment-deep);
+      border:1px solid var(--gold-line);
+      border-radius:10px;
+      padding:20px;
+      box-shadow:0 10px 24px rgba(43,35,24,0.08);
+    }
+    .eyebrow{
+      font-size:.9rem;
+      letter-spacing:.05em;
+      color:var(--ink-soft);
+      text-transform:uppercase;
+      margin:0 0 8px;
+    }
+    h1{
+      font-family:'Spectral', serif;
+      font-weight:500;
+      font-size:2rem;
+      margin:0 0 10px;
+    }
+    .subhead{
+      color:var(--ink-soft);
+      font-size:1rem;
+      margin:0 0 18px;
+      line-height:1.5;
+    }
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:18px;
+    }
+    .doc-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:160px;
+      padding:11px 14px;
+      border:1px solid var(--gold-line);
+      background:var(--parchment);
+      color:var(--ink);
+      border-radius:6px;
+      font-size:.92rem;
+      font-weight:600;
+      text-decoration:none;
+      text-align:center;
+    }
+    .doc-btn:hover{ background:#f0e8d8; }
+    .doc-btn.primary{
+      background:var(--action);
+      border-color:var(--action);
+      color:#fff;
+    }
+    .doc-btn.primary:hover{ background:var(--action-hover); }
+    .note{
+      margin:0 0 18px;
+      padding:12px 14px;
+      border-left:4px solid var(--gold);
+      background:rgba(255,255,255,0.45);
+      border-radius:6px;
+      color:var(--ink-soft);
+      line-height:1.5;
+    }
+    .viewer-shell{
+      border:1px solid var(--gold-line);
+      border-radius:10px;
+      overflow:hidden;
+      background:#fffdf7;
+      min-height:70vh;
+    }
+    .viewer{
+      width:100%;
+      height:70vh;
+      border:0;
+      background:#fff;
+    }
+    .fallback{
+      margin-top:14px;
+      color:var(--ink-soft);
+      font-size:.95rem;
+      line-height:1.5;
+    }
+    .hidden{ display:none; }
+    @media (max-width:720px){
+      .wrap{ padding:20px 14px 28px; }
+      h1{ font-size:1.6rem; }
+      .viewer, .viewer-shell{ min-height:60vh; }
+      .viewer{ height:60vh; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="panel">
+      <p class="eyebrow">Supporting Document Reader</p>
+      <h1 id="documentTitle">Loading document…</h1>
+      <p class="subhead" id="documentDescription">Preparing a browser-friendly Word reader for this supporting document.</p>
+      <div class="actions hidden" id="documentActions">
+        <a class="doc-btn primary" id="openWordBtn" href="#" target="_blank" rel="noopener">Open original Word file</a>
+        <a class="doc-btn" id="downloadWordBtn" href="#" download>Download Word</a>
+        <a class="doc-btn" href="index.html#supporting-documents">Back to Supporting Documents</a>
+      </div>
+      <p class="note" id="documentNote">
+        If the preview does not appear in your browser, use the Open original Word file or Download Word buttons above.
+      </p>
+      <div class="viewer-shell hidden" id="viewerShell">
+        <iframe
+          id="documentViewer"
+          class="viewer"
+          title="Supporting document reader"
+          loading="lazy"
+          referrerpolicy="no-referrer">
+        </iframe>
+      </div>
+      <p class="fallback" id="documentFallback">
+        This reader opens the Word document in a clean browser viewer when available and keeps direct Word links available as a fallback.
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const DOCUMENTS = {
+      chapter1: {
+        title: 'Chapter 1 — Scriptures Core Calendar Framework',
+        description: 'Read Chapter 1 in a clean browser tab, or use the direct Word download if you prefer to open it locally.',
+        wordPath: 'Chapter1.docx'
+      },
+      crucifixion: {
+        title: 'The Crucifixion Date of Jesus: Messiah and Son of God',
+        description: 'Read the Crucifixion supporting document in a clean browser tab, or download the Word file directly.',
+        wordPath: 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/Crucifixion.docx'
+      },
+      isaiah61: {
+        title: 'Messiah\'s reading of Isaiah 61',
+        description: 'Read the Isaiah 61 supporting document in a clean browser tab, or download the Word file directly.',
+        wordPath: 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/Isaiah61CJCMath.docx'
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const documentKey = params.get('doc');
+    const selectedDocument = DOCUMENTS[documentKey];
+
+    const documentTitle = document.getElementById('documentTitle');
+    const documentDescription = document.getElementById('documentDescription');
+    const documentActions = document.getElementById('documentActions');
+    const openWordBtn = document.getElementById('openWordBtn');
+    const downloadWordBtn = document.getElementById('downloadWordBtn');
+    const viewerShell = document.getElementById('viewerShell');
+    const documentViewer = document.getElementById('documentViewer');
+    const documentFallback = document.getElementById('documentFallback');
+
+    if (!selectedDocument) {
+      document.title = 'Supporting Document Not Found';
+      documentTitle.textContent = 'Supporting document not found';
+      documentDescription.textContent = 'The requested document preview link is missing or invalid. Please return to the homepage and choose one of the listed supporting documents.';
+      documentFallback.textContent = 'Return to the Supporting Documents section to open a valid document reader.';
+    } else {
+      const wordUrl = new URL(selectedDocument.wordPath, window.location.href).href;
+      const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(wordUrl)}`;
+
+      document.title = `${selectedDocument.title} — Supporting Document Reader`;
+      documentTitle.textContent = selectedDocument.title;
+      documentDescription.textContent = selectedDocument.description;
+      openWordBtn.href = wordUrl;
+      downloadWordBtn.href = wordUrl;
+      documentViewer.src = viewerUrl;
+      viewerShell.classList.remove('hidden');
+      documentActions.classList.remove('hidden');
+      documentFallback.textContent = 'If your browser blocks the embedded preview or the viewer service is unavailable, use the Word links above to continue reading or save the document.';
+    }
+  </script>
+</body>
+</html>
