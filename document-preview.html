@@ -130,7 +130,7 @@
     <section class="panel">
       <p class="eyebrow">Supporting Document Reader</p>
       <h1 id="documentTitle">Loading document…</h1>
-      <p class="subhead" id="documentDescription">Preparing a browser-friendly Word reader for this supporting document.</p>
+      <p class="subhead" id="documentDescription">Preparing a Microsoft Office Online preview for this supporting document.</p>
       <div class="actions hidden" id="documentActions">
         <button class="doc-btn" id="loadPreviewBtn" type="button">Load browser preview</button>
         <a class="doc-btn primary" id="openWordBtn" href="#" target="_blank" rel="noopener">Open original Word file</a>
@@ -143,7 +143,7 @@
       <p class="note" id="documentNote">
         If the preview does not appear in your browser, use the Open original Word file or Download Word buttons above.
       </p>
-      <div class="viewer-shell hidden" id="viewerShell">
+      <div class="viewer-shell hidden" id="viewerShell" tabindex="-1">
         <iframe
           id="documentViewer"
           class="viewer"
@@ -155,7 +155,7 @@
         </iframe>
       </div>
       <p class="fallback" id="documentFallback">
-        This reader opens the Word document in a clean browser viewer when available and keeps direct Word links available as a fallback.
+        This reader can load a Microsoft Office Online Word preview when available and keeps direct Word links available as a fallback.
       </p>
     </section>
   </main>
@@ -164,17 +164,17 @@
     const DOCUMENTS = {
       chapter1: {
         title: 'Chapter 1 — Scriptures Core Calendar Framework',
-        description: 'Read Chapter 1 in a clean browser tab, or use the direct Word download if you prefer to open it locally.',
+        description: 'Open Chapter 1 in this browser tab, then load the Microsoft Office Online preview or use the direct Word download if you prefer to open it locally.',
         wordPath: './Chapter1.docx'
       },
       crucifixion: {
         title: 'The Crucifixion Date of Jesus: Messiah and Son of God',
-        description: 'Read the Crucifixion supporting document in a clean browser tab, or download the Word file directly.',
+        description: 'Open the Crucifixion supporting document in this browser tab, then load the Microsoft Office Online preview or download the Word file directly.',
         wordPath: './Crucifixion.docx'
       },
       isaiah61: {
         title: 'Messiah\'s reading of Isaiah 61',
-        description: 'Read the Isaiah 61 supporting document in a clean browser tab, or download the Word file directly.',
+        description: 'Open the Isaiah 61 supporting document in this browser tab, then load the Microsoft Office Online preview or download the Word file directly.',
         wordPath: './Isaiah61CJCMath.docx'
       }
     };
@@ -220,7 +220,7 @@
           documentViewer.src = viewerUrl;
           viewerShell.classList.remove('hidden');
           loadPreviewBtn.classList.add('hidden');
-          openWordBtn.focus();
+          viewerShell.focus();
         }, { once: true });
         documentFallback.textContent = 'Use “Load browser preview” to open an embedded reader powered by Microsoft Office Online, or use the Word links above to continue without loading a third-party preview.';
       } else {
