@@ -211,7 +211,10 @@
       const encodedWordPath = wordFileName.split('/').map(segment => encodeURIComponent(segment)).join('/');
       const encodedRef = encodeURIComponent(documentRef);
       const pagesMatch = window.location.origin.match(/^https:\/\/([^/.]+)\.github\.io$/);
-      const pagesRepo = window.location.pathname.split('/').filter(Boolean)[0];
+      const pathSegments = window.location.pathname.split('/').filter(Boolean);
+      const pagesRepo = pagesMatch
+        ? (pathSegments.length > 1 ? pathSegments[0] : `${pagesMatch[1]}.github.io`)
+        : '';
       const previewSourceUrl = (pagesMatch && pagesRepo)
         ? `https://raw.githubusercontent.com/${pagesMatch[1]}/${pagesRepo}/${encodedRef}/${encodedWordPath}`
         : downloadUrl;
