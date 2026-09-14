@@ -215,12 +215,10 @@
       documentDescription.textContent = selectedDocument.description;
       openWordBtn.href = downloadUrl;
       downloadWordBtn.href = downloadUrl;
-      const isCanonicalPagesOrigin =
-        window.location.origin === 'https://greysmokez.github.io' &&
-        window.location.pathname.startsWith('/CJC-Website/');
+      const previewAvailable = isPublicHttpOrigin && /^https?:\/\//.test(downloadUrl);
 
       documentActions.classList.remove('hidden');
-      if (isPublicHttpOrigin && isCanonicalPagesOrigin) {
+      if (previewAvailable) {
         loadPreviewBtn.classList.remove('hidden');
         const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(downloadUrl)}`;
         loadPreviewBtn.addEventListener('click', () => {
@@ -232,7 +230,7 @@
         documentFallback.textContent = 'Use “Load browser preview” to open an embedded reader powered by Microsoft Office Online, or use the Word links above to continue without loading a third-party preview.';
       } else {
         loadPreviewBtn.classList.add('hidden');
-        documentFallback.textContent = 'Embedded preview is available from the hosted GitHub Pages site. Use the Word links above to open or download this document from your current environment.';
+        documentFallback.textContent = 'Embedded preview is available only when this document is being served from a public HTTP(S) URL. Use the Word links above to open or download this document from your current environment.';
       }
     }
   </script>
