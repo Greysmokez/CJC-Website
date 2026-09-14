@@ -134,6 +134,9 @@
         <a class="doc-btn" id="downloadWordBtn" href="#" download>Download Word</a>
         <a class="doc-btn" href="index.html#supporting-documents">Back to Supporting Documents</a>
       </div>
+      <div class="actions hidden" id="errorActions">
+        <a class="doc-btn" href="index.html#supporting-documents">Back to Supporting Documents</a>
+      </div>
       <p class="note" id="documentNote">
         If the preview does not appear in your browser, use the Open original Word file or Download Word buttons above.
       </p>
@@ -163,12 +166,14 @@
       crucifixion: {
         title: 'The Crucifixion Date of Jesus: Messiah and Son of God',
         description: 'Read the Crucifixion supporting document in a clean browser tab, or download the Word file directly.',
-        wordPath: 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/Crucifixion.docx'
+        wordPath: 'Crucifixion.docx',
+        publicWordUrl: 'https://raw.githubusercontent.com/Greysmokez/CJC-Website/main/Crucifixion.docx'
       },
       isaiah61: {
         title: 'Messiah\'s reading of Isaiah 61',
         description: 'Read the Isaiah 61 supporting document in a clean browser tab, or download the Word file directly.',
-        wordPath: 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/Isaiah61CJCMath.docx'
+        wordPath: 'Isaiah61CJCMath.docx',
+        publicWordUrl: 'https://raw.githubusercontent.com/Greysmokez/CJC-Website/main/Isaiah61CJCMath.docx'
       }
     };
 
@@ -179,6 +184,7 @@
     const documentTitle = document.getElementById('documentTitle');
     const documentDescription = document.getElementById('documentDescription');
     const documentActions = document.getElementById('documentActions');
+    const errorActions = document.getElementById('errorActions');
     const openWordBtn = document.getElementById('openWordBtn');
     const downloadWordBtn = document.getElementById('downloadWordBtn');
     const viewerShell = document.getElementById('viewerShell');
@@ -190,18 +196,20 @@
       documentTitle.textContent = 'Supporting document not found';
       documentDescription.textContent = 'The requested document preview link is missing or invalid. Please return to the homepage and choose one of the listed supporting documents.';
       documentFallback.textContent = 'Return to the Supporting Documents section to open a valid document reader.';
+      errorActions.classList.remove('hidden');
     } else {
       const isLocalHost = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
+      const downloadUrl = new URL(selectedDocument.wordPath, window.location.href).href;
       const wordUrl = (!isLocalHost && selectedDocument.publicWordUrl)
         ? selectedDocument.publicWordUrl
-        : new URL(selectedDocument.wordPath, window.location.href).href;
+        : downloadUrl;
       const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(wordUrl)}`;
 
       document.title = `${selectedDocument.title} — Supporting Document Reader`;
       documentTitle.textContent = selectedDocument.title;
       documentDescription.textContent = selectedDocument.description;
       openWordBtn.href = wordUrl;
-      downloadWordBtn.href = wordUrl;
+      downloadWordBtn.href = downloadUrl;
       documentViewer.src = viewerUrl;
       viewerShell.classList.remove('hidden');
       documentActions.classList.remove('hidden');
