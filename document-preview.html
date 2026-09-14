@@ -26,12 +26,10 @@
     const RAW_REPO_OWNER = 'Greysmokez';
     const RAW_REPO_NAME = 'Continuous-Jubilee-Calendar';
     const RAW_REPO_BRANCH = 'main';
-    const LOCAL_SITE_DOC_BASE_URL = 'https://greysmokez.github.io/CJC-Website';
     const ALLOWED_FILES = new Set(['Chapter1.docx', 'Crucifixion.docx', 'Isaiah61CJCMath.docx']);
 
     const params = new URLSearchParams(window.location.search);
     const file = params.get('file') || '';
-    const source = params.get('source') || 'remote';
     const docName = document.getElementById('docName');
     const downloadBtn = document.getElementById('downloadBtn');
     const previewFrame = document.getElementById('previewFrame');
@@ -41,13 +39,10 @@
       previewFrame.hidden = true;
       message.hidden = false;
     } else {
-      const useSiteSource = source === 'site' && file === 'Chapter1.docx';
-      const rawSource = useSiteSource
-        ? `${LOCAL_SITE_DOC_BASE_URL}/${file}`
-        : `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${file}`;
+      const rawSource = `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${encodeURIComponent(file)}`;
       const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(rawSource)}`;
       docName.textContent = file;
-      downloadBtn.href = useSiteSource ? rawSource : `./${file}`;
+      downloadBtn.href = rawSource;
       previewFrame.src = officeUrl;
     }
   </script>
