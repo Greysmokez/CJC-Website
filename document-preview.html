@@ -179,8 +179,10 @@
 
     const params = new URLSearchParams(window.location.search);
     const documentKey = params.get('doc');
-    const documentRef = params.get('ref') || 'main';
     const selectedDocument = DOCUMENTS[documentKey];
+    const RAW_REPO_OWNER = 'Greysmokez';
+    const RAW_REPO_NAME = 'CJC-Website';
+    const RAW_REPO_REF = 'main';
 
     const documentTitle = document.getElementById('documentTitle');
     const documentDescription = document.getElementById('documentDescription');
@@ -209,15 +211,8 @@
       const downloadUrl = new URL(selectedDocument.wordPath, documentBaseUrl).href;
       const wordFileName = selectedDocument.wordPath.replace(/^\.\//, '');
       const encodedWordPath = wordFileName.split('/').map(segment => encodeURIComponent(segment)).join('/');
-      const encodedRef = encodeURIComponent(documentRef);
-      const pagesMatch = window.location.origin.match(/^https:\/\/([^/.]+)\.github\.io$/);
-      const pathSegments = window.location.pathname.split('/').filter(Boolean);
-      const pagesRepo = pagesMatch
-        ? (pathSegments.length > 1 ? pathSegments[0] : `${pagesMatch[1]}.github.io`)
-        : '';
-      const previewSourceUrl = (pagesMatch && pagesRepo)
-        ? `https://raw.githubusercontent.com/${pagesMatch[1]}/${pagesRepo}/${encodedRef}/${encodedWordPath}`
-        : downloadUrl;
+      const encodedRef = encodeURIComponent(RAW_REPO_REF);
+      const previewSourceUrl = `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${encodedRef}/${encodedWordPath}`;
       const previewAvailable =
         window.location.protocol === 'https:' &&
         /^https:\/\//.test(previewSourceUrl) &&
