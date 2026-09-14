@@ -26,22 +26,48 @@
     const RAW_REPO_OWNER = 'Greysmokez';
     const RAW_REPO_NAME = 'Continuous-Jubilee-Calendar';
     const RAW_REPO_BRANCH = 'main';
-    const ALLOWED_FILES = new Set(['Chapter1.docx', 'Crucifixion.docx', 'Isaiah61CJCMath.docx']);
+
+    // Backward-compatible aliases for legacy query values.
+    // Update values to real paths in Continuous-Jubilee-Calendar as needed.
+    const FILE_ALIASES = {
+      'Chapter1.docx': 'docs/Chapter1.docx',
+      'Crucifixion.docx': 'docs/Crucifixion.docx',
+      'Isaiah61CJCMath.docx': 'docs/Isaiah61CJCMath.docx'
+    };
 
     const params = new URLSearchParams(window.location.search);
-    const file = params.get('file') || '';
+    const requestedFile = (params.get('file') || '').trim();
     const docName = document.getElementById('docName');
     const downloadBtn = document.getElementById('downloadBtn');
     const previewFrame = document.getElementById('previewFrame');
     const message = document.getElementById('message');
 
-    if (!ALLOWED_FILES.has(file)) {
+    // Allow either legacy aliases or explicit subfolder paths.
+    // Basic safety: no absolute URLs and no path traversal.
+    const isSafeRelativePath = (value) => {
+      if (!value) return false;
+      if (value.includes('..')) return false;
+      if (value.startsWith('/') || value.startsWith('\\')) return false;
+      if (/^[a-zA-Z]+:\/\//.test(value)) return false;
+      return value.toLowerCase().endsWith('.docx');
+    };
+
+    const normalizedPath = FILE_ALIASES[requestedFile] || requestedFile;
+
+    if (!isSafeRelativePath(normalizedPath)) {
       previewFrame.hidden = true;
       message.hidden = false;
+      message.textContent = 'Invalid document requested.';
     } else {
-      const rawSource = `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${encodeURIComponent(file)}`;
+      const encodedPath = normalizedPath
+        .split('/')
+        .map(segment => encodeURIComponent(segment))
+        .join('/');
+
+      const rawSource = `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${encodedPath}`;
       const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(rawSource)}`;
-      docName.textContent = file;
+
+      docName.textContent = requestedFile || normalizedPath;
       downloadBtn.href = rawSource;
       previewFrame.src = officeUrl;
     }
