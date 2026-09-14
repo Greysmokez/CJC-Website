@@ -19,7 +19,7 @@
     <a id="downloadBtn" class="btn secondary" download>Download Word</a>
     <a href="./index.html#supporting-documents" class="btn">Back to Homepage</a>
   </header>
-  <iframe id="previewFrame" title="Word document preview"></iframe>
+  <iframe id="previewFrame" title="Document preview"></iframe>
   <div id="message" hidden>Invalid or unsupported document requested.</div>
 
   <script>
@@ -28,9 +28,10 @@
     const RAW_REPO_BRANCH = 'main';
 
     // Backward-compatible aliases for legacy query values.
-    // Update values to real paths in Continuous-Jubilee-Calendar as needed.
+    // Chapter 1 now points to PDF content (no Office Word embed).
     const FILE_ALIASES = {
-      'Chapter1.docx': 'docs/Chapter1.docx',
+      'Chapter1.docx': 'chapter1.html',
+      'Chapter1.pdf': 'chapter1.html',
       'Crucifixion.docx': 'docs/Crucifixion.docx',
       'Isaiah61CJCMath.docx': 'docs/Isaiah61CJCMath.docx'
     };
@@ -42,14 +43,12 @@
     const previewFrame = document.getElementById('previewFrame');
     const message = document.getElementById('message');
 
-    // Allow either legacy aliases or explicit subfolder paths.
-    // Basic safety: no absolute URLs and no path traversal.
     const isSafeRelativePath = (value) => {
       if (!value) return false;
       if (value.includes('..')) return false;
       if (value.startsWith('/') || value.startsWith('\\')) return false;
       if (/^[a-zA-Z]+:\/\//.test(value)) return false;
-      return value.toLowerCase().endsWith('.docx');
+      return /\.(docx|pdf|html)$/i.test(value);
     };
 
     const normalizedPath = FILE_ALIASES[requestedFile] || requestedFile;
@@ -65,11 +64,22 @@
         .join('/');
 
       const rawSource = `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${encodedPath}`;
-      const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(rawSource)}`;
+      const pagesSource = `https://${RAW_REPO_OWNER.toLowerCase()}.github.io/${RAW_REPO_NAME}/${encodedPath}`;
+      const isWord = normalizedPath.toLowerCase().endsWith('.docx');
 
       docName.textContent = requestedFile || normalizedPath;
-      downloadBtn.href = rawSource;
-      previewFrame.src = officeUrl;
+
+      // Keep download button visible as requested.
+      downloadBtn.href = isWord ? rawSource : pagesSource;
+
+      if (isWord) {
+        // Continue using Office viewer for DOCX files.
+        const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(rawSource)}`;
+        previewFrame.src = officeUrl;
+      } else {
+        // Remove Open-in-Word behavior for Chapter 1/PDF paths.
+        previewFrame.src = pagesSource;
+      }
     }
   </script>
 </body>
