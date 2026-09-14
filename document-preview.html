@@ -132,9 +132,9 @@
       <h1 id="documentTitle">Loading document…</h1>
       <p class="subhead" id="documentDescription">Preparing a Microsoft Office Online preview for this supporting document.</p>
       <div class="actions hidden" id="documentActions">
-        <button class="doc-btn" id="loadPreviewBtn" type="button">Load browser preview</button>
-        <a class="doc-btn primary" id="openWordBtn" href="#" target="_blank" rel="noopener">Open original Word file</a>
-        <a class="doc-btn" id="downloadWordBtn" href="#" download>Download Word</a>
+        <button class="doc-btn" id="loadPreviewBtn" type="button" aria-label="Load browser preview using Microsoft Office Online">Load browser preview</button>
+        <a class="doc-btn primary" id="openWordBtn" href="#" target="_blank" rel="noopener" aria-label="Open original Word file in a new tab">Open original Word file</a>
+        <a class="doc-btn" id="downloadWordBtn" href="#" download aria-label="Download the original Word file">Download Word</a>
         <a class="doc-btn" href="index.html#supporting-documents">Back to Supporting Documents</a>
       </div>
       <div class="actions hidden" id="errorActions">
@@ -165,17 +165,20 @@
       chapter1: {
         title: 'Chapter 1 — Scriptures Core Calendar Framework',
         description: 'Open Chapter 1 in this browser tab, then load the Microsoft Office Online preview or use the direct Word download if you prefer to open it locally.',
-        wordPath: './Chapter1.docx'
+        wordPath: './Chapter1.docx',
+        previewUrl: 'https://greysmokez.github.io/CJC-Website/Chapter1.docx'
       },
       crucifixion: {
         title: 'The Crucifixion Date of Jesus: Messiah and Son of God',
         description: 'Open the Crucifixion supporting document in this browser tab, then load the Microsoft Office Online preview or download the Word file directly.',
-        wordPath: './Crucifixion.docx'
+        wordPath: './Crucifixion.docx',
+        previewUrl: 'https://greysmokez.github.io/CJC-Website/Crucifixion.docx'
       },
       isaiah61: {
         title: 'Messiah\'s reading of Isaiah 61',
         description: 'Open the Isaiah 61 supporting document in this browser tab, then load the Microsoft Office Online preview or download the Word file directly.',
-        wordPath: './Isaiah61CJCMath.docx'
+        wordPath: './Isaiah61CJCMath.docx',
+        previewUrl: 'https://greysmokez.github.io/CJC-Website/Isaiah61CJCMath.docx'
       }
     };
 
@@ -218,7 +221,7 @@
       documentActions.classList.remove('hidden');
       if (isPublicHttpOrigin) {
         loadPreviewBtn.classList.remove('hidden');
-        const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(downloadUrl)}`;
+        const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(selectedDocument.previewUrl)}`;
         loadPreviewBtn.addEventListener('click', () => {
           documentViewer.src = viewerUrl;
           viewerShell.classList.remove('hidden');
