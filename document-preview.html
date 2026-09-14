@@ -181,7 +181,7 @@
     const documentKey = params.get('doc');
     const selectedDocument = DOCUMENTS[documentKey];
     const RAW_REPO_OWNER = 'Greysmokez';
-    const RAW_REPO_NAME = 'CJC-Website';
+    const RAW_REPO_NAME = 'Continuous-Jubilee-Calendar';
     const RAW_REPO_REF = 'main';
 
     const documentTitle = document.getElementById('documentTitle');
@@ -204,11 +204,7 @@
       errorActions.classList.remove('hidden');
     } else {
       document.title = `${selectedDocument.title} — Supporting Document Reader`;
-      const currentDocumentUrl = window.location.protocol === 'file:'
-        ? window.location.href.split(/[?#]/)[0]
-        : `${window.location.origin}${window.location.pathname}`;
-      const documentBaseUrl = new URL('.', currentDocumentUrl).href;
-      const downloadUrl = new URL(selectedDocument.wordPath, documentBaseUrl).href;
+      const downloadHref = selectedDocument.wordPath.replace(/^\.\//, '');
       const wordFileName = selectedDocument.wordPath.replace(/^\.\//, '');
       const encodedWordPath = wordFileName.split('/').map(segment => encodeURIComponent(segment)).join('/');
       const encodedRef = encodeURIComponent(RAW_REPO_REF);
@@ -222,7 +218,7 @@
       documentTitle.textContent = selectedDocument.title;
       documentDescription.textContent = selectedDocument.description;
       openWordBtn.href = viewerUrl;
-      downloadWordBtn.href = downloadUrl;
+      downloadWordBtn.href = downloadHref;
 
       documentActions.classList.remove('hidden');
       if (previewAvailable) {
@@ -238,7 +234,7 @@
         }, { once: true });
         documentFallback.textContent = 'Use “Load browser preview” to open an embedded reader powered by Microsoft Office Online, or use the Word links above to continue without loading a third-party preview.';
       } else {
-        openWordBtn.href = downloadUrl;
+        openWordBtn.href = downloadHref;
         openWordBtn.textContent = 'Open Word file';
         openWordBtn.setAttribute('aria-label', 'Open the original Word file in a new tab');
         openWordBtn.classList.remove('hidden');
