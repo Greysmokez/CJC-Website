@@ -40,7 +40,8 @@
       previewFrame.hidden = true;
       message.hidden = false;
     } else {
-      const rawSource = source === 'local'
+      const useLocalSource = source === 'local' && file === 'Chapter1.docx';
+      const rawSource = useLocalSource
         ? new URL(`./${file}`, window.location.href).href
         : `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${file}`;
       const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(rawSource)}`;
