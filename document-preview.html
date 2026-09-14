@@ -157,7 +157,8 @@
       chapter1: {
         title: 'Chapter 1 — Scriptures Core Calendar Framework',
         description: 'Read Chapter 1 in a clean browser tab, or use the direct Word download if you prefer to open it locally.',
-        wordPath: 'Chapter1.docx'
+        wordPath: 'Chapter1.docx',
+        publicWordUrl: 'https://raw.githubusercontent.com/Greysmokez/CJC-Website/main/Chapter1.docx'
       },
       crucifixion: {
         title: 'The Crucifixion Date of Jesus: Messiah and Son of God',
@@ -190,7 +191,10 @@
       documentDescription.textContent = 'The requested document preview link is missing or invalid. Please return to the homepage and choose one of the listed supporting documents.';
       documentFallback.textContent = 'Return to the Supporting Documents section to open a valid document reader.';
     } else {
-      const wordUrl = new URL(selectedDocument.wordPath, window.location.href).href;
+      const isLocalHost = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
+      const wordUrl = (!isLocalHost && selectedDocument.publicWordUrl)
+        ? selectedDocument.publicWordUrl
+        : new URL(selectedDocument.wordPath, window.location.href).href;
       const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(wordUrl)}`;
 
       document.title = `${selectedDocument.title} — Supporting Document Reader`;
