@@ -133,7 +133,7 @@
       <p class="subhead" id="documentDescription">Preparing a Microsoft Office Online preview for this supporting document.</p>
       <div class="actions hidden" id="documentActions">
         <button class="doc-btn" id="loadPreviewBtn" type="button" aria-label="Load browser preview using Microsoft Office Online">Load browser preview</button>
-        <a class="doc-btn primary" id="openWordBtn" href="#" target="_blank" rel="noopener" aria-label="Open original Word file in a new tab">Open original Word file</a>
+        <a class="doc-btn primary" id="openWordBtn" href="#" target="_blank" rel="noopener" aria-label="Open the browser preview in a new tab">Open browser preview</a>
         <a class="doc-btn" id="downloadWordBtn" href="#" download aria-label="Download the original Word file">Download Word</a>
         <a class="doc-btn" href="index.html#supporting-documents">Back to Supporting Documents</a>
       </div>
@@ -141,7 +141,7 @@
         <a class="doc-btn" href="index.html#supporting-documents">Back to Supporting Documents</a>
       </div>
       <p class="note" id="documentNote">
-        If the preview does not appear in your browser, use the Open original Word file or Download Word buttons above.
+        If the preview does not appear in your browser, use the Open browser preview or Download Word buttons above.
       </p>
       <div class="viewer-shell hidden" id="viewerShell" tabindex="-1">
         <iframe
@@ -149,7 +149,8 @@
           class="viewer"
           title="Supporting document reader"
           loading="lazy"
-          referrerpolicy="no-referrer">
+          referrerpolicy="no-referrer"
+          sandbox="allow-downloads allow-forms allow-popups allow-same-origin allow-scripts">
           This embedded preview could not be loaded in your browser. Please use the
           <a href="index.html#supporting-documents">Supporting Documents</a> links or the Word buttons on this page instead.
         </iframe>
@@ -202,17 +203,18 @@
       errorActions.classList.remove('hidden');
     } else {
       document.title = `${selectedDocument.title} — Supporting Document Reader`;
-      documentTitle.textContent = selectedDocument.title;
-      documentDescription.textContent = selectedDocument.description;
-      openWordBtn.href = selectedDocument.publicWordUrl;
-      downloadWordBtn.href = selectedDocument.publicWordUrl;
       const previewAvailable =
         /^https:\/\//.test(selectedDocument.publicWordUrl);
+      const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(selectedDocument.publicWordUrl)}`;
+
+      documentTitle.textContent = selectedDocument.title;
+      documentDescription.textContent = selectedDocument.description;
+      openWordBtn.href = previewAvailable ? viewerUrl : selectedDocument.publicWordUrl;
+      downloadWordBtn.href = selectedDocument.publicWordUrl;
 
       documentActions.classList.remove('hidden');
       if (previewAvailable) {
         loadPreviewBtn.classList.remove('hidden');
-        const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(selectedDocument.publicWordUrl)}`;
         loadPreviewBtn.addEventListener('click', () => {
           documentViewer.src = viewerUrl;
           viewerShell.classList.remove('hidden');
