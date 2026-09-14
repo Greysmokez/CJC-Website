@@ -149,6 +149,7 @@
           class="viewer"
           title="Supporting document reader"
           loading="lazy"
+          tabindex="-1"
           referrerpolicy="no-referrer">
           This embedded preview could not be loaded in your browser. Please use the
           <a href="index.html#supporting-documents">Supporting Documents</a> links or the Word buttons on this page instead.
@@ -219,6 +220,7 @@
           documentViewer.src = viewerUrl;
           viewerShell.classList.remove('hidden');
           loadPreviewBtn.classList.add('hidden');
+          documentViewer.focus();
         }, { once: true });
         documentFallback.textContent = 'Use “Load browser preview” to open an embedded reader powered by Microsoft Office Online, or use the Word links above to continue without loading a third-party preview.';
       } else {
