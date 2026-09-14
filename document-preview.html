@@ -26,6 +26,7 @@
     const RAW_REPO_OWNER = 'Greysmokez';
     const RAW_REPO_NAME = 'Continuous-Jubilee-Calendar';
     const RAW_REPO_BRANCH = 'main';
+    const LOCAL_SITE_DOC_BASE_URL = 'https://greysmokez.github.io/CJC-Website';
     const ALLOWED_FILES = new Set(['Chapter1.docx', 'Crucifixion.docx', 'Isaiah61CJCMath.docx']);
 
     const params = new URLSearchParams(window.location.search);
@@ -42,7 +43,7 @@
     } else {
       const useLocalSource = source === 'local' && file === 'Chapter1.docx';
       const rawSource = useLocalSource
-        ? new URL(`./${file}`, window.location.href).href
+        ? `${LOCAL_SITE_DOC_BASE_URL}/${file}`
         : `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${file}`;
       const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(rawSource)}`;
       docName.textContent = file;
