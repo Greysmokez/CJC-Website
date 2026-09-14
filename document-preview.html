@@ -219,6 +219,8 @@
 
       documentActions.classList.remove('hidden');
       if (previewAvailable) {
+        openWordBtn.textContent = 'Open browser preview';
+        openWordBtn.setAttribute('aria-label', 'Open the browser preview in a new tab');
         openWordBtn.classList.remove('hidden');
         loadPreviewBtn.classList.remove('hidden');
         loadPreviewBtn.addEventListener('click', () => {
@@ -229,7 +231,10 @@
         }, { once: true });
         documentFallback.textContent = 'Use “Load browser preview” to open an embedded reader powered by Microsoft Office Online, or use the Word links above to continue without loading a third-party preview.';
       } else {
-        openWordBtn.classList.add('hidden');
+        openWordBtn.href = downloadUrl;
+        openWordBtn.textContent = 'Open Word file';
+        openWordBtn.setAttribute('aria-label', 'Open the original Word file in a new tab');
+        openWordBtn.classList.remove('hidden');
         loadPreviewBtn.classList.add('hidden');
         documentNote.textContent = 'Browser preview is unavailable from this environment. Use Download Word or return to the homepage.';
         documentFallback.textContent = 'Embedded preview is unavailable for this document from the current source. Use Download Word or return to the homepage from your current environment.';
