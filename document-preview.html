@@ -215,6 +215,7 @@
       downloadWordBtn.href = downloadUrl;
       documentActions.classList.remove('hidden');
       if (isPublicHttpOrigin) {
+        loadPreviewBtn.classList.remove('hidden');
         const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(downloadUrl)}`;
         loadPreviewBtn.addEventListener('click', () => {
           documentViewer.src = viewerUrl;
