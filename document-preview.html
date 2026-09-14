@@ -149,7 +149,7 @@
           class="viewer"
           title="Supporting document reader"
           loading="lazy"
-          referrerpolicy="no-referrer"
+          referrerpolicy="strict-origin-when-cross-origin"
           sandbox="allow-downloads allow-forms allow-popups allow-same-origin allow-scripts">
           This embedded preview could not be loaded in your browser. Please use the
           <a href="index.html#supporting-documents">Supporting Documents</a> links or the Word buttons on this page instead.
@@ -194,6 +194,7 @@
     const viewerShell = document.getElementById('viewerShell');
     const documentViewer = document.getElementById('documentViewer');
     const documentFallback = document.getElementById('documentFallback');
+    const documentNote = document.getElementById('documentNote');
 
     if (!selectedDocument) {
       document.title = 'Supporting Document Not Found';
@@ -216,15 +217,12 @@
 
       documentTitle.textContent = selectedDocument.title;
       documentDescription.textContent = selectedDocument.description;
-      openWordBtn.href = previewAvailable ? viewerUrl : downloadUrl;
+      openWordBtn.href = viewerUrl;
       downloadWordBtn.href = downloadUrl;
-      if (!previewAvailable) {
-        openWordBtn.textContent = 'Open Word file';
-        openWordBtn.setAttribute('aria-label', 'Open the Word file in a new tab');
-      }
 
       documentActions.classList.remove('hidden');
       if (previewAvailable) {
+        openWordBtn.classList.remove('hidden');
         loadPreviewBtn.classList.remove('hidden');
         loadPreviewBtn.addEventListener('click', () => {
           documentViewer.src = viewerUrl;
@@ -234,8 +232,10 @@
         }, { once: true });
         documentFallback.textContent = 'Use “Load browser preview” to open an embedded reader powered by Microsoft Office Online, or use the Word links above to continue without loading a third-party preview.';
       } else {
+        openWordBtn.classList.add('hidden');
         loadPreviewBtn.classList.add('hidden');
-        documentFallback.textContent = 'Embedded preview is unavailable for this document from the current source. Use the Word links above to open or download this document from your current environment.';
+        documentNote.textContent = 'Browser preview is unavailable from this environment. Use Download Word or return to the homepage.';
+        documentFallback.textContent = 'Embedded preview is unavailable for this document from the current source. Use Download Word or return to the homepage from your current environment.';
       }
     }
   </script>
