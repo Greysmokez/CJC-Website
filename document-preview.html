@@ -200,15 +200,15 @@
     } else {
       const isLocalHost = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
       const downloadUrl = new URL(selectedDocument.wordPath, window.location.href).href;
-      const wordUrl = (!isLocalHost && selectedDocument.publicWordUrl)
+      const viewerSourceUrl = (isLocalHost && selectedDocument.publicWordUrl)
         ? selectedDocument.publicWordUrl
         : downloadUrl;
-      const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(wordUrl)}`;
+      const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(viewerSourceUrl)}`;
 
       document.title = `${selectedDocument.title} — Supporting Document Reader`;
       documentTitle.textContent = selectedDocument.title;
       documentDescription.textContent = selectedDocument.description;
-      openWordBtn.href = wordUrl;
+      openWordBtn.href = downloadUrl;
       downloadWordBtn.href = downloadUrl;
       documentViewer.src = viewerUrl;
       viewerShell.classList.remove('hidden');
