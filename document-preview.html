@@ -65,6 +65,7 @@
       margin-bottom:18px;
     }
     .doc-btn{
+      font-family:inherit;
       display:inline-flex;
       align-items:center;
       justify-content:center;
@@ -78,6 +79,7 @@
       font-weight:600;
       text-decoration:none;
       text-align:center;
+      cursor:pointer;
     }
     .doc-btn:hover{ background:#f0e8d8; }
     .doc-btn.primary{
@@ -130,6 +132,7 @@
       <h1 id="documentTitle">Loading document…</h1>
       <p class="subhead" id="documentDescription">Preparing a browser-friendly Word reader for this supporting document.</p>
       <div class="actions hidden" id="documentActions">
+        <button class="doc-btn" id="loadPreviewBtn" type="button">Load browser preview</button>
         <a class="doc-btn primary" id="openWordBtn" href="#" target="_blank" rel="noopener">Open original Word file</a>
         <a class="doc-btn" id="downloadWordBtn" href="#" download>Download Word</a>
         <a class="doc-btn" href="index.html#supporting-documents">Back to Supporting Documents</a>
@@ -184,6 +187,7 @@
     const documentDescription = document.getElementById('documentDescription');
     const documentActions = document.getElementById('documentActions');
     const errorActions = document.getElementById('errorActions');
+    const loadPreviewBtn = document.getElementById('loadPreviewBtn');
     const openWordBtn = document.getElementById('openWordBtn');
     const downloadWordBtn = document.getElementById('downloadWordBtn');
     const viewerShell = document.getElementById('viewerShell');
@@ -211,10 +215,14 @@
       documentActions.classList.remove('hidden');
       if (isPublicHttpOrigin) {
         const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(downloadUrl)}`;
-        documentViewer.src = viewerUrl;
-        viewerShell.classList.remove('hidden');
-        documentFallback.textContent = 'If your browser blocks the embedded preview or the viewer service is unavailable, use the Word links above to continue reading or save the document.';
+        loadPreviewBtn.addEventListener('click', () => {
+          documentViewer.src = viewerUrl;
+          viewerShell.classList.remove('hidden');
+          loadPreviewBtn.classList.add('hidden');
+        }, { once: true });
+        documentFallback.textContent = 'Use “Load browser preview” to open an embedded reader powered by Microsoft Office Online, or use the Word links above to continue without loading a third-party preview.';
       } else {
+        loadPreviewBtn.classList.add('hidden');
         documentFallback.textContent = 'Embedded preview is only available from the public website. Use the Word links above to open or download this document from your current environment.';
       }
     }
