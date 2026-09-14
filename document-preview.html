@@ -165,20 +165,17 @@
       chapter1: {
         title: 'Chapter 1 — Scriptures Core Calendar Framework',
         description: 'Open Chapter 1 in this browser tab, then load the Microsoft Office Online preview or use the direct Word download if you prefer to open it locally.',
-        wordPath: './Chapter1.docx',
-        previewUrl: 'https://greysmokez.github.io/CJC-Website/Chapter1.docx'
+        wordPath: './Chapter1.docx'
       },
       crucifixion: {
         title: 'The Crucifixion Date of Jesus: Messiah and Son of God',
         description: 'Open the Crucifixion supporting document in this browser tab, then load the Microsoft Office Online preview or download the Word file directly.',
-        wordPath: './Crucifixion.docx',
-        previewUrl: 'https://greysmokez.github.io/CJC-Website/Crucifixion.docx'
+        wordPath: './Crucifixion.docx'
       },
       isaiah61: {
         title: 'Messiah\'s reading of Isaiah 61',
         description: 'Open the Isaiah 61 supporting document in this browser tab, then load the Microsoft Office Online preview or download the Word file directly.',
-        wordPath: './Isaiah61CJCMath.docx',
-        previewUrl: 'https://greysmokez.github.io/CJC-Website/Isaiah61CJCMath.docx'
+        wordPath: './Isaiah61CJCMath.docx'
       }
     };
 
@@ -218,10 +215,14 @@
       documentDescription.textContent = selectedDocument.description;
       openWordBtn.href = downloadUrl;
       downloadWordBtn.href = downloadUrl;
+      const isCanonicalPagesOrigin =
+        window.location.origin === 'https://greysmokez.github.io' &&
+        window.location.pathname.startsWith('/CJC-Website/');
+
       documentActions.classList.remove('hidden');
-      if (isPublicHttpOrigin) {
+      if (isPublicHttpOrigin && isCanonicalPagesOrigin) {
         loadPreviewBtn.classList.remove('hidden');
-        const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(selectedDocument.previewUrl)}`;
+        const viewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(downloadUrl)}`;
         loadPreviewBtn.addEventListener('click', () => {
           documentViewer.src = viewerUrl;
           viewerShell.classList.remove('hidden');
@@ -231,7 +232,7 @@
         documentFallback.textContent = 'Use “Load browser preview” to open an embedded reader powered by Microsoft Office Online, or use the Word links above to continue without loading a third-party preview.';
       } else {
         loadPreviewBtn.classList.add('hidden');
-        documentFallback.textContent = 'Embedded preview is only available from the public website. Use the Word links above to open or download this document from your current environment.';
+        documentFallback.textContent = 'Embedded preview is available from the hosted GitHub Pages site. Use the Word links above to open or download this document from your current environment.';
       }
     }
   </script>
