@@ -179,6 +179,7 @@
 
     const params = new URLSearchParams(window.location.search);
     const documentKey = params.get('doc');
+    const documentRef = params.get('ref') || 'main';
     const selectedDocument = DOCUMENTS[documentKey];
 
     const documentTitle = document.getElementById('documentTitle');
@@ -207,10 +208,12 @@
       const documentBaseUrl = new URL('.', currentDocumentUrl).href;
       const downloadUrl = new URL(selectedDocument.wordPath, documentBaseUrl).href;
       const wordFileName = selectedDocument.wordPath.replace(/^\.\//, '');
+      const encodedWordPath = wordFileName.split('/').map(segment => encodeURIComponent(segment)).join('/');
+      const encodedRef = encodeURIComponent(documentRef);
       const pagesMatch = window.location.origin.match(/^https:\/\/([^/.]+)\.github\.io$/);
       const pagesRepo = window.location.pathname.split('/').filter(Boolean)[0];
       const previewSourceUrl = (pagesMatch && pagesRepo)
-        ? `https://raw.githubusercontent.com/${pagesMatch[1]}/${pagesRepo}/main/${encodeURIComponent(wordFileName)}`
+        ? `https://raw.githubusercontent.com/${pagesMatch[1]}/${pagesRepo}/${encodedRef}/${encodedWordPath}`
         : downloadUrl;
       const previewAvailable =
         window.location.protocol === 'https:' &&
