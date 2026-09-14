@@ -150,7 +150,7 @@
           title="Supporting document reader"
           loading="lazy"
           referrerpolicy="strict-origin-when-cross-origin"
-          sandbox="allow-downloads allow-forms allow-popups allow-scripts"></iframe>
+          sandbox="allow-downloads allow-forms allow-popups allow-same-origin allow-scripts"></iframe>
       </div>
       <p class="fallback" id="documentFallback">
         This reader can load a Microsoft Office Online Word preview when available and keeps direct Word links available as a fallback.
@@ -207,7 +207,11 @@
       const documentBaseUrl = new URL('.', currentDocumentUrl).href;
       const downloadUrl = new URL(selectedDocument.wordPath, documentBaseUrl).href;
       const wordFileName = selectedDocument.wordPath.replace(/^\.\//, '');
-      const previewSourceUrl = `https://raw.githubusercontent.com/Greysmokez/CJC-Website/main/${encodeURIComponent(wordFileName)}`;
+      const pagesMatch = window.location.origin.match(/^https:\/\/([^/.]+)\.github\.io$/);
+      const pagesRepo = window.location.pathname.split('/').filter(Boolean)[0];
+      const previewSourceUrl = (pagesMatch && pagesRepo)
+        ? `https://raw.githubusercontent.com/${pagesMatch[1]}/${pagesRepo}/main/${encodeURIComponent(wordFileName)}`
+        : downloadUrl;
       const previewAvailable =
         window.location.protocol === 'https:' &&
         /^https:\/\//.test(previewSourceUrl) &&
