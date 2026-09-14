@@ -41,13 +41,13 @@
       previewFrame.hidden = true;
       message.hidden = false;
     } else {
-      const useLocalSource = source === 'local' && file === 'Chapter1.docx';
-      const rawSource = useLocalSource
+      const useSiteSource = source === 'site' && file === 'Chapter1.docx';
+      const rawSource = useSiteSource
         ? `${LOCAL_SITE_DOC_BASE_URL}/${file}`
         : `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${file}`;
       const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(rawSource)}`;
       docName.textContent = file;
-      downloadBtn.href = useLocalSource ? rawSource : `./${file}`;
+      downloadBtn.href = useSiteSource ? rawSource : `./${file}`;
       previewFrame.src = officeUrl;
     }
   </script>
