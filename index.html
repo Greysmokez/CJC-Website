@@ -708,6 +708,17 @@
     const CHAPTER1_URL =
       'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/Chapter1.pdf';
 
+    const API_BASE =
+      window.CJC_API_BASE || window.location.origin;
+
+    const FETCH_REPO_URL =
+      new URL('/api/fetch-repo', API_BASE).toString();
+
+    const CJC_KIT_REPO =
+      'Greysmokez/Continuous-Jubilee-Calendar';
+
+    const PREFILL_TIMEOUT_MS = 8000;
+
     const CJC_TUTOR_PROMPT = `You are an expert tutor for the Continuous Jubilee Calendar (CJC) method.
 
 Primary source materials:
@@ -769,6 +780,37 @@ Response format:
       return await resp.text();
     }
 
+    async function fetchRepoPrefill(provider){
+      const controller = new AbortController();
+
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+      }, PREFILL_TIMEOUT_MS);
+
+      try {
+        const resp = await fetch(FETCH_REPO_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            action: 'prefill',
+            repo: CJC_KIT_REPO,
+            provider
+          }),
+          signal: controller.signal
+        });
+
+        if(!resp.ok){
+          throw new Error('prefill fetch failed: ' + resp.status);
+        }
+
+        return await resp.json();
+      } finally {
+        clearTimeout(timeoutId);
+      }
+    }
+
     function flashCopied(btn, ok, successText='Copied'){
       if(!btn) return;
 
@@ -799,6 +841,15 @@ Response format:
       }
     }
 
+    function setStatusText(statusEl, text, preserveWhitespace=false){
+      if(!statusEl) return;
+
+      statusEl.style.whiteSpace =
+        preserveWhitespace ? 'pre-wrap' : '';
+
+      statusEl.textContent = text;
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const copyPdfUrlBtn =
         document.getElementById('copyPdfUrlBtn');
@@ -825,6 +876,12 @@ Response format:
         chatgpt: 'https://chat.openai.com/',
         grok: 'https://grok.com/',
         perplexity: 'https://www.perplexity.ai/'
+      };
+
+      const platformNames = {
+        chatgpt: 'ChatGPT',
+        grok: 'Grok',
+        perplexity: 'Perplexity'
       };
 
       if(copyChapter1Btn){
@@ -867,22 +924,113 @@ Response format:
               ? aiPlatform.value
               : 'chatgpt';
 
-          const targetUrl =
+          const platformName =
+            platformNames[selected] || 'ChatGPT';
+
+          const promptText = makePrompt();
+
+          const fallbackUrl =
             platformUrls[selected] || platformUrls.chatgpt;
 
-          const platformName =
-            selected.charAt(0).toUpperCase() + selected.slice(1);
+          try {
+            const prefill =
+              await fetchRepoPrefill(selected);
 
-          const ok =
-            await copyTextToClipboard(makePrompt());
+            if(prefill && prefill.type === 'assistant' && prefill.text){
+              setStatusText(
+                openAiStatus,
+                `Assistant response:\n\n${prefill.text}`,
+                true
+              );
 
-          if(openAiStatus){
-            openAiStatus.textContent = ok
-              ? `Prompt copied. Paste into ${platformName}.`
-              : 'Clipboard copy failed. Copy manually if needed.';
+              flashCopied(
+                openAiPromptBtn,
+                true,
+                'Response Ready'
+              );
+
+              return;
+            }
+
+            if(prefill && prefill.type === 'redirect' && prefill.url){
+              const ok =
+                await copyTextToClipboard(promptText);
+
+              setStatusText(
+                openAiStatus,
+                ok
+                  ? `Prompt copied. Opening ${platformName} with a prefilled search.`
+                  : `Opening ${platformName} with a prefilled search. Copy the prompt manually if needed.`
+              );
+
+              safeOpen(prefill.url, openAiStatus);
+
+              flashCopied(
+                openAiPromptBtn,
+                ok,
+                'Prompt Copied + Opened'
+              );
+
+              return;
+            }
+
+            if(prefill && prefill.type === 'copied'){
+              const ok =
+                await copyTextToClipboard(promptText);
+
+              setStatusText(
+                openAiStatus,
+                ok
+                  ? `Prompt copied. Paste into ${platformName}.`
+                  : 'Clipboard copy failed. Copy manually if needed.'
+              );
+
+              safeOpen(
+                prefill.openUrl || fallbackUrl,
+                openAiStatus
+              );
+
+              flashCopied(
+                openAiPromptBtn,
+                ok,
+                'Prompt Copied + Opened'
+              );
+
+              return;
+            }
+          } catch {
+            const ok =
+              await copyTextToClipboard(promptText);
+
+            setStatusText(
+              openAiStatus,
+              ok
+                ? `Prompt copied. Opened ${platformName} using fallback because the kit prefill service was unavailable.`
+                : `Opened ${platformName} using fallback. Clipboard copy failed; copy manually if needed.`
+            );
+
+            safeOpen(fallbackUrl, openAiStatus);
+
+            flashCopied(
+              openAiPromptBtn,
+              ok,
+              'Prompt Copied + Opened'
+            );
+
+            return;
           }
 
-          safeOpen(targetUrl, openAiStatus);
+          const ok =
+            await copyTextToClipboard(promptText);
+
+          setStatusText(
+            openAiStatus,
+            ok
+              ? `Prompt copied. Paste into ${platformName}.`
+              : 'Clipboard copy failed. Copy manually if needed.'
+          );
+
+          safeOpen(fallbackUrl, openAiStatus);
 
           flashCopied(
             openAiPromptBtn,
