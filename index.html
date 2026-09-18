@@ -8,8 +8,13 @@
     const CHAPTER1_URL =
       'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/Chapter1.pdf';
 
+    const DEFAULT_API_BASE =
+      window.location.hostname === 'greysmokez.github.io'
+        ? 'https://cjc-website-omega.vercel.app'
+        : '';
+
     const API_BASE =
-      (window.CJC_API_BASE || '').trim();
+      (window.CJC_API_BASE || DEFAULT_API_BASE).trim();
 
     const FETCH_REPO_URL =
       API_BASE ? new URL('/api/fetch-repo', API_BASE).toString() : '';
