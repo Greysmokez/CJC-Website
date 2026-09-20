@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+&lt;!DOCTYPE html&gt;
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -624,6 +624,50 @@
       </div>
     </div>
 
+    <div class="documents-section" id="revelations-cjc-math">
+      <h2>Revelations CJC Math</h2>
+
+      <div class="document-item">
+        <div class="document-title">
+          The Jubilee Calendar and the Story of the End
+        </div>
+
+        <div class="doc-buttons">
+          <a
+            href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=The_Jubilee_Calendar_and_the_Story_of_the_End.docx&source=site"
+            class="doc-btn docx"
+            target="_blank"
+            rel="noopener">
+            Open Word
+          </a>
+
+          <a
+            href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/The_Jubilee_Calendar_and_the_Story_of_the_End.docx"
+            class="doc-btn docx"
+            target="_blank"
+            rel="noopener">
+            Download Word
+          </a>
+
+          <a
+            href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=The_Jubilee_Calendar_and_the_Story_of_the_End.pdf"
+            class="doc-btn pdf"
+            target="_blank"
+            rel="noopener">
+            Open PDF
+          </a>
+
+          <a
+            href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/The_Jubilee_Calendar_and_the_Story_of_the_End.pdf"
+            class="doc-btn pdf"
+            target="_blank"
+            rel="noopener">
+            Download PDF
+          </a>
+        </div>
+      </div>
+    </div>
+
     <div class="choose-label">CHOOSE AN ASSISTANT</div>
 
     <div class="ai-list" id="aiListContainer">
@@ -1000,47 +1044,26 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
             flashCopied(
               openAiPromptBtn,
               true,
-              'Full Kit Copied + Opened'
+              'Copied — Opening AI'
             );
           } catch (error) {
-            console.warn('Open AI prompt fallback error:', error);
-            const ok =
-              await copyTextToClipboard(makeFallbackKitPrompt());
+            console.warn('Full kit copy failed, falling back:', error);
+
+            const ok = await copyTextToClipboard(makeFallbackKitPrompt());
+
             setStatusText(
               openAiStatus,
               ok
-                ? `Full kit unavailable. Copied a fallback prompt with the canonical kit URL. Opening ${platformName}; paste it into the chat.`
-                : `Full kit and fallback copy both failed. Opening ${platformName}; fetch the canonical kit manually from ${CJC_KIT_URL}.`
+                ? `Kit link copied (full text unavailable). Opening ${platformName}. Paste it into the chat.`
+                : `Could not copy automatically. Opening ${platformName} — please paste manually: ${CJC_KIT_URL}`
             );
+
             safeOpen(fallbackUrl, openAiStatus);
-            flashCopied(
-              openAiPromptBtn,
-              ok,
-              'Fallback Copied + Opened'
-            );
+            flashCopied(openAiPromptBtn, ok, ok ? 'Copied — Opening AI' : 'Copy failed');
           }
         });
       }
-
-      document
-        .querySelectorAll('#aiListContainer .ai-btn')
-        .forEach(a => {
-          a.addEventListener('click', async (e) => {
-            e.preventDefault();
-
-            const href = e.currentTarget.getAttribute('href');
-            const prompt = makePrompt();
-            const ok = await copyTextToClipboard(prompt);
-            if(href) safeOpen(href, openAiStatus);
-            if(openAiStatus){
-              openAiStatus.textContent = ok
-                ? 'Prompt copied. Paste into your selected assistant.'
-                : 'Clipboard copy failed. Copy manually if needed.';
-            }
-          });
-        });
     });
   </script>
-
 </body>
 </html>
