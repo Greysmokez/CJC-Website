@@ -341,8 +341,8 @@
         <button
           class="copy-btn primary-cta"
           id="openAiPromptBtn"
-          aria-label="Open selected AI and copy CJC prompt">
-          Open AI + Prompt
+          aria-label="Copy the full CJC kit, open the selected AI, and ask the user to paste it">
+          Copy AI Kit &amp; Open AI to Paste
         </button>
 
         <span class="cta-badge" aria-hidden="true">Recommended</span>
@@ -702,6 +702,9 @@
     const RAW_URL =
       'https://greysmokez.github.io/CJC-Website/kit.txt';
 
+    const CJC_KIT_URL =
+      'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJCKit.txt';
+
     const PDF_URL =
       'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/CJC_AI_Research_Kit.pdf';
 
@@ -735,7 +738,7 @@
     const CJC_TUTOR_PROMPT = `You are an expert tutor for the Continuous Jubilee Calendar (CJC) method.
 
 Primary source materials:
-1) Canonical CJC source: https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJCKit.txt
+1) Canonical CJC source: ${CJC_KIT_URL}
 2) https://greysmokez.github.io/Continuous-Jubilee-Calendar/chapter1.html
 
 Your job:
@@ -790,6 +793,34 @@ Response format:
       }
 
       return await resp.text();
+    }
+
+    async function fetchCanonicalKit(){
+      const resp = await fetch(CJC_KIT_URL, { cache:'no-store' });
+
+      if(!resp.ok){
+        throw new Error('canonical kit fetch failed: ' + resp.status);
+      }
+
+      return await resp.text();
+    }
+
+    function makeFullKitPrompt(kitText){
+      return `Use the full CJC Research Kit below as the authoritative source.
+Apply its formulas exactly, do not truncate or rewrite the kit before using it, and show calculation steps when answering.
+After reading it, wait for the user's question or date to calculate.
+
+--- BEGIN FULL CJC KIT ---
+${kitText}
+--- END FULL CJC KIT ---`;
+    }
+
+    function makeFallbackKitPrompt(){
+      return `The full CJC kit could not be copied directly.
+Please fetch and use the canonical CJC Research Kit at:
+${CJC_KIT_URL}
+
+Apply it exactly as written, do not summarize it before use, and wait for the user's question or date to calculate.`;
     }
 
     async function fetchRepoPrefill(provider){
@@ -949,94 +980,44 @@ Response format:
           const platformName =
             platformNames[selected] || 'ChatGPT';
 
-          const promptText = makePrompt();
           const fallbackUrl =
             platformUrls[selected] || platformUrls.chatgpt;
 
           try {
-            const prefill = await fetchRepoPrefill(selected);
+            const kitText = await fetchCanonicalKit();
+            const ok =
+              await copyTextToClipboard(makeFullKitPrompt(kitText));
 
-            if(prefill && prefill.type === 'assistant' && prefill.text){
-              setStatusText(
-                openAiStatus,
-                `Assistant response:\n\n${prefill.text}`,
-                true
-              );
-
-              flashCopied(
-                openAiPromptBtn,
-                true,
-                'Response Ready'
-              );
-
-              return;
+            if(!ok){
+              throw new Error('full kit clipboard copy failed');
             }
 
-            if(prefill && prefill.type === 'redirect' && prefill.url){
-              const ok = await copyTextToClipboard(promptText);
-
-              setStatusText(
-                openAiStatus,
-                ok
-                  ? `Prompt copied. Opening ${platformName} with a prefilled search.`
-                  : `Opening ${platformName} with a prefilled search. Copy the prompt manually if needed.`
-              );
-
-              safeOpen(prefill.url, openAiStatus);
-
-              flashCopied(
-                openAiPromptBtn,
-                ok,
-                'Prompt Copied + Opened'
-              );
-
-              return;
-            }
-
-            if(prefill && prefill.type === 'copied'){
-              const ok = await copyTextToClipboard(promptText);
-
-              setStatusText(
-                openAiStatus,
-                ok
-                  ? `Prompt copied. Paste into ${platformName}.`
-                  : 'Clipboard copy failed. Copy manually if needed.'
-              );
-
-              safeOpen(
-                prefill.openUrl || fallbackUrl,
-                openAiStatus
-              );
-
-              flashCopied(
-                openAiPromptBtn,
-                ok,
-                'Prompt Copied + Opened'
-              );
-
-              return;
-            }
-
-            const ok = await copyTextToClipboard(promptText);
             setStatusText(
               openAiStatus,
-              ok
-                ? `Prompt copied. Paste into ${platformName}.`
-                : 'Clipboard copy failed. Copy manually if needed.'
+              `Full CJC kit copied. Opening ${platformName}. Paste it into the chat.`
             );
             safeOpen(fallbackUrl, openAiStatus);
-            flashCopied(openAiPromptBtn, ok, 'Prompt Copied + Opened');
+            flashCopied(
+              openAiPromptBtn,
+              true,
+              'Full Kit Copied + Opened'
+            );
           } catch (error) {
             console.warn('Open AI prompt fallback error:', error);
-            const ok = await copyTextToClipboard(promptText);
+            const ok =
+              await copyTextToClipboard(makeFallbackKitPrompt());
             setStatusText(
               openAiStatus,
               ok
-                ? `Prompt copied. Paste into ${platformName}.`
-                : 'Clipboard copy failed. Copy manually if needed.'
+                ? `Full kit unavailable. Copied a fallback prompt with the canonical kit URL. Opening ${platformName}; paste it into the chat.`
+                : `Full kit and fallback copy both failed. Opening ${platformName}; fetch the canonical kit manually from ${CJC_KIT_URL}.`
             );
             safeOpen(fallbackUrl, openAiStatus);
-            flashCopied(openAiPromptBtn, ok, 'Prompt Copied + Opened');
+            flashCopied(
+              openAiPromptBtn,
+              ok,
+              'Fallback Copied + Opened'
+            );
           }
         });
       }
