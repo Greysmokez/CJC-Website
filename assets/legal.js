@@ -62,6 +62,14 @@
     return false;
   }
 
+  function getWatermarkOwnerId(host) {
+    if (!host || host.nodeType !== Node.ELEMENT_NODE) return '';
+    if (!host.dataset.cjcWatermarkOwner) {
+      host.dataset.cjcWatermarkOwner = 'cjc-watermark-' + Math.random().toString(36).slice(2, 10);
+    }
+    return host.dataset.cjcWatermarkOwner;
+  }
+
   function applyFirstInstanceTrademark(root) {
     const state = {
       'Continuous Jubilee Calendar': false,
@@ -146,12 +154,16 @@
     const host = target && target.nodeType === Node.ELEMENT_NODE ? target : document.body;
     if (!host) return null;
 
-    const existing = host.querySelector('[data-cjc-watermark]');
+    const existing = host === document.body
+      ? host.querySelector('[data-cjc-watermark]')
+      : host.querySelector('[data-cjc-watermark-owner="' + getWatermarkOwnerId(host) + '"]');
     if (existing) return existing;
 
     const config = normalizeWatermarkOptions(options);
     const watermark = document.createElement('div');
+    const ownerId = getWatermarkOwnerId(host);
     watermark.setAttribute('data-cjc-watermark', 'true');
+    watermark.setAttribute('data-cjc-watermark-owner', ownerId);
     watermark.setAttribute('aria-hidden', 'true');
     watermark.textContent = config.text;
     watermark.style.display = 'block';
