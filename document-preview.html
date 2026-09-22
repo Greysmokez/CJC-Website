@@ -92,7 +92,19 @@
       if (!/\.(docx|pdf)$/i.test(value)) {
         return value;
       }
-      const lookupPath = value.replace(/^\.?\//, '');
+      const lookupPath = value
+        .replace(/^\.?\//, '')
+        .split('/')
+        .reduce((parts, segment) => {
+          if (!segment || segment === '.') return parts;
+          if (segment === '..') {
+            parts.pop();
+            return parts;
+          }
+          parts.push(segment);
+          return parts;
+        }, [])
+        .join('/');
       return PROTECTED_DOWNLOAD_PATHS[lookupPath] || value;
     };
 
