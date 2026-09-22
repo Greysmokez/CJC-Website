@@ -93,18 +93,14 @@
     doc.head.appendChild(style);
   }
 
-  function createFooterMarkup(basePathOverride) {
-    return [
-      LEGAL.copyright,
-      ' ',
-      LEGAL.trademarks,
-      ' | ',
-      '<a href="',
-      getTermsUrl(basePathOverride),
-      '">',
-      LEGAL.footerLinkText,
-      '</a>'
-    ].join('');
+  function createFooterContent(doc, basePathOverride) {
+    const fragment = doc.createDocumentFragment();
+    fragment.appendChild(doc.createTextNode(LEGAL.copyright + ' ' + LEGAL.trademarks + ' | '));
+    const link = doc.createElement('a');
+    link.href = getTermsUrl(basePathOverride);
+    link.textContent = LEGAL.footerLinkText;
+    fragment.appendChild(link);
+    return fragment;
   }
 
   function attachFooter(doc) {
@@ -122,7 +118,7 @@
     legalFooter.className = 'cjc-legal-footer';
     legalFooter.dataset.cjcLegalFooter = 'true';
     legalFooter.dataset.legalIgnore = 'true';
-    legalFooter.innerHTML = createFooterMarkup();
+    legalFooter.appendChild(createFooterContent(targetDoc));
 
     if (footerHost) {
       footerHost.appendChild(legalFooter);
@@ -173,11 +169,20 @@
 
   function applyTrademarkMarks(doc) {
     const targetDoc = doc || (typeof document !== 'undefined' ? document : null);
-    if (!targetDoc || !targetDoc.body || targetDoc.body.dataset.cjcTrademarkApplied === 'true') return;
+    if (!targetDoc || !targetDoc.body) return;
     const rootNode = getTrademarkRoot(targetDoc);
-    replaceFirstMatch(targetDoc, rootNode, /Continuous Jubilee Calendar(?!™)/, 'Continuous Jubilee Calendar™');
-    replaceFirstMatch(targetDoc, rootNode, /\bCJC\b(?!™)/, 'CJC™');
-    targetDoc.body.dataset.cjcTrademarkApplied = 'true';
+    if (targetDoc.body.dataset.cjcTrademarkPhraseApplied !== 'true') {
+      const phraseMarked = replaceFirstMatch(targetDoc, rootNode, /Continuous Jubilee Calendar(?!™)/, 'Continuous Jubilee Calendar™');
+      if (phraseMarked) {
+        targetDoc.body.dataset.cjcTrademarkPhraseApplied = 'true';
+      }
+    }
+    if (targetDoc.body.dataset.cjcTrademarkAcronymApplied !== 'true') {
+      const acronymMarked = replaceFirstMatch(targetDoc, rootNode, /\bCJC\b(?!™)/, 'CJC™');
+      if (acronymMarked) {
+        targetDoc.body.dataset.cjcTrademarkAcronymApplied = 'true';
+      }
+    }
   }
 
   function createWatermarkSpec(options) {
