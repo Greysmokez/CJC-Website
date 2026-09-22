@@ -27,13 +27,13 @@
     const RAW_REPO_NAME = 'Continuous-Jubilee-Calendar';
     const RAW_REPO_BRANCH = 'main';
 
-    // Backward-compatible aliases for legacy query values.
-    // Chapter 1 now points to PDF content (no Office Word embed).
+    // Keep legacy links working without changing the homepage behavior.
     const FILE_ALIASES = {
       'Chapter1.docx': 'chapter1.html',
       'Chapter1.pdf': 'chapter1.html',
       'Crucifixion.docx': 'docs/Crucifixion.docx',
-      'Isaiah61CJCMath.docx': 'docs/Isaiah61CJCMath.docx'
+      'Isaiah61CJCMath.docx': 'docs/Isaiah61CJCMath.docx',
+      'chapter1.html': 'chapter1.html'
     };
 
     const params = new URLSearchParams(window.location.search);
@@ -43,6 +43,11 @@
     const previewFrame = document.getElementById('previewFrame');
     const message = document.getElementById('message');
 
+    const normalizePath = (value) => {
+      if (!value) return '';
+      return value.replace(/\\/g, '/').trim();
+    };
+
     const isSafeRelativePath = (value) => {
       if (!value) return false;
       if (value.includes('..')) return false;
@@ -51,7 +56,7 @@
       return /\.(docx|pdf|html)$/i.test(value);
     };
 
-    const normalizedPath = FILE_ALIASES[requestedFile] || requestedFile;
+    const normalizedPath = FILE_ALIASES[requestedFile] || normalizePath(requestedFile);
 
     if (!isSafeRelativePath(normalizedPath)) {
       previewFrame.hidden = true;
@@ -75,13 +80,19 @@
       // Keep the download action aligned with the file type being previewed.
       downloadBtn.href = rawSource;
       downloadBtn.textContent = isWord ? 'Download Word' : 'Download PDF';
+      downloadBtn.setAttribute(
+        'aria-label',
+        isWord ? 'Download Word document' : 'Download PDF document'
+      );
 
       if (isWord) {
         const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(rawSource)}`;
         previewFrame.src = officeUrl;
+      } else if (isPdf) {
+        previewFrame.src = pagesSource;
       } else {
-        // PDF and HTML previews should follow the same basic pattern: a direct
-        // preview in the browser, while the download button points at the file itself.
+        // HTML pages (such as the Chapter 1 custom landing page) should still open
+        // within the same preview page flow used elsewhere.
         previewFrame.src = pagesSource;
       }
     }
