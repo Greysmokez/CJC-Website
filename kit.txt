@@ -1,4 +1,12 @@
-The CJC Research Kit: A Self-Contained Tool for AI-Assisted Verification
+The First Publicly Documented SI Kit
+
+Continuous Jubilee Calendar™ Research Kit for the Super Intelligence Era
+
+SI means Super Intelligence.
+
+Published by Chip Welsh — September 22, 2026.
+
+"First publicly documented" is a publication claim based on the documented search record and is not a guarantee that no earlier unindexed use exists.
 
 Version 12.14 — September 19, 2026. Full revision history and reasoning: see CHANGELOG.md, filed alongside this kit.
 
