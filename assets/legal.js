@@ -21,21 +21,6 @@
     placement: 'margin-only'
   });
 
-  const SCRIPT_URL = (function () {
-    const current = document.currentScript;
-    if (current && current.src) {
-      return new URL(current.src, window.location.href);
-    }
-
-    const fallback = Array.from(document.scripts || []).find(function (script) {
-      return script && script.src && /\/assets\/legal\.js(?:\?|$)/.test(script.src);
-    });
-
-    return fallback && fallback.src
-      ? new URL(fallback.src, window.location.href)
-      : null;
-  })();
-
   function clampOpacity(value) {
     const numeric = Number(value);
     if (!Number.isFinite(numeric)) return DEFAULT_WATERMARK.opacity;
@@ -71,7 +56,7 @@
 
   function shouldSkipTextNode(parent) {
     if (!parent || parent.nodeType !== Node.ELEMENT_NODE) return true;
-    if (parent.closest('[data-cjc-trademark="manual"], script, style, noscript, textarea, input, select, option, code, pre, svg, table, thead, tbody, tfoot, tr, td, th')) {
+    if (parent.closest('head, title, meta, [data-cjc-trademark="manual"], script, style, noscript, textarea, input, select, option, code, pre, svg, table, thead, tbody, tfoot, tr, td, th')) {
       return true;
     }
     return false;
@@ -133,19 +118,24 @@
     footer.style.fontSize = '0.92rem';
     footer.style.lineHeight = '1.6';
 
-    const termsHref = SCRIPT_URL
-      ? new URL('../terms-of-use/', SCRIPT_URL).href
-      : CANONICAL_TERMS_URL;
-
     footer.append(document.createTextNode(
       '© ' + LEGAL_YEAR + ' Chip Welsh. Continuous Jubilee Calendar™ and CJC™ are proprietary marks. Personal, non-commercial study use only unless otherwise licensed. '
     ));
 
     const link = document.createElement('a');
-    link.href = termsHref;
+    link.href = CANONICAL_TERMS_URL;
     link.textContent = 'Terms of Use';
     link.style.color = 'inherit';
     link.style.textDecoration = 'underline';
+    link.style.textUnderlineOffset = '2px';
+    link.addEventListener('focus', function () {
+      link.style.outline = '2px solid #245842';
+      link.style.outlineOffset = '2px';
+    });
+    link.addEventListener('blur', function () {
+      link.style.outline = '';
+      link.style.outlineOffset = '';
+    });
     footer.append(link, document.createTextNode('.'));
 
     document.body.appendChild(footer);
