@@ -66,18 +66,22 @@
       const rawSource = `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${encodedPath}`;
       const pagesSource = `https://${RAW_REPO_OWNER.toLowerCase()}.github.io/${RAW_REPO_NAME}/${encodedPath}`;
       const isWord = normalizedPath.toLowerCase().endsWith('.docx');
+      const isPdf = normalizedPath.toLowerCase().endsWith('.pdf');
 
       docName.textContent = requestedFile || normalizedPath;
+      previewFrame.hidden = false;
+      message.hidden = true;
 
-      // Keep download button visible as requested.
-      downloadBtn.href = isWord ? rawSource : pagesSource;
+      // Keep the download action aligned with the file type being previewed.
+      downloadBtn.href = rawSource;
+      downloadBtn.textContent = isWord ? 'Download Word' : 'Download PDF';
 
       if (isWord) {
-        // Continue using Office viewer for DOCX files.
         const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(rawSource)}`;
         previewFrame.src = officeUrl;
       } else {
-        // Remove Open-in-Word behavior for Chapter 1/PDF paths.
+        // PDF and HTML previews should follow the same basic pattern: a direct
+        // preview in the browser, while the download button points at the file itself.
         previewFrame.src = pagesSource;
       }
     }
