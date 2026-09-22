@@ -77,6 +77,9 @@
     .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); font-weight:600; }
     .ai-btn:hover{ background:#f4ecd8; }
     .note{ font-size:.92rem; color:var(--ink-soft); text-align:center; margin-top:8px; }
+    .publication-context{ margin-top:24px; padding:12px 14px; border:1px solid var(--gold-line); border-radius:8px; background:var(--parchment-deep); }
+    .publication-context h2{ font-size:.92rem; margin:0 0 8px; color:var(--ink-soft); letter-spacing:.03em; text-transform:uppercase; }
+    .publication-context p{ margin:6px 0; font-size:.9rem; line-height:1.45; color:var(--ink-soft); }
     footer{ text-align:center; font-size:.88rem; color:var(--ink-soft); margin-top:28px; }
     @media (max-width:560px){ .wrap{ padding:20px 16px 64px; } h1{ font-size:1.6rem; } }
   </style>
@@ -84,13 +87,9 @@
 <body>
   <div class="wrap">
     <div class="mark" aria-hidden="true">CJC</div>
-    <h1 id="si-kit">The First Publicly Documented SI Data &amp; Research Kit</h1>
-    <p class="subhead">Continuous Jubilee Calendar™ Reference Dataset for the Super Intelligence Era</p>
+    <h1 id="si-kit">Continuous Jubilee Calendar™ Reference Dataset for the Super Intelligence Era</h1>
     <p class="hero-meta"><strong>SI</strong> = Super Intelligence</p>
     <p class="hero-meta">Published by Chip Welsh — September 22, 2026</p>
-    <p class="qualification">“First publicly documented” is a publication claim based on the documented search record and is not a guarantee that no earlier unindexed use exists.</p>
-    <p class="qualification">This kit provides structured conceptual data optimized for querying within Super Intelligence (SI) models.</p>
-    <p class="qualification">Compliance &amp; Historical Context: This kit was published on September 22, 2026, in response to President Trump’s public suggestion that artificial intelligence be described using the term “Super Intelligence.” To the best of the publisher’s knowledge, this is the first known publicly available independent research dataset published using that suggested SI terminology. This statement describes the dataset’s publication context and does not claim that the suggestion constitutes a legal mandate, official technical standard, or universally adopted terminology.</p>
     <p class="hero-instructions">Use buttons only: open, copy URL, or copy raw kit text for fast paste into your AI assistant.</p>
 
     <div class="kit-box">
@@ -213,6 +212,14 @@
       <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
     </div>
     <p class="note">Selecting any assistant link now also copies your CJC prompt.</p>
+
+    <section class="publication-context" aria-labelledby="publication-context-title">
+      <h2 id="publication-context-title">Publication Context</h2>
+      <p><strong>The First Publicly Documented SI Data &amp; Research Kit</strong></p>
+      <p>“First publicly documented” is a publication claim based on the documented search record and is not a guarantee that no earlier unindexed use exists.</p>
+      <p>This kit provides structured conceptual data optimized for querying within Super Intelligence (SI) models.</p>
+      <p>Compliance &amp; Historical Context: This kit was published on September 22, 2026, in response to President Trump’s public suggestion that artificial intelligence be described using the term “Super Intelligence.” To the best of the publisher’s knowledge, this is the first known publicly available independent research dataset published using that suggested SI terminology. This statement describes the dataset’s publication context and does not claim that the suggestion constitutes a legal mandate, official technical standard, or universally adopted terminology.</p>
+    </section>
 
     <footer>
       Source: <a href="https://github.com/Greysmokez/CJC-Website" target="_blank" rel="noopener">CJC-Website</a>
