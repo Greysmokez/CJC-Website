@@ -151,7 +151,10 @@
 
   function replaceFirstMatch(doc, rootNode, regex, replacement) {
     if (!doc || !rootNode || typeof doc.createTreeWalker !== 'function') return false;
-    const walker = doc.createTreeWalker(rootNode, NodeFilter.SHOW_TEXT);
+    const showText = doc.defaultView && doc.defaultView.NodeFilter
+      ? doc.defaultView.NodeFilter.SHOW_TEXT
+      : 4;
+    const walker = doc.createTreeWalker(rootNode, showText);
     let current = walker.nextNode();
 
     while (current) {
@@ -210,9 +213,23 @@
     watermark.style.fontSize = spec.fontSize + 'px';
     watermark.style.bottom = spec.marginBottom + 'px';
     watermark.style.color = spec.color;
+    const forcePosition = !!(options && options.forcePosition);
+    const computedPosition = root.getComputedStyle ? root.getComputedStyle(target).position : '';
+    const isStatic = !computedPosition || computedPosition === 'static';
 
-    if (root.getComputedStyle && root.getComputedStyle(target).position === 'static') {
+    if (forcePosition && isStatic) {
       target.style.position = 'relative';
+    }
+
+    if (isStatic && !forcePosition) {
+      watermark.style.position = 'static';
+      watermark.style.transform = 'none';
+      watermark.style.maxWidth = '100%';
+      watermark.style.margin = '12px auto 0';
+    } else {
+      watermark.style.position = 'absolute';
+      watermark.style.left = '50%';
+      watermark.style.transform = 'translateX(-50%)';
     }
 
     target.appendChild(watermark);
@@ -280,6 +297,19 @@
           selectUnlockedCells: true
         }
       };
+
+      if (workbook.Workbook && Array.isArray(workbook.Workbook.Sheets)) {
+        const existingMeta = workbook.Workbook.Sheets.find(function (sheet) {
+          return sheet && sheet.name === sheetName;
+        }) || {};
+        workbook.Workbook.Sheets = [
+          Object.assign({}, existingMeta, { name: sheetName })
+        ].concat(
+          workbook.Workbook.Sheets.filter(function (sheet) {
+            return !sheet || sheet.name !== sheetName;
+          })
+        );
+      }
     }
 
     return workbook;
