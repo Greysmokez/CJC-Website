@@ -45,12 +45,7 @@
 
     const normalizePath = (value) => {
       if (!value) return '';
-      const normalized = value.replace(/\\/g, '/').trim();
-      try {
-        return decodeURIComponent(normalized);
-      } catch (_) {
-        return normalized;
-      }
+      return value.replace(/\\/g, '/').trim();
     };
 
     const PROTECTED_DOWNLOAD_PATHS = Object.fromEntries(Object.entries({
@@ -70,6 +65,10 @@
       'Art Thou He.pdf': 'protected-assets/Art Thou He.pdf',
       'docs/Art Thou He.docx': 'protected-assets/Art Thou He.docx',
       'docs/Art Thou He.pdf': 'protected-assets/Art Thou He.pdf',
+      'art%20thou%20he.docx': 'protected-assets/Art Thou He.docx',
+      'art%20thou%20he.pdf': 'protected-assets/Art Thou He.pdf',
+      'docs/art%20thou%20he.docx': 'protected-assets/Art Thou He.docx',
+      'docs/art%20thou%20he.pdf': 'protected-assets/Art Thou He.pdf',
       'Isaiah61CJCMath.docx': 'protected-assets/Isaiah61CJCMath.docx',
       'Isaiah61CJCMath.pdf': 'protected-assets/Isaiah61CJCMath.pdf',
       'docs/Isaiah61CJCMath.docx': 'protected-assets/Isaiah61CJCMath.docx',
@@ -92,19 +91,10 @@
       if (!/\.(docx|pdf)$/i.test(value)) {
         return value;
       }
-      const lookupPath = value
-        .replace(/^\.?\//, '')
-        .split('/')
-        .reduce((parts, segment) => {
-          if (!segment || segment === '.') return parts;
-          if (segment === '..') {
-            parts.pop();
-            return parts;
-          }
-          parts.push(segment);
-          return parts;
-        }, [])
-        .join('/');
+      if (value.includes('..')) {
+        return value;
+      }
+      const lookupPath = value.replace(/^\.?\//, '');
       return PROTECTED_DOWNLOAD_PATHS[lookupPath.toLowerCase()] || value;
     };
 
