@@ -48,6 +48,14 @@
       return value.replace(/\\/g, '/').trim();
     };
 
+    const resolveProtectedPath = (value) => {
+      if (!/\.(docx|pdf)$/i.test(value)) {
+        return value;
+      }
+      const fileName = value.split('/').pop();
+      return `protected-assets/${fileName}`;
+    };
+
     const isSafeRelativePath = (value) => {
       if (!value) return false;
       if (value.includes('..')) return false;
@@ -63,7 +71,8 @@
       message.hidden = false;
       message.textContent = 'Invalid document requested.';
     } else {
-      const encodedPath = normalizedPath
+      const sourcePath = resolveProtectedPath(normalizedPath);
+      const encodedPath = sourcePath
         .split('/')
         .map(segment => encodeURIComponent(segment))
         .join('/');
