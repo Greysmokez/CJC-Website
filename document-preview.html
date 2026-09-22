@@ -53,7 +53,7 @@
       }
     };
 
-    const PROTECTED_DOWNLOAD_PATHS = {
+    const PROTECTED_DOWNLOAD_PATHS = Object.fromEntries(Object.entries({
       'Chapter1.docx': 'protected-assets/Chapter1.docx',
       'Chapter1.pdf': 'protected-assets/Chapter1.pdf',
       'docs/Chapter1.docx': 'protected-assets/Chapter1.docx',
@@ -86,7 +86,7 @@
         'protected-assets/The_Jubilee_Calendar_and_the_Story_of_the_End.docx',
       'docs/The_Jubilee_Calendar_and_the_Story_of_the_End.pdf':
         'protected-assets/The_Jubilee_Calendar_and_the_Story_of_the_End.pdf'
-    };
+    }).map(([path, target]) => [path.toLowerCase(), target]));
 
     const resolveProtectedDownloadPath = (value) => {
       if (!/\.(docx|pdf)$/i.test(value)) {
@@ -105,7 +105,7 @@
           return parts;
         }, [])
         .join('/');
-      return PROTECTED_DOWNLOAD_PATHS[lookupPath] || value;
+      return PROTECTED_DOWNLOAD_PATHS[lookupPath.toLowerCase()] || value;
     };
 
     const isSafeRelativePath = (value) => {
