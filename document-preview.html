@@ -92,10 +92,10 @@
         return value;
       }
       if (value.includes('..')) {
-        return value;
+        return null;
       }
       const lookupPath = value.replace(/^\.?\//, '');
-      return PROTECTED_DOWNLOAD_PATHS[lookupPath.toLowerCase()] || value;
+      return PROTECTED_DOWNLOAD_PATHS[lookupPath.toLowerCase()] || null;
     };
 
     const isSafeRelativePath = (value) => {
@@ -115,6 +115,16 @@
     } else {
       const previewPath = normalizedPath;
       const downloadPath = resolveProtectedDownloadPath(normalizedPath);
+      const isWord = normalizedPath.toLowerCase().endsWith('.docx');
+      const isPdf = normalizedPath.toLowerCase().endsWith('.pdf');
+
+      if ((isWord || isPdf) && !downloadPath) {
+        previewFrame.hidden = true;
+        message.hidden = false;
+        message.textContent = 'Invalid document requested.';
+        return;
+      }
+
       const encodedPreviewPath = previewPath
         .split('/')
         .map(segment => encodeURIComponent(segment))
@@ -126,8 +136,6 @@
 
       const rawSource = `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${encodedDownloadPath}`;
       const pagesSource = `https://${RAW_REPO_OWNER.toLowerCase()}.github.io/${RAW_REPO_NAME}/${encodedPreviewPath}`;
-      const isWord = normalizedPath.toLowerCase().endsWith('.docx');
-      const isPdf = normalizedPath.toLowerCase().endsWith('.pdf');
 
       docName.textContent = requestedFile || normalizedPath;
       previewFrame.hidden = false;
