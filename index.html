@@ -1106,7 +1106,7 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
       if(copyRawTextBtn){
         copyRawTextBtn.addEventListener('click', async () => {
           try {
-            const txt = await fetchRawKit();
+            const txt = canonicalKitText || await fetchRawKit();
             const ok = await copyTextToClipboard(txt);
             flashCopied(copyRawTextBtn, ok, 'Raw Text Copied');
           } catch {
@@ -1131,7 +1131,11 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
               );
             }
 
-            safeOpen(aiBtn.href);
+            const win = safeOpen(aiBtn.href);
+
+            if(!win){
+              window.location.href = aiBtn.href;
+            }
           });
         });
       }
