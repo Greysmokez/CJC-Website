@@ -29,13 +29,20 @@
     return configuredBasePath;
   }
 
+  function getScriptElement(doc) {
+    return doc && (doc.currentScript || doc.querySelector('script[src$="assets/legal.js"]'));
+  }
+
   function getProjectBasePath(overrideBasePath) {
     if (overrideBasePath) return normalizeBasePath(overrideBasePath);
     if (configuredBasePath) return configuredBasePath;
     if (typeof window === 'undefined' || !window.location) return '/';
     const doc = typeof document !== 'undefined' ? document : null;
-    const scriptEl = doc && (doc.currentScript || doc.querySelector('script[src$="assets/legal.js"]'));
+    const scriptEl = getScriptElement(doc);
     if (scriptEl) {
+      if (scriptEl.dataset && scriptEl.dataset.basePath) {
+        return normalizeBasePath(scriptEl.dataset.basePath);
+      }
       try {
         const scriptPath = new URL(scriptEl.src, window.location.href).pathname;
         if (scriptPath.endsWith('/assets/legal.js')) {
@@ -52,6 +59,9 @@
         const canonicalPath = new URL(canonicalHref.href, window.location.href).pathname;
         if (/\/[^/]+\.html$/i.test(canonicalPath)) {
           return normalizeBasePath(canonicalPath.replace(/[^/]+$/u, ''));
+        }
+        if (/\/terms-of-use\/?$/i.test(canonicalPath)) {
+          return normalizeBasePath(canonicalPath.replace(/terms-of-use\/?$/iu, ''));
         }
       } catch (error) {
         // Fall through to location-based detection.
@@ -134,9 +144,14 @@
     return false;
   }
 
-  function replaceFirstMatch(doc, regex, replacement) {
-    if (!doc || !doc.body || typeof doc.createTreeWalker !== 'function') return false;
-    const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT);
+  function getTrademarkRoot(doc) {
+    if (!doc || !doc.body) return null;
+    return doc.querySelector('[data-cjc-legal-root]') || doc.querySelector('main') || doc.querySelector('article') || doc.querySelector('.wrap') || doc.body;
+  }
+
+  function replaceFirstMatch(doc, rootNode, regex, replacement) {
+    if (!doc || !rootNode || typeof doc.createTreeWalker !== 'function') return false;
+    const walker = doc.createTreeWalker(rootNode, NodeFilter.SHOW_TEXT);
     let current = walker.nextNode();
 
     while (current) {
@@ -156,8 +171,9 @@
   function applyTrademarkMarks(doc) {
     const targetDoc = doc || (typeof document !== 'undefined' ? document : null);
     if (!targetDoc || !targetDoc.body || targetDoc.body.dataset.cjcTrademarkApplied === 'true') return;
-    replaceFirstMatch(targetDoc, /Continuous Jubilee Calendar(?!™)/, 'Continuous Jubilee Calendar™');
-    replaceFirstMatch(targetDoc, /\bCJC\b(?!™)/, 'CJC™');
+    const rootNode = getTrademarkRoot(targetDoc);
+    replaceFirstMatch(targetDoc, rootNode, /Continuous Jubilee Calendar(?!™)/, 'Continuous Jubilee Calendar™');
+    replaceFirstMatch(targetDoc, rootNode, /\bCJC\b(?!™)/, 'CJC™');
     targetDoc.body.dataset.cjcTrademarkApplied = 'true';
   }
 
@@ -180,9 +196,15 @@
     const doc = target.ownerDocument;
     ensureStyles(doc);
 
-    const watermark = doc.createElement('div');
+    let watermark = target.querySelector('[data-cjc-legal-watermark="true"]');
+    if (!watermark) {
+      watermark = doc.createElement('div');
+      watermark.dataset.cjcLegalWatermark = 'true';
+      watermark.dataset.legalIgnore = 'true';
+      target.appendChild(watermark);
+    }
+
     watermark.className = spec.className;
-    watermark.dataset.legalIgnore = 'true';
     watermark.textContent = spec.text;
     watermark.style.opacity = String(spec.opacity);
     watermark.style.fontSize = spec.fontSize + 'px';
