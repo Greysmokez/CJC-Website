@@ -72,13 +72,15 @@
       const pagesSource = `https://${RAW_REPO_OWNER.toLowerCase()}.github.io/${RAW_REPO_NAME}/${encodedPath}`;
       const isWord = normalizedPath.toLowerCase().endsWith('.docx');
       const isPdf = normalizedPath.toLowerCase().endsWith('.pdf');
+      const displayName = (requestedFile || normalizedPath).split('/').pop();
 
-      docName.textContent = requestedFile || normalizedPath;
+      docName.textContent = displayName;
       previewFrame.hidden = false;
       message.hidden = true;
 
       // Keep the download action aligned with the file type being previewed.
       downloadBtn.href = rawSource;
+      downloadBtn.download = displayName;
       downloadBtn.textContent = isWord ? 'Download Word' : 'Download PDF';
       downloadBtn.setAttribute(
         'aria-label',
