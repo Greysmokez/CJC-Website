@@ -848,6 +848,8 @@
       Selecting any assistant link now also copies your CJC prompt.
     </p>
 
+    <p class="note" id="aiLinkStatus" aria-live="polite" hidden></p>
+
     <footer>
       Source:
       <a
@@ -1036,6 +1038,13 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
       statusEl.textContent = text;
     }
 
+    function setOptionalStatusText(statusEl, text){
+      if(!statusEl) return;
+
+      statusEl.textContent = text;
+      statusEl.hidden = !text;
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const copyPdfUrlBtn =
         document.getElementById('copyPdfUrlBtn');
@@ -1057,6 +1066,9 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
 
       const openAiStatus =
         document.getElementById('openAiStatus');
+
+      const aiLinkStatus =
+        document.getElementById('aiLinkStatus');
 
       const platformNames = {
         chatgpt: 'ChatGPT',
@@ -1105,8 +1117,21 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
 
       if(aiButtons.length){
         aiButtons.forEach((aiBtn) => {
-          aiBtn.addEventListener('click', () => {
-            void copyTextToClipboard(makePrompt());
+          aiBtn.addEventListener('click', async (event) => {
+            event.preventDefault();
+
+            const ok = await copyTextToClipboard(makePrompt());
+
+            if(ok){
+              setOptionalStatusText(aiLinkStatus, '');
+            } else {
+              setOptionalStatusText(
+                aiLinkStatus,
+                'Prompt could not be copied automatically — use the Copy AI Kit button above instead.'
+              );
+            }
+
+            safeOpen(aiBtn.href);
           });
         });
       }
@@ -1124,49 +1149,41 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
           const fallbackUrl =
             platformUrls[selected] || platformUrls.chatgpt;
 
-          const win = safeOpen(fallbackUrl);
+          const hasCachedCanonicalKit = !!canonicalKitText;
+          const promptText = hasCachedCanonicalKit
+            ? makeFullKitPrompt(canonicalKitText)
+            : makeFallbackKitPrompt();
+          const ok = await copyTextToClipboard(promptText);
 
-          try {
-            const kitText = await prefetchCanonicalKit();
-            const ok =
-              await copyTextToClipboard(makeFullKitPrompt(kitText));
-
-            if(!ok){
-              throw new Error('full kit clipboard copy failed');
-            }
-
+          if(!ok){
             setStatusText(
               openAiStatus,
-              win
+              `Could not copy automatically. Use the Copy Raw Text button below, then open ${platformName} and paste.`
+            );
+            flashCopied(openAiPromptBtn, false);
+            return;
+          }
+
+          const win = safeOpen(fallbackUrl);
+
+          if(win){
+            setStatusText(
+              openAiStatus,
+              hasCachedCanonicalKit
                 ? `Full CJC kit copied. Opening ${platformName}. Paste it into the chat.`
-                : `Full CJC kit copied. Popup blocked. Please allow popups for this site, then open ${platformName} and paste it into the chat.`
+                : `Kit link copied (full text unavailable). Opening ${platformName}. Paste it into the chat.`
             );
             flashCopied(
               openAiPromptBtn,
               true,
               'Copied — Opening AI'
             );
-          } catch (error) {
-            console.warn('Full kit copy failed, falling back:', error);
-
-            const ok = await copyTextToClipboard(makeFallbackKitPrompt());
-
+          } else {
             setStatusText(
               openAiStatus,
-              ok
-                ? (
-                  win
-                    ? `Kit link copied (full text unavailable). Opening ${platformName}. Paste it into the chat.`
-                    : `Kit link copied (full text unavailable). Popup blocked. Please allow popups for this site, then open ${platformName} and paste it into the chat.`
-                )
-                : (
-                  win
-                    ? `Could not copy automatically. Opening ${platformName} — please paste manually: ${CJC_KIT_URL}`
-                    : `Could not copy automatically. Popup blocked. Please allow popups for this site, then open ${platformName} and paste manually: ${CJC_KIT_URL}`
-                )
+              `Kit copied. Popup blocked — please allow popups, then open ${platformName} and paste.`
             );
-
-            flashCopied(openAiPromptBtn, ok, ok ? 'Copied — Opening AI' : 'Copy failed');
+            flashCopied(openAiPromptBtn, true, 'Copied');
           }
         });
       }
