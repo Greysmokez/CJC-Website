@@ -117,7 +117,7 @@
     const legalFooter = targetDoc.createElement('div');
     legalFooter.className = 'cjc-legal-footer';
     legalFooter.dataset.cjcLegalFooter = 'true';
-    legalFooter.dataset.legalIgnore = 'true';
+    legalFooter.setAttribute('data-legal-ignore', 'true');
     legalFooter.appendChild(createFooterContent(targetDoc));
 
     if (footerHost) {
@@ -170,6 +170,7 @@
   function applyTrademarkMarks(doc) {
     const targetDoc = doc || (typeof document !== 'undefined' ? document : null);
     if (!targetDoc || !targetDoc.body) return;
+    if (targetDoc.body.getAttribute('data-cjc-skip-trademark-auto') === 'true') return;
     const rootNode = getTrademarkRoot(targetDoc);
     if (targetDoc.body.dataset.cjcTrademarkPhraseApplied !== 'true') {
       const phraseMarked = replaceFirstMatch(targetDoc, rootNode, /Continuous Jubilee Calendar(?!™)/, 'Continuous Jubilee Calendar™');
@@ -208,7 +209,7 @@
     if (!watermark) {
       watermark = doc.createElement('div');
       watermark.dataset.cjcLegalWatermark = 'true';
-      watermark.dataset.legalIgnore = 'true';
+      watermark.setAttribute('data-legal-ignore', 'true');
       target.appendChild(watermark);
     }
 
