@@ -92,7 +92,8 @@
       if (!/\.(docx|pdf)$/i.test(value)) {
         return value;
       }
-      return PROTECTED_DOWNLOAD_PATHS[value] || value;
+      const lookupPath = value.replace(/^\.?\//, '');
+      return PROTECTED_DOWNLOAD_PATHS[lookupPath] || value;
     };
 
     const isSafeRelativePath = (value) => {
