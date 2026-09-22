@@ -31,8 +31,8 @@
     const FILE_ALIASES = {
       'Chapter1.docx': 'chapter1.html',
       'Chapter1.pdf': 'chapter1.html',
-      'Crucifixion.docx': 'docs/Crucifixion.docx',
-      'Isaiah61CJCMath.docx': 'docs/Isaiah61CJCMath.docx',
+      'Crucifixion.docx': 'Crucifixion.docx',
+      'Isaiah61CJCMath.docx': 'Isaiah61CJCMath.docx',
       'chapter1.html': 'chapter1.html'
     };
 
@@ -67,6 +67,9 @@
 
     const resolveProtectedPath = (value) => {
       if (!/\.(docx|pdf)$/i.test(value)) {
+        return value;
+      }
+      if (value.includes('/')) {
         return value;
       }
       const fileName = value.split('/').pop();
