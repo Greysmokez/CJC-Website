@@ -48,6 +48,56 @@
       return value.replace(/\\/g, '/').trim();
     };
 
+    const PROTECTED_DOWNLOAD_PATHS = Object.fromEntries(Object.entries({
+      'Chapter1.docx': 'protected-assets/Chapter1.docx',
+      'Chapter1.pdf': 'protected-assets/Chapter1.pdf',
+      'docs/Chapter1.docx': 'protected-assets/Chapter1.docx',
+      'docs/Chapter1.pdf': 'protected-assets/Chapter1.pdf',
+      'Decree2Cross.docx': 'protected-assets/Decree2Cross.docx',
+      'Decree2Cross.pdf': 'protected-assets/Decree2Cross.pdf',
+      'docs/Decree2Cross.docx': 'protected-assets/Decree2Cross.docx',
+      'docs/Decree2Cross.pdf': 'protected-assets/Decree2Cross.pdf',
+      'Crucifixion.docx': 'protected-assets/Crucifixion.docx',
+      'Crucifixion.pdf': 'protected-assets/Crucifixion.pdf',
+      'docs/Crucifixion.docx': 'protected-assets/Crucifixion.docx',
+      'docs/Crucifixion.pdf': 'protected-assets/Crucifixion.pdf',
+      'Art Thou He.docx': 'protected-assets/Art Thou He.docx',
+      'Art Thou He.pdf': 'protected-assets/Art Thou He.pdf',
+      'docs/Art Thou He.docx': 'protected-assets/Art Thou He.docx',
+      'docs/Art Thou He.pdf': 'protected-assets/Art Thou He.pdf',
+      'art%20thou%20he.docx': 'protected-assets/Art Thou He.docx',
+      'art%20thou%20he.pdf': 'protected-assets/Art Thou He.pdf',
+      'docs/art%20thou%20he.docx': 'protected-assets/Art Thou He.docx',
+      'docs/art%20thou%20he.pdf': 'protected-assets/Art Thou He.pdf',
+      'Isaiah61CJCMath.docx': 'protected-assets/Isaiah61CJCMath.docx',
+      'Isaiah61CJCMath.pdf': 'protected-assets/Isaiah61CJCMath.pdf',
+      'docs/Isaiah61CJCMath.docx': 'protected-assets/Isaiah61CJCMath.docx',
+      'docs/Isaiah61CJCMath.pdf': 'protected-assets/Isaiah61CJCMath.pdf',
+      'BrittleCoalition.docx': 'protected-assets/BrittleCoalition.docx',
+      'BrittleCoalition.pdf': 'protected-assets/BrittleCoalition.pdf',
+      'docs/BrittleCoalition.docx': 'protected-assets/BrittleCoalition.docx',
+      'docs/BrittleCoalition.pdf': 'protected-assets/BrittleCoalition.pdf',
+      'The_Jubilee_Calendar_and_the_Story_of_the_End.docx':
+        'protected-assets/The_Jubilee_Calendar_and_the_Story_of_the_End.docx',
+      'The_Jubilee_Calendar_and_the_Story_of_the_End.pdf':
+        'protected-assets/The_Jubilee_Calendar_and_the_Story_of_the_End.pdf',
+      'docs/The_Jubilee_Calendar_and_the_Story_of_the_End.docx':
+        'protected-assets/The_Jubilee_Calendar_and_the_Story_of_the_End.docx',
+      'docs/The_Jubilee_Calendar_and_the_Story_of_the_End.pdf':
+        'protected-assets/The_Jubilee_Calendar_and_the_Story_of_the_End.pdf'
+    }).map(([path, target]) => [path.toLowerCase(), target]));
+
+    const resolveProtectedDownloadPath = (value) => {
+      if (!/\.(docx|pdf)$/i.test(value)) {
+        return null;
+      }
+      if (value.includes('..')) {
+        return null;
+      }
+      const lookupPath = value.replace(/^(\.\/|\/)+/, '').replace(/\/+/g, '/');
+      return PROTECTED_DOWNLOAD_PATHS[lookupPath.toLowerCase()] || null;
+    };
+
     const isSafeRelativePath = (value) => {
       if (!value) return false;
       if (value.includes('..')) return false;
@@ -63,29 +113,47 @@
       message.hidden = false;
       message.textContent = 'Invalid document requested.';
     } else {
-      const encodedPath = normalizedPath
+      const previewPath = normalizedPath;
+      const downloadPath = resolveProtectedDownloadPath(normalizedPath);
+      const isWord = normalizedPath.toLowerCase().endsWith('.docx');
+      const isPdf = normalizedPath.toLowerCase().endsWith('.pdf');
+
+      if ((isWord || isPdf) && !downloadPath) {
+        previewFrame.hidden = true;
+        message.hidden = false;
+        message.textContent = 'Invalid document requested.';
+        return;
+      }
+
+      const encodedPreviewPath = previewPath
         .split('/')
         .map(segment => encodeURIComponent(segment))
         .join('/');
-
-      const rawSource = `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${encodedPath}`;
-      const pagesSource = `https://${RAW_REPO_OWNER.toLowerCase()}.github.io/${RAW_REPO_NAME}/${encodedPath}`;
-      const isWord = normalizedPath.toLowerCase().endsWith('.docx');
-      const isPdf = normalizedPath.toLowerCase().endsWith('.pdf');
+      const pagesSource = `https://${RAW_REPO_OWNER.toLowerCase()}.github.io/${RAW_REPO_NAME}/${encodedPreviewPath}`;
 
       docName.textContent = requestedFile || normalizedPath;
       previewFrame.hidden = false;
       message.hidden = true;
 
-      // Keep the download action aligned with the file type being previewed.
-      downloadBtn.href = rawSource;
-      downloadBtn.textContent = isWord ? 'Download Word' : 'Download PDF';
-      downloadBtn.setAttribute(
-        'aria-label',
-        isWord ? 'Download Word document' : 'Download PDF document'
-      );
+      if (isWord || isPdf) {
+        const encodedDownloadPath = downloadPath
+          .split('/')
+          .map(segment => encodeURIComponent(segment))
+          .join('/');
+        const rawSource = `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${encodedDownloadPath}`;
+        downloadBtn.hidden = false;
+        downloadBtn.href = rawSource;
+        downloadBtn.textContent = isWord ? 'Download Word' : 'Download PDF';
+        downloadBtn.setAttribute(
+          'aria-label',
+          isWord ? 'Download Word document' : 'Download PDF document'
+        );
+      } else {
+        downloadBtn.hidden = true;
+      }
 
       if (isWord) {
+        const rawSource = downloadBtn.href;
         const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(rawSource)}`;
         previewFrame.src = officeUrl;
       } else if (isPdf) {
