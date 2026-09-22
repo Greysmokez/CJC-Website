@@ -45,7 +45,12 @@
 
     const normalizePath = (value) => {
       if (!value) return '';
-      return value.replace(/\\/g, '/').trim();
+      const normalized = value.replace(/\\/g, '/').trim();
+      try {
+        return decodeURIComponent(normalized);
+      } catch (_) {
+        return normalized;
+      }
     };
 
     const PROTECTED_DOWNLOAD_PATHS = {
