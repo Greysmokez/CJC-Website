@@ -48,12 +48,32 @@
       return value.replace(/\\/g, '/').trim();
     };
 
+    const PROTECTED_FILE_NAMES = new Set([
+      'Chapter1.docx',
+      'Chapter1.pdf',
+      'Decree2Cross.docx',
+      'Decree2Cross.pdf',
+      'Crucifixion.docx',
+      'Crucifixion.pdf',
+      'Art Thou He.docx',
+      'Art Thou He.pdf',
+      'Isaiah61CJCMath.docx',
+      'Isaiah61CJCMath.pdf',
+      'BrittleCoalition.docx',
+      'BrittleCoalition.pdf',
+      'The_Jubilee_Calendar_and_the_Story_of_the_End.docx',
+      'The_Jubilee_Calendar_and_the_Story_of_the_End.pdf'
+    ]);
+
     const resolveProtectedPath = (value) => {
       if (!/\.(docx|pdf)$/i.test(value)) {
         return value;
       }
       const fileName = value.split('/').pop();
-      return `protected-assets/${fileName}`;
+      if (PROTECTED_FILE_NAMES.has(fileName)) {
+        return `protected-assets/${fileName}`;
+      }
+      return value;
     };
 
     const isSafeRelativePath = (value) => {
