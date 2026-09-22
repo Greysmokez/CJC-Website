@@ -56,7 +56,7 @@
 
   function shouldSkipTextNode(parent) {
     if (!parent || parent.nodeType !== Node.ELEMENT_NODE) return true;
-    if (parent.closest('head, title, meta, [data-cjc-trademark="manual"], script, style, noscript, textarea, input, select, option, code, pre, svg, table, thead, tbody, tfoot, tr, td, th')) {
+    if (parent.closest('head, title, meta, [data-cjc-trademark="manual"], script, style, noscript, textarea, input, select, option, button, label, a, code, pre, svg, table, thead, tbody, tfoot, tr, td, th')) {
       return true;
     }
     return false;
@@ -146,9 +146,7 @@
     const host = target && target.nodeType === Node.ELEMENT_NODE ? target : document.body;
     if (!host) return null;
 
-    const existing = Array.from(host.children).find(function (child) {
-      return child && child.hasAttribute('data-cjc-watermark');
-    });
+    const existing = host.querySelector('[data-cjc-watermark]');
     if (existing) return existing;
 
     const config = normalizeWatermarkOptions(options);
