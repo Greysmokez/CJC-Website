@@ -94,7 +94,7 @@
       if (value.includes('..')) {
         return null;
       }
-      const lookupPath = value.replace(/^\.?\//, '').replace(/\/+/g, '/');
+      const lookupPath = value.replace(/^(\.\/|\/)+/, '').replace(/\/+/g, '/');
       return PROTECTED_DOWNLOAD_PATHS[lookupPath.toLowerCase()] || null;
     };
 
