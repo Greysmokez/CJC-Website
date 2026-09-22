@@ -3,10 +3,14 @@
 
   const LEGAL_YEAR = '2026';
   const MUTED_GRAY = '#8b8f97';
+  const CANONICAL_TERMS_URL = 'https://greysmokez.github.io/CJC-Website/terms-of-use/';
   const TRADEMARK_PATTERNS = [
     { term: 'Continuous Jubilee Calendar', regex: /Continuous Jubilee Calendar(?!\s*™)/ },
     { term: 'CJC', regex: /\bCJC\b(?!\s*™)/ }
   ];
+  const LEGAL_CONFIG = window.CJCLegalConfig && typeof window.CJCLegalConfig === 'object'
+    ? window.CJCLegalConfig
+    : {};
 
   const DEFAULT_WATERMARK = Object.freeze({
     text: '© 2026 Chip Welsh · Continuous Jubilee Calendar™ · CJC™',
@@ -131,7 +135,7 @@
 
     const termsHref = SCRIPT_URL
       ? new URL('../terms-of-use/', SCRIPT_URL).href
-      : 'terms-of-use/';
+      : CANONICAL_TERMS_URL;
 
     footer.append(document.createTextNode(
       '© ' + LEGAL_YEAR + ' Chip Welsh. Continuous Jubilee Calendar™ and CJC™ are proprietary marks. Personal, non-commercial study use only unless otherwise licensed. '
@@ -187,7 +191,9 @@
 
   function initializeLegalEnhancements() {
     if (!document.body) return;
-    applyFirstInstanceTrademark(document.body);
+    if (!LEGAL_CONFIG.disableTrademarkPass) {
+      applyFirstInstanceTrademark(document.body);
+    }
     injectLegalFooter();
   }
 
