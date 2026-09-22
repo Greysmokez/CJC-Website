@@ -13,7 +13,25 @@
     legalNote: 'This notice is provided for disclosure purposes only and does not constitute legal advice or guarantee enforceability.'
   };
 
-  function getProjectBasePath() {
+  let configuredBasePath = null;
+
+  function normalizeBasePath(value) {
+    if (!value || typeof value !== 'string') return '/';
+    const trimmed = value.trim();
+    if (!trimmed) return '/';
+    const withoutOrigin = trimmed.replace(/^[a-z]+:\/\/[^/]+/i, '');
+    const ensuredLeadingSlash = withoutOrigin.startsWith('/') ? withoutOrigin : '/' + withoutOrigin;
+    return ensuredLeadingSlash.replace(/\/+$/, '') + '/';
+  }
+
+  function setBasePath(value) {
+    configuredBasePath = normalizeBasePath(value);
+    return configuredBasePath;
+  }
+
+  function getProjectBasePath(overrideBasePath) {
+    if (overrideBasePath) return normalizeBasePath(overrideBasePath);
+    if (configuredBasePath) return configuredBasePath;
     if (typeof window === 'undefined' || !window.location) return '/';
     const doc = typeof document !== 'undefined' ? document : null;
     const scriptEl = doc && (doc.currentScript || doc.querySelector('script[src$="assets/legal.js"]'));
@@ -21,21 +39,34 @@
       try {
         const scriptPath = new URL(scriptEl.src, window.location.href).pathname;
         if (scriptPath.endsWith('/assets/legal.js')) {
-          return scriptPath.slice(0, -'assets/legal.js'.length);
+          return normalizeBasePath(scriptPath.slice(0, -'assets/legal.js'.length));
         }
       } catch (error) {
         // Fall through to location-based detection.
       }
     }
-    const parts = window.location.pathname.split('/').filter(Boolean);
-    if (window.location.hostname.endsWith('github.io') && parts.length) {
-      return '/' + parts[0] + '/';
+
+    const canonicalHref = doc && doc.querySelector('link[rel="canonical"]');
+    if (canonicalHref) {
+      try {
+        const canonicalPath = new URL(canonicalHref.href, window.location.href).pathname;
+        if (/\/[^/]+\.html$/i.test(canonicalPath)) {
+          return normalizeBasePath(canonicalPath.replace(/[^/]+$/u, ''));
+        }
+      } catch (error) {
+        // Fall through to location-based detection.
+      }
     }
-    return '/';
+
+    const currentPath = window.location.pathname;
+    if (/\/[^/]+\.html$/i.test(currentPath)) {
+      return normalizeBasePath(currentPath.replace(/[^/]+$/u, ''));
+    }
+    return normalizeBasePath(currentPath.replace(/[^/]*$/u, ''));
   }
 
-  function getTermsUrl() {
-    return getProjectBasePath() + 'terms-of-use/';
+  function getTermsUrl(overrideBasePath) {
+    return getProjectBasePath(overrideBasePath) + 'terms-of-use/';
   }
 
   function ensureStyles(doc) {
@@ -52,14 +83,14 @@
     doc.head.appendChild(style);
   }
 
-  function createFooterMarkup() {
+  function createFooterMarkup(basePathOverride) {
     return [
       LEGAL.copyright,
       ' ',
       LEGAL.trademarks,
       ' | ',
       '<a href="',
-      getTermsUrl(),
+      getTermsUrl(basePathOverride),
       '">',
       LEGAL.footerLinkText,
       '</a>'
@@ -177,7 +208,7 @@
       ['Personal, private research, and non-commercial educational use only unless separate written permission is granted.'],
       ['Attribution must identify Chip Welsh and link back to the official CJC website domain when referencing the framework publicly.'],
       ['Data tables, charts, calculations, and derivative monetized products require explicit written permission or a formal license.'],
-      ['See ' + getTermsUrl() + ' for the full Terms of Use & Intellectual Property Notice.'],
+      ['See ' + getTermsUrl(opts.basePath) + ' for the full Terms of Use & Intellectual Property Notice.'],
       [''],
       [LEGAL.legalNote]
     ];
@@ -219,7 +250,7 @@
           return name !== sheetName;
         })
       );
-      workbook.Sheets[sheetName] = workbook.Sheets[sheetName] || {
+      workbook.Sheets[sheetName] = {
         __cjcAboutSheet: true,
         __rows: aboutSheet.rows,
         '!protect': {
@@ -258,6 +289,8 @@
     createAboutSheet,
     prependAboutSheet,
     getTermsUrl,
+    getProjectBasePath,
+    setBasePath,
     init
   };
 });
