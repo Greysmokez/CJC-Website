@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://greysmokez.github.io/CJC-Website/sitemap.xml
