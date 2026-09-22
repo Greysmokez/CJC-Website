@@ -89,12 +89,12 @@
 
     const resolveProtectedDownloadPath = (value) => {
       if (!/\.(docx|pdf)$/i.test(value)) {
-        return value;
+        return null;
       }
       if (value.includes('..')) {
         return null;
       }
-      const lookupPath = value.replace(/^\.?\//, '');
+      const lookupPath = value.replace(/^\.?\//, '').replace(/\/+/g, '/');
       return PROTECTED_DOWNLOAD_PATHS[lookupPath.toLowerCase()] || null;
     };
 
@@ -129,27 +129,31 @@
         .split('/')
         .map(segment => encodeURIComponent(segment))
         .join('/');
-      const encodedDownloadPath = downloadPath
-        .split('/')
-        .map(segment => encodeURIComponent(segment))
-        .join('/');
-
-      const rawSource = `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${encodedDownloadPath}`;
       const pagesSource = `https://${RAW_REPO_OWNER.toLowerCase()}.github.io/${RAW_REPO_NAME}/${encodedPreviewPath}`;
 
       docName.textContent = requestedFile || normalizedPath;
       previewFrame.hidden = false;
       message.hidden = true;
 
-      // Keep the download action aligned with the file type being previewed.
-      downloadBtn.href = rawSource;
-      downloadBtn.textContent = isWord ? 'Download Word' : 'Download PDF';
-      downloadBtn.setAttribute(
-        'aria-label',
-        isWord ? 'Download Word document' : 'Download PDF document'
-      );
+      if (isWord || isPdf) {
+        const encodedDownloadPath = downloadPath
+          .split('/')
+          .map(segment => encodeURIComponent(segment))
+          .join('/');
+        const rawSource = `https://raw.githubusercontent.com/${RAW_REPO_OWNER}/${RAW_REPO_NAME}/${RAW_REPO_BRANCH}/${encodedDownloadPath}`;
+        downloadBtn.hidden = false;
+        downloadBtn.href = rawSource;
+        downloadBtn.textContent = isWord ? 'Download Word' : 'Download PDF';
+        downloadBtn.setAttribute(
+          'aria-label',
+          isWord ? 'Download Word document' : 'Download PDF document'
+        );
+      } else {
+        downloadBtn.hidden = true;
+      }
 
       if (isWord) {
+        const rawSource = downloadBtn.href;
         const officeUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(rawSource)}`;
         previewFrame.src = officeUrl;
       } else if (isPdf) {
