@@ -17,6 +17,21 @@
     placement: 'margin-only'
   });
 
+  const SCRIPT_URL = (function () {
+    const current = document.currentScript;
+    if (current && current.src) {
+      return new URL(current.src, window.location.href);
+    }
+
+    const fallback = Array.from(document.scripts || []).find(function (script) {
+      return script && script.src && /\/assets\/legal\.js(?:\?|$)/.test(script.src);
+    });
+
+    return fallback && fallback.src
+      ? new URL(fallback.src, window.location.href)
+      : null;
+  })();
+
   function clampOpacity(value) {
     const numeric = Number(value);
     if (!Number.isFinite(numeric)) return DEFAULT_WATERMARK.opacity;
@@ -114,11 +129,21 @@
     footer.style.fontSize = '0.92rem';
     footer.style.lineHeight = '1.6';
 
-    const termsHref = /\/terms-of-use(?:\/|\/index\.html)?$/.test(location.pathname)
-      ? './'
+    const termsHref = SCRIPT_URL
+      ? new URL('../terms-of-use/', SCRIPT_URL).href
       : 'terms-of-use/';
 
-    footer.innerHTML = '© ' + LEGAL_YEAR + ' Chip Welsh. Continuous Jubilee Calendar™ and CJC™ are proprietary marks. Personal, non-commercial study use only unless otherwise licensed. <a href="' + termsHref + '" style="color:inherit;text-decoration:underline;">Terms of Use</a>.';
+    footer.append(document.createTextNode(
+      '© ' + LEGAL_YEAR + ' Chip Welsh. Continuous Jubilee Calendar™ and CJC™ are proprietary marks. Personal, non-commercial study use only unless otherwise licensed. '
+    ));
+
+    const link = document.createElement('a');
+    link.href = termsHref;
+    link.textContent = 'Terms of Use';
+    link.style.color = 'inherit';
+    link.style.textDecoration = 'underline';
+    footer.append(link, document.createTextNode('.'));
+
     document.body.appendChild(footer);
     return footer;
   }
@@ -160,9 +185,15 @@
     applyWatermarkHook
   };
 
-  document.addEventListener('DOMContentLoaded', function () {
+  function initializeLegalEnhancements() {
     if (!document.body) return;
     applyFirstInstanceTrademark(document.body);
     injectLegalFooter();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeLegalEnhancements, { once: true });
+  } else {
+    initializeLegalEnhancements();
+  }
 })();
