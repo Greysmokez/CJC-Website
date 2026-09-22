@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://greysmokez.github.io/CJC-Website/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://greysmokez.github.io/CJC-Website/kit.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+  <url><loc>https://greysmokez.github.io/CJC-Website/</loc></url>
+  <url><loc>https://greysmokez.github.io/CJC-Website/chapter1.html</loc></url>
+  <url><loc>https://greysmokez.github.io/CJC-Website/crucifixion.html</loc></url>
+  <url><loc>https://greysmokez.github.io/CJC-Website/art-thou-he.html</loc></url>
+  <url><loc>https://greysmokez.github.io/CJC-Website/isaiah61-cjc-math.html</loc></url>
+  <url><loc>https://greysmokez.github.io/CJC-Website/decree2cross.html</loc></url>
+  <url><loc>https://greysmokez.github.io/CJC-Website/brittle-coalition.html</loc></url>
+  <url><loc>https://greysmokez.github.io/CJC-Website/jubilee-calendar-story-of-the-end.html</loc></url>
 </urlset>
