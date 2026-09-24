@@ -137,6 +137,16 @@
         </div>
       </div>
       <div class="document-item">
+        <div class="document-title">One Commandment — How Four Persian Decrees Point to the Messiah</div>
+        <div class="doc-buttons">
+          <a href="one-commandment.html" class="doc-btn" rel="noopener">Read Online</a>
+          <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/OneCommandment.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
+          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/OneCommandment.docx" class="doc-btn docx" target="_blank" rel="noopener">Download Word</a>
+          <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/OneCommandment.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Open PDF</a>
+          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/OneCommandment.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
+      </div>
+      <div class="document-item">
         <div class="document-title">Chapter 1 — Scriptures Core Calendar Framework</div>
         <div class="doc-buttons">
           <a href="chapter1.html" class="doc-btn" rel="noopener">Read Online</a>
@@ -348,7 +358,8 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
 
     function safeOpen(url, statusEl){
       try {
-        const win = window.open(url, '_blank', 'noopener');
+        const win = window.open(url, '_blank');
+        if(win){ try { win.opener = null; } catch {} }
         if(!win && statusEl){ statusEl.textContent = 'Popup blocked. Please allow popups for this site.'; }
         return win;
       } catch {
@@ -410,7 +421,8 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
           const fallbackUrl = platformUrls[selected] || platformUrls.chatgpt;
           let pendingWin = null;
           try {
-            pendingWin = window.open('', '_blank', 'noopener');
+            pendingWin = window.open('about:blank', '_blank');
+            if(pendingWin){ pendingWin.opener = null; }
           } catch {}
           let promptText = '';
           let usedFullKit = false;
