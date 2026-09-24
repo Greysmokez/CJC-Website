@@ -107,12 +107,12 @@
       <div class="status" id="openAiStatus"></div>
       <div class="label" role="heading" aria-level="2" style="margin-top:10px;">What is the CJC</div>
       <div class="kit-link-row">
-        <a class="kit-link" id="chapter1Url" href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/protected-assets/Chapter1.pdf" target="_blank" rel="noopener">Chapter1 PDF</a>
+        <a class="kit-link" id="chapter1Url" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/Chapter1.pdf" target="_blank" rel="noopener">Chapter1 PDF</a>
         <button class="copy-btn ghost" id="copyChapter1Btn" aria-label="Copy Chapter 1 URL">Copy Chapter 1 URL</button>
       </div>
       <div class="label" style="margin-top:12px;">To copy and paste to AI manually select one:</div>
       <div class="kit-link-row">
-        <a class="kit-link" id="pdfUrl" href="https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/protected-assets/CJC_AI_Research_Kit.pdf" target="_blank" rel="noopener">CJC PDF Version</a>
+        <a class="kit-link" id="pdfUrl" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/CJC_AI_Research_Kit.pdf" target="_blank" rel="noopener">CJC PDF Version</a>
         <button class="copy-btn ghost" id="copyPdfUrlBtn" aria-label="Copy PDF URL">Copy PDF URL</button>
       </div>
       <div class="kit-link-row">
@@ -240,8 +240,8 @@
   <script>
     const RAW_URL = 'https://greysmokez.github.io/CJC-Website/kit.txt';
     const CJC_KIT_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJCKit.txt';
-    const PDF_URL = 'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/protected-assets/CJC_AI_Research_Kit.pdf';
-    const CHAPTER1_URL = 'https://github.com/Greysmokez/Continuous-Jubilee-Calendar/blob/main/protected-assets/Chapter1.pdf';
+    const PDF_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/CJC_AI_Research_Kit.pdf';
+    const CHAPTER1_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/Chapter1.pdf';
     const platformUrls = { chatgpt: 'https://chat.openai.com/', grok: 'https://grok.com/', perplexity: 'https://www.perplexity.ai/' };
     const CJC_TUTOR_PROMPT = `You are an expert tutor for the Continuous Jubilee Calendar (CJC) method.
 
@@ -298,7 +298,7 @@ Response format:
     }
 
     async function fetchCanonicalKit(){
-      const resp = await fetch(CJC_KIT_URL, { cache:'no-store' });
+      const resp = await fetch(CJC_KIT_URL);
       if(!resp.ok){ throw new Error('canonical kit fetch failed: ' + resp.status); }
       return await resp.text();
     }
@@ -408,18 +408,43 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
           const selected = aiPlatform && aiPlatform.value ? aiPlatform.value : 'chatgpt';
           const platformName = platformNames[selected] || 'ChatGPT';
           const fallbackUrl = platformUrls[selected] || platformUrls.chatgpt;
-          const promptText = canonicalKitText ? makeFullKitPrompt(canonicalKitText) : makeFallbackKitPrompt();
+          let pendingWin = null;
+          try {
+            pendingWin = window.open('', '_blank');
+            if(pendingWin){ pendingWin.opener = null; }
+          } catch {}
+          let promptText = '';
+          let usedFullKit = false;
+          try {
+            const kitText = canonicalKitText || await prefetchCanonicalKit();
+            promptText = makeFullKitPrompt(kitText);
+            usedFullKit = true;
+          } catch {
+            promptText = makeFallbackKitPrompt();
+          }
           const ok = await copyTextToClipboard(promptText);
           if(!ok){
+            if(pendingWin){ pendingWin.close(); }
             setStatusText(openAiStatus, 'Could not copy automatically. Use the Copy Raw Text button below, then open ' + platformName + ' and paste.');
             return;
           }
-          const win = safeOpen(fallbackUrl, openAiStatus);
+          let win = pendingWin;
+          if(win){
+            try {
+              win.location.replace(fallbackUrl);
+            } catch {
+              win.close();
+              win = null;
+            }
+          }
+          if(!win){
+            win = safeOpen(fallbackUrl, openAiStatus);
+          }
           if(!win){
             setStatusText(openAiStatus, 'Kit copied. Popup blocked — please allow popups, then open ' + platformName + ' and paste.');
             return;
           }
-          setStatusText(openAiStatus, canonicalKitText ? 'Full CJC kit copied. Opening ' + platformName + '. Paste it into the chat.' : 'Kit link copied. Opening ' + platformName + '. Paste it into the chat.');
+          setStatusText(openAiStatus, usedFullKit ? 'Full CJC kit copied. Opening ' + platformName + '. Paste it into the chat.' : 'Kit link copied. Opening ' + platformName + '. Paste it into the chat.');
           flashCopied(openAiPromptBtn, true, 'Copied — Opening AI');
         });
       }
@@ -446,8 +471,6 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
           }
         });
       });
-
-      prefetchCanonicalKit().catch(() => {});
     });
   </script>
 </body>
