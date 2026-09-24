@@ -5,6 +5,7 @@ import re
 import subprocess
 import sys
 import tempfile
+from html.parser import HTMLParser
 from pathlib import Path
 
 
@@ -38,11 +39,37 @@ ASSET_PATTERN = re.compile(
     r"""<(?:script[^>]*\ssrc|link[^>]*\shref)=["']([^"']+)["']""",
     re.IGNORECASE,
 )
-INLINE_SCRIPT_PATTERN = re.compile(
-    r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script\s*>",
-    re.IGNORECASE | re.DOTALL,
-)
 H1_PATTERN = re.compile(r"<h1\b", re.IGNORECASE)
+
+
+class InlineScriptExtractor(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.inline_scripts: list[str] = []
+        self._in_inline_script = False
+        self._current_script: list[str] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag.lower() != "script":
+            return
+        attr_map = {name.lower(): value for name, value in attrs}
+        if "src" in attr_map:
+            self._in_inline_script = False
+            self._current_script = []
+            return
+        self._in_inline_script = True
+        self._current_script = []
+
+    def handle_data(self, data: str) -> None:
+        if self._in_inline_script:
+            self._current_script.append(data)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag.lower() != "script" or not self._in_inline_script:
+            return
+        self.inline_scripts.append("".join(self._current_script))
+        self._in_inline_script = False
+        self._current_script = []
 
 
 def is_local_asset(path: str) -> bool:
@@ -77,10 +104,13 @@ def validate_h1_counts() -> list[str]:
     return errors
 
 
-def validate_index_script_syntax() -> list[str]:
+def validate_index_script_syntax() -> tuple[list[str], list[str]]:
     errors: list[str] = []
+    warnings: list[str] = []
     text = (ROOT / "index.html").read_text(encoding="utf-8")
-    scripts = INLINE_SCRIPT_PATTERN.findall(text)
+    extractor = InlineScriptExtractor()
+    extractor.feed(text)
+    scripts = extractor.inline_scripts
     for index, script in enumerate(scripts, start=1):
         with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as handle:
             handle.write(script)
@@ -94,27 +124,32 @@ def validate_index_script_syntax() -> list[str]:
             )
         except FileNotFoundError:
             temp_path.unlink(missing_ok=True)
-            errors.append("index.html inline JavaScript syntax check requires a local 'node' executable, but none was found.")
-            continue
+            warnings.append("Skipped index.html inline JavaScript syntax check because no local 'node' executable was found.")
+            return errors, warnings
         temp_path.unlink(missing_ok=True)
         if result.returncode != 0:
             errors.append(
                 f"index.html inline script #{index} failed syntax check:\n"
                 f"{(result.stderr or result.stdout).strip()}"
             )
-    return errors
+    return errors, warnings
 
 
 def main() -> int:
     errors = []
+    warnings = []
     errors.extend(validate_asset_paths())
     errors.extend(validate_h1_counts())
-    errors.extend(validate_index_script_syntax())
+    script_errors, script_warnings = validate_index_script_syntax()
+    errors.extend(script_errors)
+    warnings.extend(script_warnings)
     if errors:
         print("Validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
+    for warning in warnings:
+        print(f"Warning: {warning}")
     print("Validation passed.")
     return 0
 
