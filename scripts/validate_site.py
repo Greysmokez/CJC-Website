@@ -39,7 +39,7 @@ ASSET_PATTERN = re.compile(
     re.IGNORECASE,
 )
 INLINE_SCRIPT_PATTERN = re.compile(
-    r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>",
+    r"<script(?![^>]*\bsrc=)[^>]*>(.*?)</script\s*>",
     re.IGNORECASE | re.DOTALL,
 )
 H1_PATTERN = re.compile(r"<h1\b", re.IGNORECASE)
@@ -85,12 +85,17 @@ def validate_index_script_syntax() -> list[str]:
         with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False, encoding="utf-8") as handle:
             handle.write(script)
             temp_path = Path(handle.name)
-        result = subprocess.run(
-            ["node", "--check", str(temp_path)],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
+        try:
+            result = subprocess.run(
+                ["node", "--check", str(temp_path)],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+        except FileNotFoundError:
+            temp_path.unlink(missing_ok=True)
+            errors.append("index.html inline JavaScript syntax check requires a local 'node' executable, but none was found.")
+            continue
         temp_path.unlink(missing_ok=True)
         if result.returncode != 0:
             errors.append(
