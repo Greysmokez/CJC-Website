@@ -1,0 +1,33 @@
+name: Validate Site
+
+# Checks every page listed in scripts/validate_site.py:
+# local asset paths, one <h1> per article page, and the homepage script's syntax.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node (for the JavaScript syntax check)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run site validation
+        run: python scripts/validate_site.py
