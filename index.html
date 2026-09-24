@@ -231,7 +231,8 @@
       <a class="ai-btn" href="https://copilot.microsoft.com" data-name="Copilot"><span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span>Copilot</a>
       <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
     </div>
-    <p class="note">Selecting any assistant link now also copies your CJC prompt.</p>
+    <div class="status" id="aiLinkStatus" role="status" aria-live="polite"></div>
+    <p class="note">Selecting any assistant copies the full CJC kit and opens it. Paste it into the chat.</p>
 
     <section class="publication-context" aria-labelledby="publication-context-title">
       <h2 id="publication-context-title">Publication Context</h2>
@@ -463,20 +464,41 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
       document.querySelectorAll('.ai-btn').forEach((aiBtn) => {
         aiBtn.addEventListener('click', async (event) => {
           event.preventDefault();
-          const ok = await copyTextToClipboard(makePrompt());
           const aiName = aiBtn.dataset.name || 'AI';
-          if(ok){
-            const win = safeOpen(aiBtn.href, aiLinkStatus);
-            if(!win){
-              window.location.href = aiBtn.href;
+          let pendingWin = null;
+          try {
+            pendingWin = window.open('about:blank', '_blank');
+            if(pendingWin){ pendingWin.opener = null; }
+          } catch {}
+          let promptText = '';
+          let usedFullKit = false;
+          try {
+            const kitText = canonicalKitText || await prefetchCanonicalKit();
+            promptText = makeFullKitPrompt(kitText);
+            usedFullKit = true;
+          } catch {
+            promptText = makeFallbackKitPrompt();
+          }
+          const ok = await copyTextToClipboard(promptText);
+          let win = pendingWin;
+          if(win){
+            try {
+              win.location.replace(aiBtn.href);
+            } catch {
+              win.close();
+              win = null;
             }
-            return;
           }
-          if(aiLinkStatus){
-            aiLinkStatus.hidden = false;
-            aiLinkStatus.textContent = 'Prompt could not be copied automatically — use the Copy AI Kit button above instead.';
+          if(!win){
+            win = safeOpen(aiBtn.href, aiLinkStatus);
           }
-          const win = safeOpen(aiBtn.href, aiLinkStatus);
+          if(!ok){
+            setStatusText(aiLinkStatus, 'Could not copy automatically. Use the Copy Raw Text button above, then paste into ' + aiName + '.');
+          } else if(win){
+            setStatusText(aiLinkStatus, usedFullKit ? 'Full CJC kit copied. Opening ' + aiName + '. Paste it into the chat.' : 'Kit link copied. Opening ' + aiName + '. Paste it into the chat.');
+          } else {
+            setStatusText(aiLinkStatus, 'Kit copied. Popup blocked — please allow popups, then open ' + aiName + ' and paste.');
+          }
           if(!win){
             window.location.href = aiBtn.href;
           }
