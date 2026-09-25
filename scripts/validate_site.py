@@ -74,6 +74,25 @@ class InlineScriptExtractor(HTMLParser):
         self._current_script = []
 
 
+class IndexStructureParser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.ids: set[str] = set()
+        self.attrs_by_id: dict[str, dict[str, str]] = {}
+        self.ai_links: list[dict[str, str]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        attr_map = {name.lower(): value or "" for name, value in attrs}
+        element_id = attr_map.get("id", "")
+        if element_id:
+            self.ids.add(element_id)
+            self.attrs_by_id[element_id] = attr_map
+        if tag.lower() == "a":
+            classes = attr_map.get("class", "").split()
+            if "ai-btn" in classes:
+                self.ai_links.append(attr_map)
+
+
 def is_local_asset(path: str) -> bool:
     return not re.match(r"^(?:[a-z]+:|//|#)", path, re.IGNORECASE)
 
@@ -137,11 +156,50 @@ def validate_index_script_syntax() -> tuple[list[str], list[str]]:
     return errors, warnings
 
 
+def validate_index_ai_controls() -> list[str]:
+    errors: list[str] = []
+    text = (ROOT / "index.html").read_text(encoding="utf-8")
+    parser = IndexStructureParser()
+    parser.feed(text)
+    required_ids = {
+        "openAiPromptBtn",
+        "copyRawTextBtn",
+        "copyRawUrlBtn",
+        "copyPdfUrlBtn",
+        "copyChapter1Btn",
+        "openAiStatus",
+        "aiLinkStatus",
+    }
+    for element_id in sorted(required_ids):
+        if element_id not in parser.ids:
+            errors.append(f"index.html missing required AI control id: {element_id}")
+
+    for status_id in ("openAiStatus", "aiLinkStatus"):
+        attrs = parser.attrs_by_id.get(status_id, {})
+        if attrs.get("role", "").lower() != "status":
+            errors.append(f"index.html #{status_id} must have role=\"status\"")
+        if attrs.get("aria-live", "").lower() != "polite":
+            errors.append(f"index.html #{status_id} must have aria-live=\"polite\"")
+
+    if not parser.ai_links:
+        errors.append("index.html has no assistant links with class ai-btn")
+    for index, attrs in enumerate(parser.ai_links, start=1):
+        if not attrs.get("href", "").strip():
+            errors.append(f"index.html assistant link #{index} is missing href")
+        if attrs.get("target", "").lower() != "_blank":
+            errors.append(f"index.html assistant link #{index} must use target=\"_blank\"")
+        rel_tokens = {token.lower() for token in attrs.get("rel", "").split()}
+        if "noopener" not in rel_tokens:
+            errors.append(f"index.html assistant link #{index} must include rel=\"noopener\"")
+    return errors
+
+
 def main() -> int:
     errors = []
     warnings = []
     errors.extend(validate_asset_paths())
     errors.extend(validate_h1_counts())
+    errors.extend(validate_index_ai_controls())
     script_errors, script_warnings = validate_index_script_syntax()
     errors.extend(script_errors)
     warnings.extend(script_warnings)
