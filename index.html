@@ -104,7 +104,7 @@
         <button class="copy-btn primary-cta" id="openAiPromptBtn" aria-label="Copy the full CJC kit, open the selected AI, and ask the user to paste it">Copy AI Kit &amp; Open AI to Paste</button>
         <span class="cta-badge" aria-hidden="true">Recommended</span>
       </div>
-      <div class="status" id="openAiStatus"></div>
+      <div class="status" id="openAiStatus" role="status" aria-live="polite"></div>
       <div class="label" role="heading" aria-level="2" style="margin-top:10px;">What is the CJC</div>
       <div class="kit-link-row">
         <a class="kit-link" id="chapter1Url" href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/Chapter1.pdf" target="_blank" rel="noopener">Chapter1 PDF</a>
@@ -224,12 +224,12 @@
 
     <div class="choose-label">CHOOSE AN ASSISTANT</div>
     <div class="ai-list" id="aiListContainer">
-      <a class="ai-btn" href="https://chat.openai.com/" data-name="ChatGPT"><span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span>ChatGPT</a>
-      <a class="ai-btn" href="https://claude.ai" data-name="Claude"><span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span>Claude</a>
-      <a class="ai-btn" href="https://gemini.google.com" data-name="Gemini"><span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span>Gemini</a>
-      <a class="ai-btn" href="https://grok.com/" data-name="Grok"><span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span>Grok</a>
-      <a class="ai-btn" href="https://copilot.microsoft.com" data-name="Copilot"><span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span>Copilot</a>
-      <a class="ai-btn" href="https://www.perplexity.ai/" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
+      <a class="ai-btn" href="https://chat.openai.com/" target="_blank" rel="noopener" data-name="ChatGPT"><span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span>ChatGPT</a>
+      <a class="ai-btn" href="https://claude.ai" target="_blank" rel="noopener" data-name="Claude"><span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span>Claude</a>
+      <a class="ai-btn" href="https://gemini.google.com" target="_blank" rel="noopener" data-name="Gemini"><span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span>Gemini</a>
+      <a class="ai-btn" href="https://grok.com/" target="_blank" rel="noopener" data-name="Grok"><span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span>Grok</a>
+      <a class="ai-btn" href="https://copilot.microsoft.com" target="_blank" rel="noopener" data-name="Copilot"><span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span>Copilot</a>
+      <a class="ai-btn" href="https://www.perplexity.ai/" target="_blank" rel="noopener" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
     </div>
     <div class="status" id="aiLinkStatus" role="status" aria-live="polite"></div>
     <p class="note">Selecting any assistant copies the full CJC kit and opens it. Paste it into the chat.</p>
@@ -250,7 +250,7 @@
 
   <script>
     const RAW_URL = 'https://greysmokez.github.io/CJC-Website/kit.txt';
-    const CJC_KIT_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJCKit.txt';
+    const CJC_KIT_URL = RAW_URL;
     const PDF_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/CJC_AI_Research_Kit.pdf';
     const CHAPTER1_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/Chapter1.pdf';
     const platformUrls = { chatgpt: 'https://chat.openai.com/', grok: 'https://grok.com/', perplexity: 'https://www.perplexity.ai/' };
@@ -300,12 +300,6 @@ Response format:
           return false;
         }
       }
-    }
-
-    async function fetchRawKit(){
-      const resp = await fetch(RAW_URL);
-      if(!resp.ok){ throw new Error('raw fetch failed: ' + resp.status); }
-      return await resp.text();
     }
 
     async function fetchCanonicalKit(){
@@ -375,6 +369,13 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
       statusEl.textContent = text;
     }
 
+    function getKitPromptForCopy(){
+      if(canonicalKitText){
+        return { text: makeFullKitPrompt(canonicalKitText), usingFullKit: true };
+      }
+      return { text: makeFallbackKitPrompt(), usingFullKit: false };
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       const copyPdfUrlBtn = document.getElementById('copyPdfUrlBtn');
       const copyRawUrlBtn = document.getElementById('copyRawUrlBtn');
@@ -390,28 +391,36 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
         copyChapter1Btn.addEventListener('click', async () => {
           const ok = await copyTextToClipboard(CHAPTER1_URL);
           flashCopied(copyChapter1Btn, ok);
+          setStatusText(openAiStatus, ok ? 'Chapter 1 URL copied.' : 'Could not copy Chapter 1 URL.');
         });
       }
       if(copyPdfUrlBtn){
         copyPdfUrlBtn.addEventListener('click', async () => {
           const ok = await copyTextToClipboard(PDF_URL);
           flashCopied(copyPdfUrlBtn, ok);
+          setStatusText(openAiStatus, ok ? 'PDF URL copied.' : 'Could not copy PDF URL.');
         });
       }
       if(copyRawUrlBtn){
         copyRawUrlBtn.addEventListener('click', async () => {
           const ok = await copyTextToClipboard(RAW_URL);
           flashCopied(copyRawUrlBtn, ok);
+          setStatusText(openAiStatus, ok ? 'Raw text URL copied.' : 'Could not copy raw text URL.');
         });
       }
       if(copyRawTextBtn){
         copyRawTextBtn.addEventListener('click', async () => {
-          try {
-            const txt = canonicalKitText || await fetchRawKit();
-            const ok = await copyTextToClipboard(txt);
-            flashCopied(copyRawTextBtn, ok, 'Raw Text Copied');
-          } catch {
-            flashCopied(copyRawTextBtn, false);
+          const hasCachedKit = !!canonicalKitText;
+          const textToCopy = hasCachedKit ? canonicalKitText : CJC_KIT_URL;
+          const ok = await copyTextToClipboard(textToCopy);
+          flashCopied(copyRawTextBtn, ok, hasCachedKit ? 'Raw Text Copied' : 'Kit URL Copied');
+          if(ok){
+            setStatusText(openAiStatus, hasCachedKit ? 'Raw kit text copied.' : 'Kit URL copied. Full text is still loading in the background.');
+          } else {
+            setStatusText(openAiStatus, hasCachedKit ? 'Could not copy raw kit text.' : 'Could not copy raw kit URL.');
+          }
+          if(!hasCachedKit){
+            prefetchCanonicalKit().catch(() => {});
           }
         });
       }
@@ -420,90 +429,40 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
           const selected = aiPlatform && aiPlatform.value ? aiPlatform.value : 'chatgpt';
           const platformName = platformNames[selected] || 'ChatGPT';
           const fallbackUrl = platformUrls[selected] || platformUrls.chatgpt;
-          let pendingWin = null;
-          try {
-            pendingWin = window.open('about:blank', '_blank');
-            if(pendingWin){ pendingWin.opener = null; }
-          } catch {}
-          let promptText = '';
-          let usedFullKit = false;
-          try {
-            const kitText = canonicalKitText || await prefetchCanonicalKit();
-            promptText = makeFullKitPrompt(kitText);
-            usedFullKit = true;
-          } catch {
-            promptText = makeFallbackKitPrompt();
-          }
-          const ok = await copyTextToClipboard(promptText);
-          if(!ok){
-            if(pendingWin){ pendingWin.close(); }
-            setStatusText(openAiStatus, 'Could not copy automatically. Use the Copy Raw Text button below, then open ' + platformName + ' and paste.');
+          const prompt = getKitPromptForCopy();
+          const ok = await copyTextToClipboard(prompt.text);
+          const win = safeOpen(fallbackUrl, openAiStatus);
+          if(!win){
+            window.location.href = fallbackUrl;
             return;
           }
-          let win = pendingWin;
-          if(win){
-            try {
-              win.location.replace(fallbackUrl);
-            } catch {
-              win.close();
-              win = null;
-            }
+          if(!prompt.usingFullKit){
+            prefetchCanonicalKit().catch(() => {});
           }
-          if(!win){
-            win = safeOpen(fallbackUrl, openAiStatus);
-          }
-          if(!win){
-            setStatusText(openAiStatus, 'Kit copied. Popup blocked — please allow popups, then open ' + platformName + ' and paste.');
-            return;
-          }
-          setStatusText(openAiStatus, usedFullKit ? 'Full CJC kit copied. Opening ' + platformName + '. Paste it into the chat.' : 'Kit link copied. Opening ' + platformName + '. Paste it into the chat.');
-          flashCopied(openAiPromptBtn, true, 'Copied — Opening AI');
+          setStatusText(openAiStatus, ok
+            ? (prompt.usingFullKit ? 'Full CJC kit copied. Opening ' + platformName + '. Paste it into the chat.' : 'Fallback kit prompt copied. Opening ' + platformName + '. Paste it into the chat.')
+            : 'Could not copy automatically. Opening ' + platformName + ' now — use Copy Raw Text, then paste.');
+          flashCopied(openAiPromptBtn, ok, ok ? 'Copied — Opening AI' : 'Opening AI');
         });
       }
 
       document.querySelectorAll('.ai-btn').forEach((aiBtn) => {
-        aiBtn.addEventListener('click', async (event) => {
-          event.preventDefault();
+        aiBtn.addEventListener('click', async () => {
           const aiName = aiBtn.dataset.name || 'AI';
-          let pendingWin = null;
-          try {
-            pendingWin = window.open('about:blank', '_blank');
-            if(pendingWin){ pendingWin.opener = null; }
-          } catch {}
-          let promptText = '';
-          let usedFullKit = false;
-          try {
-            const kitText = canonicalKitText || await prefetchCanonicalKit();
-            promptText = makeFullKitPrompt(kitText);
-            usedFullKit = true;
-          } catch {
-            promptText = makeFallbackKitPrompt();
-          }
-          const ok = await copyTextToClipboard(promptText);
-          let win = pendingWin;
-          if(win){
-            try {
-              win.location.replace(aiBtn.href);
-            } catch {
-              win.close();
-              win = null;
-            }
-          }
-          if(!win){
-            win = safeOpen(aiBtn.href, aiLinkStatus);
+          const prompt = getKitPromptForCopy();
+          const ok = await copyTextToClipboard(prompt.text);
+          if(!prompt.usingFullKit){
+            prefetchCanonicalKit().catch(() => {});
           }
           if(!ok){
             setStatusText(aiLinkStatus, 'Could not copy automatically. Use the Copy Raw Text button above, then paste into ' + aiName + '.');
-          } else if(win){
-            setStatusText(aiLinkStatus, usedFullKit ? 'Full CJC kit copied. Opening ' + aiName + '. Paste it into the chat.' : 'Kit link copied. Opening ' + aiName + '. Paste it into the chat.');
           } else {
-            setStatusText(aiLinkStatus, 'Kit copied. Popup blocked — please allow popups, then open ' + aiName + ' and paste.');
-          }
-          if(!win){
-            window.location.href = aiBtn.href;
+            setStatusText(aiLinkStatus, prompt.usingFullKit ? 'Full CJC kit copied. ' + aiName + ' opened in a new tab.' : 'Fallback kit prompt copied. ' + aiName + ' opened in a new tab.');
           }
         });
       });
+
+      prefetchCanonicalKit().catch(() => {});
     });
   </script>
 </body>
