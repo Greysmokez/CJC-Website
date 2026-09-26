@@ -170,7 +170,7 @@
           setStatus('success','Your private message was sent successfully.');
           formStatus.focus();
           form.reset();
-          closeTimerId=window.setTimeout(()=>{if(dialog.open)dialog.close()},4000);
+          closeTimerId=window.setTimeout(()=>{if(dialog.open)closeDialog()},4000);
           return;
         }
 
