@@ -144,9 +144,11 @@
     dialog.addEventListener('cancel',(event)=>{if(isSubmitting)event.preventDefault()});
     dialog.addEventListener('close',()=>{
       clearTimeout(closeTimerId);
-      submitButton.disabled=false;
-      submitButton.textContent=defaultSubmitLabel;
       isSubmitting=false;
+      if(!submissionComplete){
+        submitButton.disabled=false;
+        submitButton.textContent=defaultSubmitLabel;
+      }
     });
 
     form.addEventListener('submit',async(event)=>{
