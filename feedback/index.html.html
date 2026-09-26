@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Private Feedback &amp; Support | Continuous Jubilee Calendar™</title>
+  <meta name="robots" content="noindex" />
+  <meta name="description" content="Private feedback, discrepancy reports, and optional support for the Continuous Jubilee Calendar™ website." />
+  <link rel="canonical" href="https://greysmokez.github.io/CJC-Website/feedback/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --parchment:#F6F1E4;
+      --parchment-deep:#EDE4CE;
+      --paper:#FFFDF6;
+      --ink:#2B2318;
+      --ink-soft:#5B4F3E;
+      --gold:#9C7A3C;
+      --gold-line:#C9A961;
+      --action:#4B5A45;
+      --primary:#2F6F52;
+      --primary-hover:#245843;
+      --danger:#9B3A34;
+      --bible-opacity:.11
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:'Source Sans 3',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:var(--parchment);
+      background-image:radial-gradient(circle at top,rgba(255,255,255,.82),rgba(246,241,228,.94));
+    }
+    .bible-bg{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      opacity:var(--bible-opacity);
+      overflow:hidden
+    }
+    .bible-bg svg{width:min(120vw,1760px);height:auto;max-height:96vh}
+    .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:40px 20px 80px}
+    .mark{
+      width:46px;height:46px;margin:0 auto 18px;border:1.5px solid var(--gold);border-radius:8px;
+      display:flex;align-items:center;justify-content:center;color:var(--gold);
+      font-family:'Spectral',serif;font-weight:600;letter-spacing:.06em
+    }
+    h1,h2,h3{font-family:'Spectral',serif;font-weight:500;line-height:1.25}
+    h1{font-size:1.9rem;text-align:center;margin:0 0 8px}
+    .subhead{max-width:620px;margin:0 auto 22px;text-align:center;color:var(--ink-soft)}
+    .panel,.support-card{
+      background:rgba(237,228,206,.92);
+      border:1px solid var(--gold-line);
+      border-radius:8px;
+      padding:18px;
+      margin-bottom:18px
+    }
+    .panel h2,.support-card h2{margin:0 0 6px;font-size:1.3rem;text-align:center}
+    .choose-label{text-align:center;font-size:.9rem;color:var(--ink-soft);margin:0 0 14px;letter-spacing:.03em}
+    .actions{display:flex;flex-direction:column;gap:10px}
+    .action-btn{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      border:1px solid var(--gold-line);
+      border-radius:6px;
+      background:var(--parchment);
+      color:var(--ink);
+      font:inherit;
+      text-decoration:none;
+      cursor:pointer;
+      transition:background .15s ease,border-color .15s ease
+    }
+    .action-btn:hover{background:#F4ECD8}
+    .dot{width:10px;height:10px;flex:0 0 10px;border-radius:50%;background:var(--action)}
+    .dot.gold{background:var(--gold)}
+    .action-btn.support{
+      justify-content:center;
+      color:#fff;
+      background:var(--primary);
+      border-color:var(--primary);
+      box-shadow:0 4px 12px rgba(47,111,82,.25);
+      text-align:center
+    }
+    .action-btn.support:hover{background:var(--primary-hover)}
+    .free-note{color:var(--ink)!important;font-weight:600;text-align:center;margin:0 0 12px}
+    .disclosure{
+      font-size:.92rem;
+      padding:10px 12px;
+      border-left:3px solid var(--gold);
+      background:var(--parchment);
+      margin:0 0 14px
+    }
+    .privacy-note{text-align:center;font-size:.9rem;color:var(--ink-soft);margin:12px 0 0}
+    footer{text-align:center;font-size:.88rem;color:var(--ink-soft);margin-top:28px}
+    a{color:var(--primary-hover)}
+    button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,.status:focus-visible{
+      outline:3px solid var(--gold);outline-offset:2px
+    }
+    dialog{
+      width:min(92vw,540px);
+      padding:0;
+      border:1px solid var(--gold-line);
+      border-radius:10px;
+      background:var(--paper);
+      color:var(--ink);
+      box-shadow:0 16px 48px rgba(43,35,24,.25)
+    }
+    dialog::backdrop{background:rgba(43,35,24,.45)}
+    .dialog-body{padding:20px}
+    .dialog-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+    .dialog-head h3{margin:0 0 4px;font-size:1.25rem}
+    .dialog-intro{margin:0 0 12px;color:var(--ink-soft)}
+    .close-btn{
+      border:1px solid var(--gold-line);
+      border-radius:6px;
+      background:var(--parchment);
+      color:var(--ink);
+      width:36px;height:36px;
+      font-size:1.3rem;
+      line-height:1;
+      cursor:pointer
+    }
+    label{display:block;margin:12px 0 4px;font-weight:600;font-size:.92rem}
+    input,textarea{
+      width:100%;
+      padding:10px 12px;
+      border:1px solid var(--gold-line);
+      border-radius:6px;
+      background:#fff;
+      color:var(--ink);
+      font:inherit
+    }
+    textarea{min-height:140px;resize:vertical}
+    .honeypot{position:absolute;left:-9999px;opacity:0}
+    .form-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+    .btn{
+      border:1px solid var(--gold-line);
+      border-radius:6px;
+      padding:10px 14px;
+      background:var(--parchment);
+      color:var(--ink);
+      font:inherit;
+      cursor:pointer
+    }
+    .btn.primary{
+      border-color:var(--primary);
+      background:var(--primary);
+      color:#fff
+    }
+    .btn.primary:disabled{opacity:.72;cursor:not-allowed}
+    .status{
+      margin-top:12px;
+      min-height:1.3em;
+      font-size:.93rem;
+      color:var(--ink-soft)
+    }
+    .status[data-state="success"]{color:var(--primary-hover)}
+    .status[data-state="error"]{color:var(--danger)}
+    @media(max-width:560px){
+      .wrap{padding:20px 16px 64px}
+      h1{font-size:1.6rem}
+      .form-actions{flex-direction:column-reverse}
+      .form-actions .btn{width:100%}
+      :root{--bible-opacity:.075}
+    }
+  </style>
+</head>
+<body>
+  <div class="bible-bg" aria-hidden="true">
+    <svg viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+      <path d="M700 120 C500 75 255 82 55 150 L55 835 C255 770 500 760 700 810 Z" fill="#FFFDF6" stroke="#5B4F3E" stroke-width="3"/>
+      <path d="M700 120 C900 75 1145 82 1345 150 L1345 835 C1145 770 900 760 700 810 Z" fill="#FFFDF6" stroke="#5B4F3E" stroke-width="3"/>
+      <line x1="700" y1="120" x2="700" y2="810" stroke="#5B4F3E" stroke-width="2"/>
+      <g fill="#2B2318" font-family="Georgia,'Times New Roman',serif">
+        <text x="385" y="195" text-anchor="middle" font-size="42" font-weight="bold">REVELATION</text>
+        <text x="385" y="245" text-anchor="middle" font-size="22">"The testimony of Jesus"</text>
+        <text x="1015" y="195" text-anchor="middle" font-size="42" font-weight="bold">CHRONICLES</text>
+        <text x="1015" y="245" text-anchor="middle" font-size="22">"Times and seasons"</text>
+      </g>
+    </svg>
+  </div>
+
+  <main class="wrap">
+    <div class="mark" aria-hidden="true">CJC</div>
+    <h1>Private Feedback &amp; Support</h1>
+    <p class="subhead">Share feedback, report a discrepancy, or support the work privately.</p>
+
+    <section class="panel" aria-labelledby="messages-title">
+      <h2 id="messages-title">Private Messages</h2>
+      <p class="choose-label">CHOOSE AN OPTION</p>
+      <div class="actions">
+        <button class="action-btn" type="button" data-form="review"><span class="dot" aria-hidden="true"></span>Please leave a review</button>
+        <button class="action-btn" type="button" data-form="discrepancy"><span class="dot gold" aria-hidden="true"></span>Report a discrepancy</button>
+      </div>
+      <p class="privacy-note">Submissions are not displayed publicly. Please do not include sensitive personal or financial information.</p>
+    </section>
+
+    <section class="support-card" id="support-this-work" aria-labelledby="support-title">
+      <h2 id="support-title">Support This Work</h2>
+      <p class="free-note">Everything on this website is free to read and download. There are no paywalls or required fees.</p>
+      <p class="disclosure">Payments are optional support for the free research content on this website and its continued publication. They do not purchase access or special benefits and are not tax-deductible charitable contributions.</p>
+      <a class="action-btn support" href="https://buy.stripe.com/5kQdR88t44MY0undvb8N200" target="_blank" rel="noopener noreferrer">Support This Work with Stripe</a>
+    </section>
+
+    <footer>Continuous Jubilee Calendar™ · Scripture background: King James Version</footer>
+  </main>
+
+  <dialog id="messageDialog" aria-labelledby="dialogTitle">
+    <div class="dialog-body">
+      <div class="dialog-head">
+        <div>
+          <h3 id="dialogTitle">Send a private message</h3>
+          <p class="dialog-intro" id="dialogIntro"></p>
+        </div>
+        <button class="close-btn" type="button" data-close aria-label="Close form">&times;</button>
+      </div>
+      <form id="messageForm" action="https://formspree.io/f/mwlpryjn" method="post">
+        <input type="hidden" id="messageType" name="message_type" />
+        <input type="hidden" id="messageTypeLabel" name="message_type_label" />
+        <label for="name">Name (optional)</label>
+        <input id="name" name="name" type="text" maxlength="100" autocomplete="name" />
+        <label for="email">Email (optional)</label>
+        <input id="email" name="email" type="email" maxlength="254" autocomplete="email" />
+        <label for="message" id="messageLabel">Message</label>
+        <textarea id="message" name="message" maxlength="3000" required></textarea>
+        <div class="honeypot" aria-hidden="true">
+          <label for="gotcha">Leave empty</label>
+          <input id="gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <div id="formStatus" class="status" aria-live="polite" aria-atomic="true" tabindex="-1"></div>
+        <div class="form-actions">
+          <button class="btn" type="button" data-close>Cancel</button>
+          <button class="btn primary" type="submit">Send Privately</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <script>
+    const forms = {
+      review: {
+        title: 'Please leave a review',
+        intro: 'Share what was helpful, unclear, or meaningful to you.',
+        label: 'Your review'
+      },
+      discrepancy: {
+        title: 'Report a discrepancy',
+        intro: 'Describe what appears incorrect and include any source notes.',
+        label: 'Discrepancy details'
+      }
+    };
+
+    const dialog = document.getElementById('messageDialog');
+    const form = document.getElementById('messageForm');
+    const message = document.getElementById('message');
+    const formStatus = document.getElementById('formStatus');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const closeButtons = document.querySelectorAll('[data-close]');
+    const defaultSubmitLabel = submitButton.textContent;
+    let isSubmitting = false;
+    let submissionComplete = false;
+    let closeTimerId = 0;
+
+    function clearStatus() {
+      formStatus.textContent = '';
+      delete formStatus.dataset.state;
+    }
+
+    function setStatus(state, text) {
+      formStatus.dataset.state = state;
+      formStatus.textContent = text;
+    }
+
+    function closeDialog() {
+      if (isSubmitting) return;
+      clearTimeout(closeTimerId);
+      dialog.close();
+    }
+
+    document.querySelectorAll('[data-form]').forEach((button) => button.addEventListener('click', () => {
+      const config = forms[button.dataset.form];
+      clearTimeout(closeTimerId);
+      form.reset();
+      clearStatus();
+      submissionComplete = false;
+      document.getElementById('messageType').value = button.dataset.form;
+      document.getElementById('messageTypeLabel').value = config.title;
+      document.getElementById('dialogTitle').textContent = config.title;
+      document.getElementById('dialogIntro').textContent = config.intro;
+      document.getElementById('messageLabel').textContent = config.label;
+      submitButton.disabled = false;
+      submitButton.textContent = defaultSubmitLabel;
+      dialog.showModal();
+      message.focus();
+    }));
+
+    closeButtons.forEach((button) => button.addEventListener('click', closeDialog));
+    dialog.addEventListener('click', (event) => { if (event.target === dialog) closeDialog(); });
+    dialog.addEventListener('cancel', (event) => { if (isSubmitting) event.preventDefault(); });
+    dialog.addEventListener('close', () => {
+      clearTimeout(closeTimerId);
+      isSubmitting = false;
+      if (!submissionComplete) {
+        submitButton.disabled = false;
+        submitButton.textContent = defaultSubmitLabel;
+      }
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      clearTimeout(closeTimerId);
+      clearStatus();
+      isSubmitting = true;
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending...';
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        });
+
+        let data = null;
+        try {
+          data = await response.json();
+        } catch (error) {
+          data = null;
+        }
+
+        if (response.ok) {
+          isSubmitting = false;
+          submissionComplete = true;
+          const currentMessageType = document.getElementById('messageType').value;
+          const currentMessageTypeLabel = document.getElementById('messageTypeLabel').value;
+          form.reset();
+          document.getElementById('messageType').value = currentMessageType;
+          document.getElementById('messageTypeLabel').value = currentMessageTypeLabel;
+          setStatus('success', 'Your private message was sent successfully.');
+          formStatus.focus();
+          submitButton.disabled = true;
+          submitButton.textContent = 'Sent';
+          return;
+        }
+
+        const validationText = data && Array.isArray(data.errors) && data.errors.length
+          ? data.errors.map((entry) => entry.message).filter(Boolean).join(' ')
+          : '';
+        const serverText = data && (typeof data.error === 'string' ? data.error : typeof data.message === 'string' ? data.message : '');
+        const fallbackText = response.status >= 500
+          ? 'We could not send your message just now because the message service returned an error. Please try again shortly.'
+          : 'We could not send your message just now. Please review your entries and try again.';
+        setStatus('error', validationText || serverText || fallbackText);
+      } catch (error) {
+        setStatus('error', 'We could not reach the message service. Please check your connection and try again.');
+      } finally {
+        isSubmitting = false;
+        if (!submissionComplete) {
+          submitButton.disabled = false;
+          submitButton.textContent = defaultSubmitLabel;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
