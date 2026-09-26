@@ -171,7 +171,11 @@
         if(response.ok){
           isSubmitting=false;
           submissionComplete=true;
+          const currentMessageType=document.getElementById('messageType').value;
+          const currentMessageTypeLabel=document.getElementById('messageTypeLabel').value;
           form.reset();
+          document.getElementById('messageType').value=currentMessageType;
+          document.getElementById('messageTypeLabel').value=currentMessageTypeLabel;
           setStatus('success','Your private message was sent successfully.');
           formStatus.focus();
           submitButton.disabled=true;
