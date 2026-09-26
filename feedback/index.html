@@ -142,8 +142,6 @@
     dialog.addEventListener('cancel',(event)=>{if(isSubmitting)event.preventDefault()});
     dialog.addEventListener('close',()=>{
       clearTimeout(closeTimerId);
-      form.reset();
-      clearStatus();
       submitButton.disabled=false;
       submitButton.textContent=defaultSubmitLabel;
       isSubmitting=false;
