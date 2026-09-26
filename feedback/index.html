@@ -36,7 +36,7 @@
     .privacy-note{text-align:center;font-size:.9rem;color:var(--ink-soft);margin:12px 0 0}
     footer{text-align:center;font-size:.88rem;color:var(--ink-soft);margin-top:28px}
     a{color:var(--primary-hover)}
-    button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+    button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,.status:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
     dialog{width:min(92vw,540px);padding:0;border:1px solid var(--gold-line);border-radius:10px;background:var(--paper);color:var(--ink);box-shadow:0 16px 48px rgba(43,35,24,.25)}
     dialog::backdrop{background:rgba(43,35,24,.45)}
     .dialog-body{padding:20px}.dialog-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.dialog-head h3{margin:0 0 4px;font-size:1.25rem}.dialog-intro{margin:0 0 12px;color:var(--ink-soft);font-size:.95rem}.close-btn{border:0;background:transparent;color:var(--ink-soft);font-size:1.5rem;line-height:1;cursor:pointer}
@@ -87,7 +87,7 @@
         <label for="email">Email (optional)</label><input id="email" name="email" type="email" maxlength="254" autocomplete="email" />
         <label for="message" id="messageLabel">Message</label><textarea id="message" name="message" maxlength="3000" required></textarea>
         <div class="honeypot" aria-hidden="true"><label for="gotcha">Leave empty</label><input id="gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" /></div>
-        <div id="formStatus" class="status" aria-live="polite" aria-atomic="true"></div>
+        <div id="formStatus" class="status" aria-live="polite" aria-atomic="true" tabindex="-1"></div>
         <div class="form-actions"><button class="btn" type="button" data-close>Cancel</button><button class="btn primary" type="submit">Send Privately</button></div>
       </form>
     </div>
@@ -168,8 +168,9 @@
 
         if(response.ok){
           setStatus('success','Your private message was sent successfully.');
+          formStatus.focus();
           form.reset();
-          closeTimerId=window.setTimeout(()=>{if(dialog.open)dialog.close()},1400);
+          closeTimerId=window.setTimeout(()=>{if(dialog.open)dialog.close()},4000);
           return;
         }
 
