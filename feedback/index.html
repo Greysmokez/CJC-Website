@@ -115,8 +115,8 @@
       formStatus.textContent=text;
     }
 
-    function closeDialog(forceClose=false){
-      if(isSubmitting&&!forceClose)return;
+    function closeDialog(){
+      if(isSubmitting)return;
       clearTimeout(closeTimerId);
       dialog.close();
     }
@@ -171,7 +171,6 @@
           form.reset();
           setStatus('success','Your private message was sent successfully.');
           formStatus.focus();
-          closeTimerId=window.setTimeout(()=>{if(dialog.open)closeDialog(true)},4000);
           return;
         }
 
