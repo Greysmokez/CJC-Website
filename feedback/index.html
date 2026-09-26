@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Private Feedback &amp; Support | Continuous Jubilee Calendar™</title>
+  <meta name="robots" content="noindex" />
+  <meta name="description" content="Private feedback, discrepancy reports, data file contributions, and voluntary support for the Continuous Jubilee Calendar™ website." />
+  <link rel="canonical" href="https://greysmokez.github.io/CJC-Website/feedback/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --parchment:#F6F1E4;
+      --parchment-deep:#EDE4CE;
+      --paper:#FFFDF6;
+      --ink:#2B2318;
+      --ink-soft:#5B4F3E;
+      --gold:#9C7A3C;
+      --gold-line:#C9A961;
+      --action:#4B5A45;
+      --primary:#2F6F52;
+      --primary-hover:#245842;
+      --bible-opacity:.095;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+      color:var(--ink);
+      background:var(--parchment);
+      background-image:
+        radial-gradient(ellipse at top left, rgba(156,122,60,.06), transparent 55%),
+        radial-gradient(ellipse at bottom right, rgba(75,90,69,.06), transparent 55%);
+      line-height:1.6;
+    }
+
+    .bible-bg{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+      opacity:var(--bible-opacity);
+      overflow:hidden;
+    }
+
+    .bible-bg svg{
+      width:min(120vw, 1760px);
+      height:auto;
+      max-height:96vh;
+    }
+
+    .wrap{
+      position:relative;
+      z-index:1;
+      max-width:760px;
+      margin:0 auto;
+      padding:40px 20px 80px;
+    }
+
+    .mark{
+      width:46px;
+      height:46px;
+      margin:0 auto 18px;
+      border:1.5px solid var(--gold);
+      border-radius:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--gold);
+      font-family:'Spectral', serif;
+      font-weight:600;
+      background:rgba(246,241,228,.85);
+    }
+
+    h1, h2, h3{
+      font-family:'Spectral', serif;
+      font-weight:500;
+      line-height:1.25;
+    }
+
+    h1{
+      font-size:1.9rem;
+      text-align:center;
+      margin:0 0 8px;
+    }
+
+    .subhead{
+      max-width:620px;
+      margin:0 auto 22px;
+      text-align:center;
+      color:var(--ink-soft);
+    }
+
+    .panel,
+    .support-card{
+      background:rgba(237,228,206,.92);
+      border:1px solid var(--gold-line);
+      border-radius:8px;
+      padding:18px;
+      margin-bottom:18px;
+    }
+
+    .panel h2,
+    .support-card h2{
+      margin:0 0 6px;
+      font-size:1.3rem;
+      text-align:center;
+    }
+
+    .choose-label{
+      text-align:center;
+      font-size:.9rem;
+      color:var(--ink-soft);
+      margin:0 0 14px;
+      letter-spacing:.03em;
+    }
+
+    .actions{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .action-btn{
+      width:100%;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 14px;
+      border:1px solid var(--gold-line);
+      border-radius:6px;
+      background:var(--parchment);
+      color:var(--ink);
+      font:inherit;
+      font-weight:600;
+      text-align:left;
+      text-decoration:none;
+      cursor:pointer;
+    }
+
+    .action-btn:hover{ background:#F4ECD8; }
+
+    .dot{
+      width:10px;
+      height:10px;
+      flex:0 0 10px;
+      border-radius:50%;
+      background:var(--action);
+    }
+
+    .dot.gold{ background:var(--gold); }
+    .dot.soft{ background:var(--ink-soft); }
+
+    .action-btn.support{
+      justify-content:center;
+      color:#fff;
+      background:var(--primary);
+      border-color:var(--primary);
+      box-shadow:0 4px 12px rgba(47,111,82,.25);
+      text-align:center;
+    }
+
+    .action-btn.support:hover{ background:var(--primary-hover); }
+
+    .free-note{
+      color:var(--ink) !important;
+      font-weight:600;
+      text-align:center;
+      margin:0 0 12px;
+    }
+
+    .disclosure{
+      font-size:.92rem;
+      padding:10px 12px;
+      border-left:3px solid var(--gold);
+      background:var(--parchment);
+      margin:0 0 14px;
+    }
+
+    .privacy-note{
+      text-align:center;
+      font-size:.9rem;
+      color:var(--ink-soft);
+      margin:12px 0 0;
+    }
+
+    footer{
+      text-align:center;
+      font-size:.88rem;
+      color:var(--ink-soft);
+      margin-top:28px;
+    }
+
+    a{ color:var(--primary-hover); }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible{
+      outline:3px solid var(--gold);
+      outline-offset:2px;
+    }
+
+    dialog{
+      width:min(92vw, 540px);
+      padding:0;
+      border:1px solid var(--gold-line);
+      border-radius:10px;
+      background:var(--paper);
+      color:var(--ink);
+      box-shadow:0 16px 48px rgba(43,35,24,.25);
+    }
+
+    dialog::backdrop{ background:rgba(43,35,24,.45); }
+
+    .dialog-body{ padding:20px; }
+
+    .dialog-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+    }
+
+    .dialog-head h3{
+      margin:0 0 4px;
+      font-size:1.25rem;
+    }
+
+    .dialog-intro{
+      margin:0 0 12px;
+      color:var(--ink-soft);
+      font-size:.95rem;
+    }
+
+    .close-btn{
+      border:0;
+      background:transparent;
+      color:var(--ink-soft);
+      font-size:1.5rem;
+      line-height:1;
+      cursor:pointer;
+    }
+
+    label{
+      display:block;
+      margin:12px 0 4px;
+      font-weight:600;
+      font-size:.92rem;
+    }
+
+    input,
+    textarea{
+      width:100%;
+      padding:10px 12px;
+      border:1px solid var(--gold-line);
+      border-radius:6px;
+      background:#fff;
+      color:var(--ink);
+      font:inherit;
+    }
+
+    textarea{
+      min-height:130px;
+      resize:vertical;
+    }
+
+    .hint{
+      margin:4px 0 0;
+      font-size:.82rem;
+      color:var(--ink-soft);
+    }
+
+    .form-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:8px;
+      margin-top:16px;
+    }
+
+    .btn{
+      border:1px solid var(--gold-line);
+      border-radius:6px;
+      padding:10px 14px;
+      background:var(--parchment);
+      color:var(--ink);
+      font:inherit;
+      font-weight:600;
+      cursor:pointer;
+    }
+
+    .btn.primary{
+      color:#fff;
+      background:var(--action);
+      border-color:var(--action);
+    }
+
+    .hidden{ display:none; }
+
+    .honeypot{
+      position:absolute;
+      left:-9999px;
+      width:1px;
+      height:1px;
+      overflow:hidden;
+    }
+
+    @media (max-width:560px){
+      .wrap{ padding:20px 16px 64px; }
+      h1{ font-size:1.6rem; }
+      .form-actions{ flex-direction:column-reverse; }
+      .form-actions .btn{ width:100%; }
+      :root{ --bible-opacity:.075; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bible-bg" aria-hidden="true">
+    <svg viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+      <path d="M700 120 C500 75 255 82 55 150 L55 835 C255 770 500 760 700 810 Z" fill="#FFFDF6" stroke="#5B4F3E" stroke-width="3" />
+      <path d="M700 120 C900 75 1145 82 1345 150 L1345 835 C1145 770 900 760 700 810 Z" fill="#FFFDF6" stroke="#5B4F3E" stroke-width="3" />
+      <path d="M43 160 L43 842 C255 782 500 770 700 818 C900 770 1145 782 1357 842 L1357 160" fill="none" stroke="#9C7A3C" stroke-width="5" />
+      <path d="M700 120 L700 810" stroke="#5B4F3E" stroke-width="4" />
+      <path d="M760 786 L760 875 L785 850 L810 875 L810 780" fill="#7A2E24" stroke="#5B2019" stroke-width="2" />
+      <g fill="#2B2318" font-family="Georgia, 'Times New Roman', serif">
+        <text x="385" y="195" text-anchor="middle" font-size="42" font-weight="bold">REVELATION</text>
+        <text x="385" y="245" text-anchor="middle" font-size="34">Chapter 20</text>
+        <g font-size="23">
+          <text x="120" y="310">1 And I saw an angel come down from heaven,</text>
+          <text x="120" y="345">having the key of the bottomless pit and a</text>
+          <text x="120" y="380">great chain in his hand.</text>
+          <text x="120" y="430">2 And he laid hold on the dragon, that old</text>
+          <text x="120" y="465">serpent, which is the Devil, and Satan, and</text>
+          <text x="120" y="500">bound him a thousand years,</text>
+          <text x="120" y="550">3 And cast him into the bottomless pit, and</text>
+          <text x="120" y="585">shut him up, and set a seal upon him...</text>
+        </g>
+        <text x="1015" y="195" text-anchor="middle" font-size="42" font-weight="bold">REVELATION</text>
+        <text x="1015" y="245" text-anchor="middle" font-size="34">Chapter 21</text>
+        <g font-size="23">
+          <text x="760" y="310">1 And I saw a new heaven and a new earth:</text>
+          <text x="760" y="345">for the first heaven and the first earth</text>
+          <text x="760" y="380">were passed away; and there was no more sea.</text>
+          <text x="760" y="430">2 And I John saw the holy city, new</text>
+          <text x="760" y="465">Jerusalem, coming down from God out of</text>
+          <text x="760" y="500">heaven, prepared as a bride adorned...</text>
+          <text x="760" y="550">4 And God shall wipe away all tears from</text>
+          <text x="760" y="585">their eyes; and there shall be no more death...</text>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <main class="wrap">
+    <div class="mark" aria-hidden="true">CJC</div>
+    <h1>Private Feedback &amp; Support</h1>
+    <p class="subhead">
+      Share feedback, report a discrepancy, contribute data files, or support the work privately.
+    </p>
+
+    <section class="panel" aria-labelledby="messages-title">
+      <h2 id="messages-title">Private Messages</h2>
+      <p class="choose-label">CHOOSE AN OPTION</p>
+
+      <div class="actions">
+        <button class="action-btn" type="button" data-form="review">
+          <span class="dot" aria-hidden="true"></span>
+          Please leave a review
+        </button>
+
+        <button class="action-btn" type="button" data-form="discrepancy">
+          <span class="dot gold" aria-hidden="true"></span>
+          Report a discrepancy
+        </button>
+
+        <button class="action-btn" type="button" data-form="data">
+          <span class="dot soft" aria-hidden="true"></span>
+          Contribute Data Files
+        </button>
+      </div>
+
+      <p class="privacy-note">
+        Submissions are not displayed publicly. Please do not include sensitive personal or financial information.
+      </p>
+    </section>
+
+    <section class="support-card" id="support-this-work" aria-labelledby="support-title">
+      <h2 id="support-title">Support This Work</h2>
+      <p class="free-note">Everything on this website is free to read and download. There are no paywalls or required fees.</p>
+      <p class="disclosure">
+        Any gift sent is a voluntary personal gift to an individual researcher,
+        given with no expectation of anything in return. It does not purchase
+        goods, services, access, or special benefits, and it is not a tax-deductible charitable contribution.
+      </p>
+      <a class="action-btn support" href="https://paypal.me/YourPayPalName" target="_blank" rel="noopener noreferrer">
+        Send a Personal Gift via PayPal
+      </a>
+    </section>
+
+    <footer>
+      Continuous Jubilee Calendar™ · Scripture background: King James Version
+    </footer>
+  </main>
+
+  <dialog id="messageDialog" aria-labelledby="dialogTitle">
+    <div class="dialog-body">
+      <div class="dialog-head">
+        <div>
+          <h3 id="dialogTitle">Send a private message</h3>
+          <p class="dialog-intro" id="dialogIntro"></p>
+        </div>
+        <button class="close-btn" type="button" data-close aria-label="Close form">&times;</button>
+      </div>
+
+      <form id="messageForm" action="/api/private-messages" method="post" enctype="multipart/form-data">
+        <input type="hidden" id="messageType" name="message_type" />
+
+        <label for="name">Name (optional)</label>
+        <input id="name" name="name" type="text" maxlength="100" autocomplete="name" />
+
+        <label for="email">Email (optional)</label>
+        <input id="email" name="email" type="email" maxlength="254" autocomplete="email" />
+
+        <label for="message" id="messageLabel">Message</label>
+        <textarea id="message" name="message" maxlength="3000" required></textarea>
+
+        <div id="fileGroup" class="hidden">
+          <label for="dataFiles">Data files</label>
+          <input id="dataFiles" name="data_files" type="file" multiple accept=".csv,.txt,.xlsx,.json,.pdf" />
+          <p class="hint">Accepted: CSV, TXT, XLSX, JSON, PDF. Maximum 10 MB per file.</p>
+        </div>
+
+        <div class="honeypot" aria-hidden="true">
+          <label for="website">Leave empty</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="form-actions">
+          <button class="btn" type="button" data-close>Cancel</button>
+          <button class="btn primary" type="submit">Send Privately</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <script>
+    const forms = {
+      review: {
+        title: 'Please leave a review',
+        intro: 'Share what was helpful, unclear, or meaningful to you.',
+        label: 'Your review',
+        files: false
+      },
+      discrepancy: {
+        title: 'Report a discrepancy',
+        intro: 'Describe the issue and include the document, page, date, or calculation involved.',
+        label: 'Discrepancy details',
+        files: false
+      },
+      data: {
+        title: 'Contribute Data Files',
+        intro: 'Describe the source and contents of the files you are sharing.',
+        label: 'File description and source',
+        files: true
+      }
+    };
+
+    const dialog = document.getElementById('messageDialog');
+    const form = document.getElementById('messageForm');
+    const fileGroup = document.getElementById('fileGroup');
+    const fileInput = document.getElementById('dataFiles');
+    const message = document.getElementById('message');
+
+    document.querySelectorAll('[data-form]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const type = button.dataset.form;
+        const config = forms[type];
+
+        form.reset();
+        document.getElementById('messageType').value = type;
+        document.getElementById('dialogTitle').textContent = config.title;
+        document.getElementById('dialogIntro').textContent = config.intro;
+        document.getElementById('messageLabel').textContent = config.label;
+        fileGroup.classList.toggle('hidden', !config.files);
+        fileInput.required = config.files;
+
+        dialog.showModal();
+        message.focus();
+      });
+    });
+
+    document.querySelectorAll('[data-close]').forEach((button) => {
+      button.addEventListener('click', () => dialog.close());
+    });
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+
+    fileInput.addEventListener('change', () => {
+      const tooLarge = [...fileInput.files].some((file) => file.size > 10 * 1024 * 1024);
+      fileInput.setCustomValidity(tooLarge ? 'Each file must be 10 MB or smaller.' : '');
+    });
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      alert('Preview only: connect this form to a secure private-message endpoint before publishing.');
+      dialog.close();
+    });
+  </script>
+</body>
+</html>
