@@ -82,6 +82,7 @@
       <div class="dialog-head"><div><h3 id="dialogTitle">Send a private message</h3><p class="dialog-intro" id="dialogIntro"></p></div><button class="close-btn" type="button" data-close aria-label="Close form">&times;</button></div>
       <form id="messageForm" action="https://formspree.io/f/mwlpryjn" method="post">
         <input type="hidden" id="messageType" name="message_type" />
+        <input type="hidden" id="messageTypeLabel" name="message_type_label" />
         <label for="name">Name (optional)</label><input id="name" name="name" type="text" maxlength="100" autocomplete="name" />
         <label for="email">Email (optional)</label><input id="email" name="email" type="email" maxlength="254" autocomplete="email" />
         <label for="message" id="messageLabel">Message</label><textarea id="message" name="message" maxlength="3000" required></textarea>
@@ -125,7 +126,8 @@
       clearTimeout(closeTimerId);
       form.reset();
       clearStatus();
-      document.getElementById('messageType').value=config.title;
+      document.getElementById('messageType').value=button.dataset.form;
+      document.getElementById('messageTypeLabel').value=config.title;
       document.getElementById('dialogTitle').textContent=config.title;
       document.getElementById('dialogIntro').textContent=config.intro;
       document.getElementById('messageLabel').textContent=config.label;
