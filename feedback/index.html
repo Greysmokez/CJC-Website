@@ -86,7 +86,7 @@
         <label for="name">Name (optional)</label><input id="name" name="name" type="text" maxlength="100" autocomplete="name" />
         <label for="email">Email (optional)</label><input id="email" name="email" type="email" maxlength="254" autocomplete="email" />
         <label for="message" id="messageLabel">Message</label><textarea id="message" name="message" maxlength="3000" required></textarea>
-        <div class="honeypot" aria-hidden="true"><label for="gotcha">Leave empty</label><input id="gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" /></div>
+        <div class="honeypot" aria-hidden="true"><label for="gotcha">Leave empty</label><input id="gotcha" name="_gotcha" type="text" autocomplete="off" /></div>
         <div id="formStatus" class="status" aria-live="polite" aria-atomic="true" tabindex="-1"></div>
         <div class="form-actions"><button class="btn" type="button" data-close>Cancel</button><button class="btn primary" type="submit">Send Privately</button></div>
       </form>
@@ -103,6 +103,7 @@
     const closeButtons=document.querySelectorAll('[data-close]');
     const defaultSubmitLabel=submitButton.textContent;
     let isSubmitting=false;
+    let submissionComplete=false;
     let closeTimerId=0;
 
     function clearStatus(){
@@ -126,6 +127,7 @@
       clearTimeout(closeTimerId);
       form.reset();
       clearStatus();
+      submissionComplete=false;
       document.getElementById('messageType').value=button.dataset.form;
       document.getElementById('messageTypeLabel').value=config.title;
       document.getElementById('dialogTitle').textContent=config.title;
@@ -145,6 +147,7 @@
       submitButton.disabled=false;
       submitButton.textContent=defaultSubmitLabel;
       isSubmitting=false;
+      submissionComplete=false;
     });
 
     form.addEventListener('submit',async(event)=>{
@@ -166,9 +169,12 @@
 
         if(response.ok){
           isSubmitting=false;
+          submissionComplete=true;
           form.reset();
           setStatus('success','Your private message was sent successfully.');
           formStatus.focus();
+          submitButton.disabled=true;
+          submitButton.textContent='Sent';
           return;
         }
 
@@ -184,8 +190,10 @@
         setStatus('error','We could not reach the message service. Please check your connection and try again.');
       }finally{
         isSubmitting=false;
-        submitButton.disabled=false;
-        submitButton.textContent=defaultSubmitLabel;
+        if(!submissionComplete){
+          submitButton.disabled=false;
+          submitButton.textContent=defaultSubmitLabel;
+        }
       }
     });
   </script>
