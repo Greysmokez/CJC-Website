@@ -172,10 +172,14 @@
           return;
         }
 
-        const errorText=data&&Array.isArray(data.errors)&&data.errors.length
+        const validationText=data&&Array.isArray(data.errors)&&data.errors.length
           ? data.errors.map((entry)=>entry.message).filter(Boolean).join(' ')
+          : '';
+        const serverText=data&&(typeof data.error==='string'?data.error:typeof data.message==='string'?data.message:'');
+        const fallbackText=response.status>=500
+          ? 'We could not send your message just now because the message service returned an error. Please try again shortly.'
           : 'We could not send your message just now. Please review your entries and try again.';
-        setStatus('error',errorText||'We could not send your message just now. Please try again.');
+        setStatus('error',validationText||serverText||fallbackText);
       }catch(error){
         setStatus('error','We could not reach the message service. Please check your connection and try again.');
       }finally{
