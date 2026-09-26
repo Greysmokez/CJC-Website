@@ -36,11 +36,11 @@
     .privacy-note{text-align:center;font-size:.9rem;color:var(--ink-soft);margin:12px 0 0}
     footer{text-align:center;font-size:.88rem;color:var(--ink-soft);margin-top:28px}
     a{color:var(--primary-hover)}
-    button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+    button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,.status:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
     dialog{width:min(92vw,540px);padding:0;border:1px solid var(--gold-line);border-radius:10px;background:var(--paper);color:var(--ink);box-shadow:0 16px 48px rgba(43,35,24,.25)}
     dialog::backdrop{background:rgba(43,35,24,.45)}
     .dialog-body{padding:20px}.dialog-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.dialog-head h3{margin:0 0 4px;font-size:1.25rem}.dialog-intro{margin:0 0 12px;color:var(--ink-soft);font-size:.95rem}.close-btn{border:0;background:transparent;color:var(--ink-soft);font-size:1.5rem;line-height:1;cursor:pointer}
-    label{display:block;margin:12px 0 4px;font-weight:600;font-size:.92rem}input,textarea{width:100%;padding:10px 12px;border:1px solid var(--gold-line);border-radius:6px;background:#fff;color:var(--ink);font:inherit}textarea{min-height:130px;resize:vertical}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.btn{border:1px solid var(--gold-line);border-radius:6px;padding:10px 14px;background:var(--parchment);color:var(--ink);font:inherit;font-weight:600;cursor:pointer}.btn.primary{color:#fff;background:var(--action);border-color:var(--action)}.honeypot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+    label{display:block;margin:12px 0 4px;font-weight:600;font-size:.92rem}input,textarea{width:100%;padding:10px 12px;border:1px solid var(--gold-line);border-radius:6px;background:#fff;color:var(--ink);font:inherit}textarea{min-height:130px;resize:vertical}.status{min-height:1.5em;margin-top:12px;font-size:.92rem;color:var(--ink-soft)}.status[data-state="success"]{color:var(--primary-hover)}.status[data-state="error"]{color:#8A2D1D}.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}.btn{border:1px solid var(--gold-line);border-radius:6px;padding:10px 14px;background:var(--parchment);color:var(--ink);font:inherit;font-weight:600;cursor:pointer}.btn.primary{color:#fff;background:var(--action);border-color:var(--action)}.btn[disabled]{opacity:.72;cursor:wait}.honeypot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
     @media(max-width:560px){.wrap{padding:20px 16px 64px}h1{font-size:1.6rem}.form-actions{flex-direction:column-reverse}.form-actions .btn{width:100%}:root{--bible-opacity:.075}}
   </style>
 </head>
@@ -80,12 +80,14 @@
   <dialog id="messageDialog" aria-labelledby="dialogTitle">
     <div class="dialog-body">
       <div class="dialog-head"><div><h3 id="dialogTitle">Send a private message</h3><p class="dialog-intro" id="dialogIntro"></p></div><button class="close-btn" type="button" data-close aria-label="Close form">&times;</button></div>
-      <form id="messageForm" action="/api/private-messages" method="post">
+      <form id="messageForm" action="https://formspree.io/f/mwlpryjn" method="post">
         <input type="hidden" id="messageType" name="message_type" />
+        <input type="hidden" id="messageTypeLabel" name="message_type_label" />
         <label for="name">Name (optional)</label><input id="name" name="name" type="text" maxlength="100" autocomplete="name" />
         <label for="email">Email (optional)</label><input id="email" name="email" type="email" maxlength="254" autocomplete="email" />
         <label for="message" id="messageLabel">Message</label><textarea id="message" name="message" maxlength="3000" required></textarea>
-        <div class="honeypot" aria-hidden="true"><label for="website">Leave empty</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+        <div class="honeypot" aria-hidden="true"><label for="gotcha">Leave empty</label><input id="gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" /></div>
+        <div id="formStatus" class="status" aria-live="polite" aria-atomic="true" tabindex="-1"></div>
         <div class="form-actions"><button class="btn" type="button" data-close>Cancel</button><button class="btn primary" type="submit">Send Privately</button></div>
       </form>
     </div>
@@ -96,10 +98,109 @@
     const dialog=document.getElementById('messageDialog');
     const form=document.getElementById('messageForm');
     const message=document.getElementById('message');
-    document.querySelectorAll('[data-form]').forEach((button)=>button.addEventListener('click',()=>{const config=forms[button.dataset.form];form.reset();document.getElementById('messageType').value=button.dataset.form;document.getElementById('dialogTitle').textContent=config.title;document.getElementById('dialogIntro').textContent=config.intro;document.getElementById('messageLabel').textContent=config.label;dialog.showModal();message.focus()}));
-    document.querySelectorAll('[data-close]').forEach((button)=>button.addEventListener('click',()=>dialog.close()));
-    dialog.addEventListener('click',(event)=>{if(event.target===dialog)dialog.close()});
-    form.addEventListener('submit',(event)=>{event.preventDefault();alert('Preview only: connect this form to a hosted form service before publishing.');dialog.close()});
+    const formStatus=document.getElementById('formStatus');
+    const submitButton=form.querySelector('button[type="submit"]');
+    const closeButtons=document.querySelectorAll('[data-close]');
+    const defaultSubmitLabel=submitButton.textContent;
+    let isSubmitting=false;
+    let submissionComplete=false;
+    let closeTimerId=0;
+
+    function clearStatus(){
+      formStatus.textContent='';
+      delete formStatus.dataset.state;
+    }
+
+    function setStatus(state,text){
+      formStatus.dataset.state=state;
+      formStatus.textContent=text;
+    }
+
+    function closeDialog(){
+      if(isSubmitting)return;
+      clearTimeout(closeTimerId);
+      dialog.close();
+    }
+
+    document.querySelectorAll('[data-form]').forEach((button)=>button.addEventListener('click',()=>{
+      const config=forms[button.dataset.form];
+      clearTimeout(closeTimerId);
+      form.reset();
+      clearStatus();
+      submissionComplete=false;
+      document.getElementById('messageType').value=button.dataset.form;
+      document.getElementById('messageTypeLabel').value=config.title;
+      document.getElementById('dialogTitle').textContent=config.title;
+      document.getElementById('dialogIntro').textContent=config.intro;
+      document.getElementById('messageLabel').textContent=config.label;
+      submitButton.disabled=false;
+      submitButton.textContent=defaultSubmitLabel;
+      dialog.showModal();
+      message.focus();
+    }));
+
+    closeButtons.forEach((button)=>button.addEventListener('click',closeDialog));
+    dialog.addEventListener('click',(event)=>{if(event.target===dialog)closeDialog()});
+    dialog.addEventListener('cancel',(event)=>{if(isSubmitting)event.preventDefault()});
+    dialog.addEventListener('close',()=>{
+      clearTimeout(closeTimerId);
+      isSubmitting=false;
+      if(!submissionComplete){
+        submitButton.disabled=false;
+        submitButton.textContent=defaultSubmitLabel;
+      }
+    });
+
+    form.addEventListener('submit',async(event)=>{
+      event.preventDefault();
+      clearTimeout(closeTimerId);
+      clearStatus();
+      isSubmitting=true;
+      submitButton.disabled=true;
+      submitButton.textContent='Sending...';
+
+      try{
+        const response=await fetch(form.action,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}});
+        let data=null;
+        try{
+          data=await response.json();
+        }catch(error){
+          data=null;
+        }
+
+        if(response.ok){
+          isSubmitting=false;
+          submissionComplete=true;
+          const currentMessageType=document.getElementById('messageType').value;
+          const currentMessageTypeLabel=document.getElementById('messageTypeLabel').value;
+          form.reset();
+          document.getElementById('messageType').value=currentMessageType;
+          document.getElementById('messageTypeLabel').value=currentMessageTypeLabel;
+          setStatus('success','Your private message was sent successfully.');
+          formStatus.focus();
+          submitButton.disabled=true;
+          submitButton.textContent='Sent';
+          return;
+        }
+
+        const validationText=data&&Array.isArray(data.errors)&&data.errors.length
+          ? data.errors.map((entry)=>entry.message).filter(Boolean).join(' ')
+          : '';
+        const serverText=data&&(typeof data.error==='string'?data.error:typeof data.message==='string'?data.message:'');
+        const fallbackText=response.status>=500
+          ? 'We could not send your message just now because the message service returned an error. Please try again shortly.'
+          : 'We could not send your message just now. Please review your entries and try again.';
+        setStatus('error',validationText||serverText||fallbackText);
+      }catch(error){
+        setStatus('error','We could not reach the message service. Please check your connection and try again.');
+      }finally{
+        isSubmitting=false;
+        if(!submissionComplete){
+          submitButton.disabled=false;
+          submitButton.textContent=defaultSubmitLabel;
+        }
+      }
+    });
   </script>
 </body>
 </html>
