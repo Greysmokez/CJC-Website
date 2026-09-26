@@ -86,7 +86,7 @@
         <label for="name">Name (optional)</label><input id="name" name="name" type="text" maxlength="100" autocomplete="name" />
         <label for="email">Email (optional)</label><input id="email" name="email" type="email" maxlength="254" autocomplete="email" />
         <label for="message" id="messageLabel">Message</label><textarea id="message" name="message" maxlength="3000" required></textarea>
-        <div class="honeypot" aria-hidden="true"><label for="gotcha">Leave empty</label><input id="gotcha" name="_gotcha" type="text" autocomplete="off" /></div>
+        <div class="honeypot" aria-hidden="true"><label for="gotcha">Leave empty</label><input id="gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off" /></div>
         <div id="formStatus" class="status" aria-live="polite" aria-atomic="true" tabindex="-1"></div>
         <div class="form-actions"><button class="btn" type="button" data-close>Cancel</button><button class="btn primary" type="submit">Send Privately</button></div>
       </form>
@@ -147,7 +147,6 @@
       submitButton.disabled=false;
       submitButton.textContent=defaultSubmitLabel;
       isSubmitting=false;
-      submissionComplete=false;
     });
 
     form.addEventListener('submit',async(event)=>{
