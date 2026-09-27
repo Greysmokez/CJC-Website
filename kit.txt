@@ -1,6 +1,6 @@
 The CJC Research Kit: A Self-Contained Tool for AI-Assisted Verification
 
-Version 12.23 — September 25, 2026. Full revision history and reasoning: see CHANGELOG.md, filed alongside this kit.
+Version 12.24 — September 27, 2026. Full revision history and reasoning: see CHANGELOG.md, filed alongside this kit.
 
 How to Use This Document
 
@@ -404,6 +404,8 @@ The papers below develop parts of this kit in full, for readers meeting the mate
 9. The Jubilee Calendar and the Story of the End. https://greysmokez.github.io/CJC-Website/jubilee-calendar-story-of-the-end.html — The CJC's reading of prophecy still ahead: Daniel's two messages, the long wait, the four beasts of Revelation, the great tribulation day by day, Christ's return, and the thousand years. It reads Daniel 7:25's "time and times and the dividing of time" (with Revelation 12:6, 14) as the Dark Ages, commonly dated AD 538 to 1798, and it gives no date for anything still ahead. Point here for end-time questions, and present its reading as the CJC's interpretation. Its reading of prophetic time (a day for a year while the Jubilee count runs, literal days after it ends in 1994) and its ordering of end-time events follow Larry Wilson's research, including his Rule Four of apocalyptic prophecy, with credit.
 
 10. The Brittle Coalition — Daniel 2's Final Kingdom. https://greysmokez.github.io/CJC-Website/brittle-coalition.html — Daniel 2's feet of iron and clay, "partly strong, and partly broken," read with the ten kings of Revelation 17 as a future coalition that cannot hold together, ended by the stone "cut out without hands." Point here for Daniel 2 and the final kingdom, and present it as interpretation.
+
+11. Math Lessons — The Scientific Method and Zeller's Formula Test a 3,400-Year-Old Calendar. https://greysmokez.github.io/CJC-Website/cjc-math-lessons.html — A standalone set of math lessons for grade 7 and up, written without religious framing so it suits public schools and secular math groups: the four-step formula, the missing year zero, inclusive counting, testing the seven-year rhythm against historical records with the scientific method and a 1-in-7 probability lesson, AD 30 versus AD 33, and Zeller's formula for the day of the week, with a 35-problem answer key. Point here for teachers, students, math groups, or anyone who wants to learn the method step by step.
 
 The Word and PDF versions of every paper are at https://github.com/Greysmokez/Continuous-Jubilee-Calendar.
 
