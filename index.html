@@ -40,13 +40,24 @@
         radial-gradient(ellipse at bottom right, rgba(75,90,69,0.06), transparent 55%);
     }
     .wrap{ max-width:760px; margin:0 auto; padding:40px 20px 80px; }
-    .mark{ width:46px; height:46px; margin:0 auto 18px; border:1.5px solid var(--gold); border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--gold); font-family:'Spectral', serif; font-weight:500; background:rgba(255,255,255,0.15); }
+    .mark{ width:46px; height:46px; margin:0 auto 18px; border:1.5px solid var(--gold); border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--gold); font-family:'Spectral', serif; font-weight:600; font-size:1rem; letter-spacing:.04em; }
     h1{ font-family:'Spectral', serif; font-weight:500; font-size:1.9rem; text-align:center; margin:0 0 8px; }
     h2{ font-family:'Spectral', serif; font-weight:500; font-size:1.3rem; margin:0 0 12px; color:var(--ink); text-align:center; }
     .subhead{ text-align:center; color:var(--ink-soft); font-size:1.02rem; max-width:620px; margin:0 auto 10px; }
     .hero-meta{ text-align:center; color:var(--ink); font-size:.98rem; margin:0 auto 6px; }
     .qualification{ text-align:center; color:var(--ink-soft); font-size:.92rem; max-width:680px; margin:0 auto 18px; }
-    .hero-instructions{ text-align:center; color:var(--ink-soft); font-size:1rem; max-width:620px; margin:0 auto 20px; }
+    .hero-instructions{ text-align:center; color:var(--ink-soft); font-size:1rem; max-width:620px; margin:0 auto 12px; }
+    .discreet-link-row{ text-align:center; margin:0 auto 18px; }
+    .discreet-link-row a{
+      color:var(--primary-hover);
+      text-decoration:none;
+      font-size:.95rem;
+      font-weight:600;
+      border-bottom:1px solid rgba(36,88,66,.35);
+      padding-bottom:1px;
+    }
+    .discreet-link-row a:hover{ color:var(--primary); border-bottom-color:var(--primary); }
+
     .kit-box{ background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:8px; padding:16px; margin-bottom:18px; }
     .label{ font-size:.88rem; color:var(--ink-soft); margin-bottom:8px; }
     .cta-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
@@ -54,7 +65,7 @@
     .cta-badge{ display:inline-flex; align-items:center; padding:3px 8px; border-radius:999px; font-size:.75rem; font-weight:700; letter-spacing:.02em; color:#fff; background:var(--primary); }
     .status{ font-size:.92rem; color:var(--ink-soft); margin-top:8px; min-height:1.2em; }
     .kit-link-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
-    .kit-link{ font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:.90rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:8px 12px; text-decoration:none; }
+    .kit-link{ font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:.90rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:9px 12px; text-decoration:none; }
     .kit-link:hover{ background:#f0e8d8; }
     .copy-btn{ font-family:inherit; font-size:.88rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:8px 12px; cursor:pointer; }
     .copy-btn.secondary{ background:#5B6B58; }
@@ -64,6 +75,7 @@
     .copy-btn:active{ transform:translateY(1px); }
     .copy-btn.copied{ background:var(--gold); color:#2B2318; }
     .quick-actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+
     .documents-section{ margin-top:28px; scroll-margin-top:60px; }
     .document-item{ background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:8px; padding:16px; margin-bottom:14px; }
     .document-title{ font-weight:600; font-size:.98rem; color:var(--ink); margin-bottom:10px; }
@@ -72,11 +84,13 @@
     .doc-btn:hover{ background:#f0e8d8; }
     .doc-btn.pdf::before{ content:'📄 '; }
     .doc-btn.docx::before{ content:'📝 '; }
+
     .choose-label{ text-align:center; font-size:.9rem; color:var(--ink-soft); margin:18px 0 8px; letter-spacing:.03em; }
     .ai-list{ display:flex; flex-direction:column; gap:10px; }
-    .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); }
+    .ai-btn{ display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:6px; text-decoration:none; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); font-weight:600; }
     .ai-btn:hover{ background:#f4ecd8; }
     .note{ font-size:.92rem; color:var(--ink-soft); text-align:center; margin-top:8px; }
+
     .publication-context{ margin-top:24px; padding:12px 14px; border:1px solid var(--gold-line); border-radius:8px; background:var(--parchment-deep); }
     .publication-context h2{ font-size:.92rem; margin:0 0 8px; color:var(--ink-soft); letter-spacing:.03em; text-transform:uppercase; }
     .publication-context p{ margin:6px 0; font-size:.9rem; line-height:1.45; color:var(--ink-soft); }
@@ -91,6 +105,9 @@
     <p class="hero-meta"><strong>SI</strong> = Super Intelligence</p>
     <p class="hero-meta">Published by Chip Welsh — September 22, 2026</p>
     <p class="hero-instructions">Use buttons only: open, copy URL, or copy raw kit text for fast paste into your AI assistant.</p>
+    <p class="discreet-link-row">
+      <a href="https://greysmokez.github.io/CJC-Website/feedback/" target="_blank" rel="noopener noreferrer">Questions, Corrections, or Support</a>
+    </p>
 
     <div class="kit-box">
       <div class="label">Run the CJC Kit</div>
@@ -112,7 +129,7 @@
       </div>
       <div class="label" style="margin-top:12px;">To copy and paste to AI manually select one:</div>
       <div class="kit-link-row">
-        <a class="kit-link" id="pdfUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/CJC_AI_Research_Kit.pdf" target="_blank" rel="noopener">CJC PDF</a>
+        <a class="kit-link" id="pdfUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/CJC_AI_Research_Kit.pdf" target="_blank" rel="noopener">CJC PDF Version</a>
         <button class="copy-btn ghost" id="copyPdfUrlBtn" aria-label="Copy PDF URL">Copy PDF URL</button>
       </div>
       <div class="kit-link-row">
