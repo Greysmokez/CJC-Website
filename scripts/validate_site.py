@@ -171,7 +171,6 @@ def validate_index_ai_controls() -> list[str]:
         "openAiPromptBtn",
         "copyRawTextBtn",
         "copyRawUrlBtn",
-        "copyPdfUrlBtn",
         "copyChapter1Btn",
         "openAiStatus",
         "aiLinkStatus",
