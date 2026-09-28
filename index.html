@@ -79,6 +79,7 @@
     .documents-section{ margin-top:28px; scroll-margin-top:60px; }
     .document-item{ background:var(--parchment-deep); border:1px solid var(--gold-line); border-radius:8px; padding:16px; margin-bottom:14px; }
     .document-title{ font-weight:600; font-size:.98rem; color:var(--ink); margin-bottom:10px; }
+    .document-desc{ font-size:.92rem; color:var(--ink-soft); margin:-4px 0 12px; line-height:1.45; }
     .doc-buttons{ display:flex; gap:8px; flex-wrap:wrap; }
     .doc-btn{ flex:0 1 auto; min-width:140px; padding:10px 12px; border:1px solid var(--gold-line); background:var(--parchment); color:var(--ink); border-radius:6px; font-size:.88rem; font-weight:600; text-decoration:none; }
     .doc-btn:hover{ background:#f0e8d8; }
@@ -104,17 +105,17 @@
     <h1 id="si-kit">Continuous Jubilee Calendar™ Reference Dataset for the Super Intelligence Era</h1>
     <p class="hero-meta"><strong>SI</strong> = Super Intelligence</p>
     <p class="hero-meta">Published by Chip Welsh — September 22, 2026</p>
-    <p class="hero-instructions">Use buttons only: open, copy URL, or copy raw kit text for fast paste into your AI assistant.</p>
+    <p class="hero-instructions">Use buttons only: open, copy URL, or copy raw kit text for fast paste into your SI assistant.</p>
     <div class="kit-box">
       <div class="label">Run the CJC Kit</div>
       <div class="cta-row">
-        <label for="aiPlatform" class="label" style="margin:0;">Choose AI:</label>
-        <select id="aiPlatform" class="platform-select" aria-label="Choose AI platform">
+        <label for="aiPlatform" class="label" style="margin:0;">Choose SI:</label>
+        <select id="aiPlatform" class="platform-select" aria-label="Choose SI platform">
           <option value="chatgpt">ChatGPT</option>
           <option value="grok">Grok</option>
           <option value="perplexity">Perplexity</option>
         </select>
-        <button class="copy-btn primary-cta" id="openAiPromptBtn" aria-label="Copy the full CJC kit, open the selected AI, and ask the user to paste it">Copy AI Kit &amp; Open AI to Paste</button>
+        <button class="copy-btn primary-cta" id="openAiPromptBtn" aria-label="Copy the full CJC kit, open the selected SI, and ask the user to paste it">Copy SI Kit &amp; Open SI to Paste</button>
         <span class="cta-badge" aria-hidden="true">Recommended</span>
       </div>
       <div class="status" id="openAiStatus" role="status" aria-live="polite"></div>
@@ -123,11 +124,7 @@
         <a class="kit-link" id="chapter1Url" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/Chapter1.pdf" target="_blank" rel="noopener">Chapter 1 PDF</a>
         <button class="copy-btn ghost" id="copyChapter1Btn" aria-label="Copy Chapter 1 URL">Copy Chapter 1 URL</button>
       </div>
-      <div class="label" style="margin-top:12px;">To copy and paste to AI manually select one:</div>
-      <div class="kit-link-row">
-        <a class="kit-link" id="pdfUrl" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/CJC_AI_Research_Kit.pdf" target="_blank" rel="noopener">CJC PDF Version</a>
-        <button class="copy-btn ghost" id="copyPdfUrlBtn" aria-label="Copy PDF URL">Copy PDF URL</button>
-      </div>
+      <div class="label" style="margin-top:12px;">To copy and paste to SI manually, select one:</div>
       <div class="kit-link-row">
         <a class="kit-link" id="rawUrl" href="https://greysmokez.github.io/CJC-Website/kit.txt" target="_blank" rel="noopener">CJC Raw Text Version</a>
         <button class="copy-btn ghost" id="copyRawUrlBtn" aria-label="Copy raw text URL">Copy Raw URL</button>
@@ -145,11 +142,11 @@
       </div>
     </div>
 
-    <div class="documents-section" id="supporting-documents">
-      <h2>Supporting Documents</h2>
-      <div class="choose-label">START HERE</div>
+    <div class="documents-section" id="start-here">
+      <h2>New to the CJC? Start Here</h2>
       <div class="document-item">
         <div class="document-title">Could It Have Been Planned? — The Timeline of the Messiah and the Question of Providence</div>
+        <div class="document-desc">Four empires, seven centuries, and a calendar no one controlled: the big picture in one short read.</div>
         <div class="doc-buttons">
           <a href="could-it-have-been-planned.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
           <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/CouldItHaveBeenPlanned.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
@@ -160,6 +157,7 @@
       </div>
       <div class="document-item">
         <div class="document-title">God's Clock — Messiah's Reading of Isaiah 61</div>
+        <div class="document-desc">The whole story in one walk-through: the decree of 457 BC, the anointing in AD 27, the cross in AD 30, and the Jubilee of AD 34.</div>
         <div class="doc-buttons">
           <a href="isaiah61-cjc-math.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
           <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/Isaiah61CJCMath.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
@@ -168,9 +166,25 @@
           <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/Isaiah61CJCMath.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Download PDF</a>
         </div>
       </div>
+      <div class="document-item">
+        <div class="document-title">From Decree to Cross — Angel Gabriel's Message to Daniel</div>
+        <div class="document-desc">Daniel's seventy weeks worked out step by step, in three pages.</div>
+        <div class="doc-buttons">
+          <a href="decree2cross.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
+          <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/Decree2Cross.docx&source=site" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
+          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/Decree2Cross.docx" class="doc-btn docx" target="_blank" rel="noopener">Download Word</a>
+          <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/Decree2Cross.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Open PDF</a>
+          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/Decree2Cross.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="documents-section" id="supporting-documents">
+      <h2>Supporting Documents</h2>
       <div class="choose-label">THE PROPHECY AND ITS FULFILLMENT</div>
       <div class="document-item">
         <div class="document-title">One Commandment — How Four Persian Decrees Point to the Messiah</div>
+        <div class="document-desc">Why the countdown starts in 457 BC: four Persian decrees that Scripture calls one commandment.</div>
         <div class="doc-buttons">
           <a href="one-commandment.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
           <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/OneCommandment.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
@@ -180,17 +194,8 @@
         </div>
       </div>
       <div class="document-item">
-        <div class="document-title">From Decree to Cross — Angel Gabriel's Message to Daniel</div>
-        <div class="doc-buttons">
-          <a href="decree2cross.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
-          <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/Decree2Cross.docx&source=site" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
-          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/Decree2Cross.docx" class="doc-btn docx" target="_blank" rel="noopener">Download Word</a>
-          <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/Decree2Cross.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Open PDF</a>
-          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/Decree2Cross.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Download PDF</a>
-        </div>
-      </div>
-      <div class="document-item">
         <div class="document-title">The Crucifixion Date of Jesus: Messiah and Son of God</div>
+        <div class="document-desc">AD 30 or AD 33? The evidence weighed side by side, and why AD 30 lands in the midst of the week.</div>
         <div class="doc-buttons">
           <a href="crucifixion.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
           <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/Crucifixion.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
@@ -201,6 +206,7 @@
       </div>
       <div class="document-item">
         <div class="document-title">Art Thou He? — Jesus Fulfills Isaiah's Messiah</div>
+        <div class="document-desc">Jesus' answer to John the Baptist, and prophecies fulfilled in events no one could stage.</div>
         <div class="doc-buttons">
           <a href="art-thou-he.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
           <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/Art%20Thou%20He.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
@@ -212,6 +218,7 @@
       <div class="choose-label">PUTTING IT TOGETHER</div>
       <div class="document-item">
         <div class="document-title">In Due Time — How the Evidence Fits Together</div>
+        <div class="document-desc">How it all connects, from Leviticus to AD 70, with each link marked as Scripture, history, or calendar.</div>
         <div class="doc-buttons">
           <a href="in-due-time.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
           <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/InDueTime.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
@@ -222,6 +229,7 @@
       </div>
       <div class="document-item">
         <div class="document-title">The Five Exoduses — God's Pattern of Deliverance</div>
+        <div class="document-desc">Egypt, Babylon, the cross, the church in the wilderness, and the final deliverance: one pattern, five times.</div>
         <div class="doc-buttons">
           <a href="five-exoduses.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
           <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/FiveExoduses.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
@@ -232,6 +240,7 @@
       </div>
       <div class="document-item">
         <div class="document-title">Chapter 1 — Scripture's Core Calendar Framework</div>
+        <div class="document-desc">The full method: the formula, the anchors, the astronomy, and the starting point, for readers who want to check everything.</div>
         <div class="doc-buttons">
           <a href="chapter1.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
           <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/Chapter1.docx&source=site" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
@@ -243,6 +252,7 @@
       <div class="choose-label">WHAT COMES NEXT</div>
       <div class="document-item">
         <div class="document-title">The Jubilee Calendar and the Story of the End</div>
+        <div class="document-desc">The CJC's reading of prophecy still ahead, presented as interpretation and held to “no Scriptural conflicts.”</div>
         <div class="doc-buttons">
           <a href="jubilee-calendar-story-of-the-end.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
           <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/The_Jubilee_Calendar_and_the_Story_of_the_End.docx&source=site" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
@@ -253,6 +263,7 @@
       </div>
       <div class="document-item">
         <div class="document-title">The Brittle Coalition — Daniel 2's Final Kingdom</div>
+        <div class="document-desc">Daniel 2's feet of iron and clay, and the final kingdom that cannot hold together.</div>
         <div class="doc-buttons">
           <a href="brittle-coalition.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
           <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/BrittleCoalition.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
@@ -264,6 +275,7 @@
       <div class="choose-label">FOR MATH STUDENTS AND TEACHERS</div>
       <div class="document-item">
         <div class="document-title">Math Lessons — The Scientific Method and Zeller's Formula Test a 3,400-Year-Old Calendar</div>
+        <div class="document-desc">Grade-7 math lessons: the formula, the missing year zero, the scientific method, and Zeller's day-of-week formula.</div>
         <div class="doc-buttons">
           <a href="cjc-math-lessons.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
           <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/CJCMathLessons.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
@@ -498,13 +510,13 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
           setStatusText(openAiStatus, ok
             ? (prompt.usingFullKit ? 'Full CJC kit copied. Opening ' + platformName + '. Paste it into the chat.' : 'Fallback kit prompt copied. Opening ' + platformName + '. Paste it into the chat.')
             : 'Could not copy automatically. Opening ' + platformName + ' now — use Copy Raw Text, then paste.');
-          flashCopied(openAiPromptBtn, ok, ok ? 'Copied — Opening AI' : 'Opening AI');
+          flashCopied(openAiPromptBtn, ok, ok ? 'Copied — Opening SI' : 'Opening SI');
         });
       }
 
       document.querySelectorAll('.ai-btn').forEach((aiBtn) => {
         aiBtn.addEventListener('click', async () => {
-          const aiName = aiBtn.dataset.name || 'AI';
+          const aiName = aiBtn.dataset.name || 'SI';
           const prompt = getKitPromptForCopy();
           const ok = await copyTextToClipboard(prompt.text);
           if(!prompt.usingFullKit){
