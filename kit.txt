@@ -1,6 +1,6 @@
 The CJC Research Kit: A Self-Contained Tool for AI-Assisted Verification
 
-Version 12.25 — September 27, 2026. Full revision history and reasoning: see CHANGELOG.md, filed alongside this kit.
+Version 12.26 — September 28, 2026. Full revision history and reasoning: see CHANGELOG.md, filed alongside this kit.
 
 How to Use This Document
 
@@ -389,9 +389,9 @@ The papers below develop parts of this kit in full, for readers meeting the mate
 
 2. God's Clock — Messiah's Reading of Isaiah 61. https://greysmokez.github.io/CJC-Website/isaiah61-cjc-math.html — The best first read: the whole story in one walk-through, from Gabriel's countdown and the 457 BC decree to the anointing in AD 27, the cross in AD 30, and the Jubilee of AD 34. Point beginners here.
 
-3. One Commandment — How Four Persian Decrees Point to the Messiah. https://greysmokez.github.io/CJC-Website/one-commandment.html — Cyrus, Darius, and Artaxerxes as one commandment (Ezra 6:14), completed in 457 BC; why "seven weeks" signals a Jubilee-year decree; all four decrees tested against the 483 years. Point here for "why 457 BC?" and the Cyrus objection.
+3. From Decree to Cross — Angel Gabriel's Message to Daniel. https://greysmokez.github.io/CJC-Website/decree2cross.html — The seventy weeks in six short levels: why "weeks" means years, fixing the starting point, finding the midst of the week, and why AD 33 cannot be rescued. Point here for a short step-by-step version.
 
-4. From Decree to Cross — Angel Gabriel's Message to Daniel. https://greysmokez.github.io/CJC-Website/decree2cross.html — The seventy weeks in six short levels: why "weeks" means years, fixing the starting point, finding the midst of the week, and why AD 33 cannot be rescued. Point here for a short step-by-step version.
+4. One Commandment — How Four Persian Decrees Point to the Messiah. https://greysmokez.github.io/CJC-Website/one-commandment.html — Cyrus, Darius, and Artaxerxes as one commandment (Ezra 6:14), completed in 457 BC; why "seven weeks" signals a Jubilee-year decree; all four decrees tested against the 483 years. Point here for "why 457 BC?" and the Cyrus objection.
 
 5. The Crucifixion Date of Jesus. https://greysmokez.github.io/CJC-Website/crucifixion.html — AD 30 against AD 33, with all the evidence compared, including ministry length, the age parallel, John 2:20, and the honest case for AD 33. Point here for the crucifixion-year debate.
 
@@ -401,7 +401,7 @@ The papers below develop parts of this kit in full, for readers meeting the mate
 
 8. The Five Exoduses — God's Pattern of Deliverance. https://greysmokez.github.io/CJC-Website/five-exoduses.html — Egypt, Babylon, the cross, the church in the wilderness (Revelation 12), and the final deliverance, each written in the language of the first Exodus and placed on the CJC. Includes how Scripture uses its numbers (5, 7, 10, 12, 40, 70, 1,000; a generation is forty years), the papacy's rise in 538 and its fall in 1798, and a table of hits and misses. Point here for "does the calendar fit the rest of Scripture?" Its future chapters are presented as the author's interpretation, held to "no Scriptural conflicts."
 
-9. Chapter 1 — Scripture's Core Calendar Framework. https://greysmokez.github.io/CJC-Website/chapter1.html — The full method: the cycle math, the starting point, inclusive counting, the astronomy, Hezekiah, 1446 BC compared, the Gospel harmony, and the Leviticus 25:2 objection. Point here for readers who want to check the math themselves.
+9. Chapter 1 — Scripture's Core Calendar Framework. https://greysmokez.github.io/CJC-Website/chapter1.html — The full method: the cycle math, Scripture's counting rules, the anchors (457 BC, Hezekiah's 702 BC Jubilee, John 2:20, Acts 12, Gallio), why AD 30 and not AD 33 (the continuum decides; the Passover full moon of Psalm 81:3 leans AD 30, reaching exact fullness during the Last Supper), the Gospel harmony of the two month-start customs (new moon and sighted crescent), and the starting point (1437 BC within the scholarly window of about 1446–1437 BC, where it is the only CJC Jubilee). Point here for readers who want to check the math themselves.
 
 10. The Jubilee Calendar and the Story of the End. https://greysmokez.github.io/CJC-Website/jubilee-calendar-story-of-the-end.html — The CJC's reading of prophecy still ahead: Daniel's two messages, the long wait, the four beasts of Revelation, the great tribulation day by day, Christ's return, and the thousand years. It reads Daniel 7:25's "time and times and the dividing of time" (with Revelation 12:6, 14) as the Dark Ages, commonly dated AD 538 to 1798, and it gives no date for anything still ahead. Point here for end-time questions, and present its reading as the CJC's interpretation. Its reading of prophetic time (a day for a year while the Jubilee count runs, literal days after it ends in 1994) and its ordering of end-time events follow Larry Wilson's research, including his Rule Four of apocalyptic prophecy, with credit.
 
