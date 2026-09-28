@@ -65,6 +65,10 @@
     .cta-badge{ display:inline-flex; align-items:center; padding:3px 8px; border-radius:999px; font-size:.75rem; font-weight:700; letter-spacing:.02em; color:#fff; background:var(--primary); }
     .status{ font-size:.92rem; color:var(--ink-soft); margin-top:8px; min-height:1.2em; }
     .kit-link-row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px; }
+    .manual-options{ display:grid; gap:10px; margin-top:6px; }
+    .manual-option{ display:flex; gap:12px; align-items:flex-start; flex-wrap:wrap; }
+    .manual-option .copy-btn, .manual-option .kit-link{ min-width:170px; text-align:center; font-family:inherit; font-weight:600; font-size:.88rem; }
+    .manual-note{ flex:1; min-width:200px; font-size:.9rem; color:var(--ink-soft); line-height:1.4; }
     .kit-link{ font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:.90rem; color:var(--ink); background:var(--parchment); border:1px solid var(--gold-line); border-radius:6px; padding:9px 12px; text-decoration:none; }
     .kit-link:hover{ background:#f0e8d8; }
     .copy-btn{ font-family:inherit; font-size:.88rem; font-weight:600; color:#fff; background:var(--action); border:none; border-radius:6px; padding:8px 12px; cursor:pointer; }
@@ -105,7 +109,7 @@
     <h1 id="si-kit">Continuous Jubilee Calendar™ Reference Dataset for the Super Intelligence Era</h1>
     <p class="hero-meta"><strong>SI</strong> = Super Intelligence</p>
     <p class="hero-meta">Published by Chip Welsh — September 22, 2026</p>
-    <p class="hero-instructions">Use buttons only: open, copy URL, or copy raw kit text for fast paste into your SI assistant.</p>
+    <p class="hero-instructions">Use the buttons below to open an SI with the kit, or copy it yourself to paste into any SI assistant.</p>
     <div class="kit-box">
       <div class="label">Run the CJC Kit</div>
       <div class="cta-row">
@@ -124,13 +128,24 @@
         <a class="kit-link" id="chapter1Url" href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/Chapter1.pdf" target="_blank" rel="noopener">Chapter 1 PDF</a>
         <button class="copy-btn ghost" id="copyChapter1Btn" aria-label="Copy Chapter 1 URL">Copy Chapter 1 URL</button>
       </div>
-      <div class="label" style="margin-top:12px;">To copy and paste to SI manually, select one:</div>
-      <div class="kit-link-row">
-        <a class="kit-link" id="rawUrl" href="https://greysmokez.github.io/CJC-Website/kit.txt" target="_blank" rel="noopener">CJC Raw Text Version</a>
-        <button class="copy-btn ghost" id="copyRawUrlBtn" aria-label="Copy raw text URL">Copy Raw URL</button>
-      </div>
-      <div class="quick-actions">
-        <button class="copy-btn secondary" id="copyRawTextBtn" aria-label="Copy raw kit text">Copy Raw Text</button>
+      <div class="label" style="margin-top:12px;">Prefer to paste it yourself? Choose one:</div>
+      <div class="manual-options">
+        <div class="manual-option">
+          <button class="copy-btn secondary" id="copyRawTextBtn" aria-label="Copy the full CJC kit">Copy Full Kit</button>
+          <div class="manual-note"><strong>Most complete answers.</strong> Copies the whole kit (about 109,000 characters). Paste it into any SI. Best on a computer.</div>
+        </div>
+        <div class="manual-option">
+          <button class="copy-btn secondary" id="copyLinkRequestBtn" aria-label="Copy a short request that points an SI to the kit">Copy Short Request</button>
+          <div class="manual-note"><strong>Best on phones, and for Grok.</strong> Copies a one-line request that tells the SI to read the whole kit from its web address. Just paste and send.</div>
+        </div>
+        <div class="manual-option">
+          <button class="copy-btn ghost" id="copyRawUrlBtn" aria-label="Copy the kit's web address">Copy Kit Address</button>
+          <div class="manual-note"><strong>Write your own request.</strong> Copies just the kit's web address.</div>
+        </div>
+        <div class="manual-option">
+          <a class="kit-link" id="rawUrl" href="https://greysmokez.github.io/CJC-Website/kit.txt" target="_blank" rel="noopener">View Full Kit</a>
+          <div class="manual-note"><strong>Read it yourself.</strong> Opens the kit as plain text in your browser, to read or save.</div>
+        </div>
       </div>
     </div>
 
@@ -291,7 +306,7 @@
       <a class="ai-btn" href="https://chat.openai.com/" target="_blank" rel="noopener" data-name="ChatGPT"><span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span>ChatGPT</a>
       <a class="ai-btn" href="https://claude.ai" target="_blank" rel="noopener" data-name="Claude"><span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span>Claude</a>
       <a class="ai-btn" href="https://gemini.google.com" target="_blank" rel="noopener" data-name="Gemini"><span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span>Gemini</a>
-      <a class="ai-btn" href="https://grok.com/" target="_blank" rel="noopener" data-name="Grok"><span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span>Grok</a>
+      <a class="ai-btn" href="https://grok.com/?q=Read%20the%20entire%20CJC%20Research%20Kit%20at%20https%3A%2F%2Fgreysmokez.github.io%2FCJC-Website%2Fkit.txt%2C%20every%20section%20through%20the%20Research%20Library%20at%20the%20end%2C%20then%20use%20it%20to%20answer%20my%20questions.%20Start%20with%20a%20short%20overview%20of%20the%20Continuous%20Jubilee%20Calendar." target="_blank" rel="noopener" data-name="Grok"><span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span>Grok</a>
       <a class="ai-btn" href="https://copilot.microsoft.com" target="_blank" rel="noopener" data-name="Copilot"><span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span>Copilot</a>
       <a class="ai-btn" href="https://www.perplexity.ai/" target="_blank" rel="noopener" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
     </div>
@@ -321,7 +336,10 @@
     const CJC_KIT_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/CJCKit.txt';
     const PDF_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/CJC_AI_Research_Kit.pdf';
     const CHAPTER1_URL = 'https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/Chapter1.pdf';
-    const platformUrls = { chatgpt: 'https://chat.openai.com/', grok: 'https://grok.com/', perplexity: 'https://www.perplexity.ai/' };
+    const GROK_PROMPT = 'Read the entire CJC Research Kit at https://greysmokez.github.io/CJC-Website/kit.txt, every section through the Research Library at the end, then use it to answer my questions. Start with a short overview of the Continuous Jubilee Calendar.';
+    // Grok treats very long pastes as file uploads, which need sign-in, so Grok gets a short request that points it to the kit's web address.
+    const GROK_URL = 'https://grok.com/?q=' + encodeURIComponent(GROK_PROMPT);
+    const platformUrls = { chatgpt: 'https://chat.openai.com/', grok: GROK_URL, perplexity: 'https://www.perplexity.ai/' };
     const CJC_TUTOR_PROMPT = `You are an expert tutor for the Continuous Jubilee Calendar (CJC) method.
 
 Primary source materials:
@@ -469,6 +487,14 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
           setStatusText(openAiStatus, ok ? 'PDF URL copied.' : 'Could not copy PDF URL.');
         });
       }
+      const copyLinkRequestBtn = document.getElementById('copyLinkRequestBtn');
+      if(copyLinkRequestBtn){
+        copyLinkRequestBtn.addEventListener('click', async () => {
+          const ok = await copyTextToClipboard(GROK_PROMPT);
+          flashCopied(copyLinkRequestBtn, ok, 'Request Copied');
+        });
+      }
+
       if(copyRawUrlBtn){
         copyRawUrlBtn.addEventListener('click', async () => {
           const ok = await copyTextToClipboard(RAW_URL);
@@ -481,7 +507,7 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
           const hasCachedKit = !!canonicalKitText;
           const textToCopy = hasCachedKit ? canonicalKitText : CJC_KIT_URL;
           const ok = await copyTextToClipboard(textToCopy);
-          flashCopied(copyRawTextBtn, ok, hasCachedKit ? 'Raw Text Copied' : 'Kit URL Copied');
+          flashCopied(copyRawTextBtn, ok, hasCachedKit ? 'Full Kit Copied' : 'Kit Address Copied');
           if(ok){
             setStatusText(openAiStatus, hasCachedKit ? 'Raw kit text copied.' : 'Kit URL copied. Full text is still loading in the background.');
           } else {
@@ -497,6 +523,16 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
           const selected = aiPlatform && aiPlatform.value ? aiPlatform.value : 'chatgpt';
           const platformName = platformNames[selected] || 'ChatGPT';
           const fallbackUrl = platformUrls[selected] || platformUrls.chatgpt;
+          if(selected === 'grok'){
+            const okGrok = await copyTextToClipboard(GROK_PROMPT);
+            const winGrok = safeOpen(fallbackUrl, openAiStatus);
+            if(!winGrok){ window.location.href = fallbackUrl; return; }
+            setStatusText(openAiStatus, okGrok
+              ? 'Opening Grok with a short request to read the kit from its web address (no sign-in needed). If the message box is empty, paste the request, which has been copied for you.'
+              : 'Opening Grok. Ask it to read the kit at https://greysmokez.github.io/CJC-Website/kit.txt');
+            flashCopied(openAiPromptBtn, okGrok, okGrok ? 'Copied — Opening SI' : 'Opening SI');
+            return;
+          }
           const prompt = getKitPromptForCopy();
           const ok = await copyTextToClipboard(prompt.text);
           const win = safeOpen(fallbackUrl, openAiStatus);
@@ -517,6 +553,13 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
       document.querySelectorAll('.ai-btn').forEach((aiBtn) => {
         aiBtn.addEventListener('click', async () => {
           const aiName = aiBtn.dataset.name || 'SI';
+          if(aiName === 'Grok'){
+            const okGrok = await copyTextToClipboard(GROK_PROMPT);
+            setStatusText(aiLinkStatus, okGrok
+              ? 'Grok opened in a new tab with a short request to read the kit from its web address (no sign-in needed). If the message box is empty, paste the request, which has been copied for you.'
+              : 'Grok opened in a new tab. Ask it to read the kit at https://greysmokez.github.io/CJC-Website/kit.txt');
+            return;
+          }
           const prompt = getKitPromptForCopy();
           const ok = await copyTextToClipboard(prompt.text);
           if(!prompt.usingFullKit){
