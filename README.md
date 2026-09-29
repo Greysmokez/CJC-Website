@@ -29,6 +29,7 @@ The **Continuous Jubilee Calendar (CJC)** is a free, open research project that 
 - **[In Due Time](https://greysmokez.github.io/CJC-Website/in-due-time.html)**: how the evidence fits together, from Leviticus to AD 70.
 - **[The Five Exoduses](https://greysmokez.github.io/CJC-Website/five-exoduses.html)**: Egypt, Babylon, the cross, the church in the wilderness, and the final deliverance.
 - **[Chapter 1: Scripture's Core Calendar Framework](https://greysmokez.github.io/CJC-Website/chapter1.html)**: the full method, for readers who want to check everything.
+- **[The Four Horsemen](https://greysmokez.github.io/CJC-Website/four-horsemen.html)**: Revelation 6 decoded with Scripture's own words.
 - **[The Jubilee Calendar and the Story of the End](https://greysmokez.github.io/CJC-Website/jubilee-calendar-story-of-the-end.html)**: Bible prophecy still ahead, presented as interpretation.
 - **[The Brittle Coalition](https://greysmokez.github.io/CJC-Website/brittle-coalition.html)**: Daniel 2's final kingdom of iron and clay.
 
