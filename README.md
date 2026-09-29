@@ -1,34 +1,59 @@
-# CJC Website — Continuous Jubilee Calendar
+# Continuous Jubilee Calendar (CJC): Bible Chronology, Daniel's 70 Weeks, and the Crucifixion Date
 
-The **CJC Website** is the public-facing home of the **Continuous Jubilee Calendar** project: a calendar-centered research and publishing experience built for clear reading, exploration, and sharing.
+### 🌐 **[Visit the CJC Website: greysmokez.github.io/CJC-Website](https://greysmokez.github.io/CJC-Website/)**
 
-## Visit the project
+**By Chip Welsh** · Published September 22, 2026
 
-👉 **Explore the website:** https://greysmokez.github.io/CJC-Website/
+The **Continuous Jubilee Calendar (CJC)** is a free, open research project that counts the Bible's 49-year **Jubilee cycles** (Leviticus 25) without a break, from the Exodus to today, using one simple formula, and then tests the results against history, astronomy, and ancient records. Anyone can check every step by hand.
 
-## Quick preview
+## What the calendar shows
 
-![Greysmokez avatar](https://github.com/Greysmokez.png)
+- **Daniel's seventy weeks run from Jubilee to Jubilee.** The decree of **457 BC** falls in a Jubilee year, and 490 years later, so does **AD 34**: exactly ten Jubilee cycles.
+- **483 years after the decree** (Daniel 9:25), the count reaches **AD 27**, the start of Jesus' ministry.
+- **The crucifixion, Friday, April 7, AD 30,** falls in "the midst of the week" (Daniel 9:27): the exact middle of the final seven years. AD 33 lands at the end instead.
+- **Hezekiah's deliverance from Assyria (702 BC)** also falls in a Jubilee year.
+- **The seven-year sabbatical rhythm matches independent records:** the Maccabees, Josephus, ancient gravestones from Zoar, and the Jewish *shemitah* year still kept today.
+- **Every result is labeled honestly:** what is arithmetic, what is historical evidence, and what is interpretation. The misses are shown too.
 
-_Project branding preview (temporary). A full site screenshot can replace this anytime._
+## Start here
 
-## Why this repo exists
+1. **[Could It Have Been Planned?](https://greysmokez.github.io/CJC-Website/could-it-have-been-planned.html)** Four empires, seven centuries, and a calendar no one controlled: the big picture in one short read.
+2. **[God's Clock: Messiah's Reading of Isaiah 61](https://greysmokez.github.io/CJC-Website/isaiah61-cjc-math.html)** The whole story in one walk-through: the decree of 457 BC, the anointing in AD 27, the cross in AD 30, and the Jubilee of AD 34.
+3. **[From Decree to Cross: Angel Gabriel's Message to Daniel](https://greysmokez.github.io/CJC-Website/decree2cross.html)** Daniel's seventy weeks worked out step by step, in three pages.
 
-- Publish and present the Continuous Jubilee Calendar content in a web-first format
-- Keep the project easy to discover through clear naming and search-friendly wording
-- Provide a clean public entry point for readers, researchers, and curious visitors
+## The full library
 
-## Relationship to the source/storage repo
+- **[One Commandment](https://greysmokez.github.io/CJC-Website/one-commandment.html)**: why the countdown starts in 457 BC.
+- **[The Crucifixion Date of Jesus](https://greysmokez.github.io/CJC-Website/crucifixion.html)**: AD 30 or AD 33? The evidence side by side.
+- **[Art Thou He? Jesus Fulfills Isaiah's Messiah](https://greysmokez.github.io/CJC-Website/art-thou-he.html)**: prophecies fulfilled in events no one could stage.
+- **[In Due Time](https://greysmokez.github.io/CJC-Website/in-due-time.html)**: how the evidence fits together, from Leviticus to AD 70.
+- **[The Five Exoduses](https://greysmokez.github.io/CJC-Website/five-exoduses.html)**: Egypt, Babylon, the cross, the church in the wilderness, and the final deliverance.
+- **[Chapter 1: Scripture's Core Calendar Framework](https://greysmokez.github.io/CJC-Website/chapter1.html)**: the full method, for readers who want to check everything.
+- **[The Jubilee Calendar and the Story of the End](https://greysmokez.github.io/CJC-Website/jubilee-calendar-story-of-the-end.html)**: Bible prophecy still ahead, presented as interpretation.
+- **[The Brittle Coalition](https://greysmokez.github.io/CJC-Website/brittle-coalition.html)**: Daniel 2's final kingdom of iron and clay.
 
-This website repo is the public presentation layer.  
-Source and storage materials are maintained in:
+## For teachers and math groups
 
-➡️ **https://github.com/Greysmokez/Continuous-Jubilee-Calendar**
+**[Math Lessons: The Scientific Method and Zeller's Formula Test a 3,400-Year-Old Calendar](https://greysmokez.github.io/CJC-Website/cjc-math-lessons.html)**: grade-7 lessons on the formula, the missing year zero, probability, the scientific method, and Zeller's day-of-week formula, with a 35-problem answer key. Written without religious framing, for classrooms and secular math groups.
 
-## Contributing / sharing
+## Ask an SI or AI assistant about it
 
-If the project is useful to you, please:
+The website's buttons copy the full research kit into **ChatGPT, Claude, Gemini, Copilot, or Perplexity** in one click. For **Grok**, or on a phone, send this short request instead:
 
-- Star this repository
-- Share the website link
-- Open an issue with corrections or questions
+```text
+Read the entire CJC Research Kit at https://greysmokez.github.io/CJC-Website/kit.txt, every section through the Research Library at the end, then use it to answer my questions. Start with a short overview of the Continuous Jubilee Calendar.
+```
+
+## The formula in one line
+
+For any year: **B = year + 1437** (AD) or **1438 − year** (BC); **Cycle = (B − 1) ÷ 49**, rounded down, **+ 1**; **Y = B − (Cycle − 1) × 49**. Year 1 is a Jubilee; Y ÷ 7 with no remainder is a sabbatical year.
+
+## Questions, corrections, or sharing
+
+- Send questions or corrections through the **[feedback page](https://greysmokez.github.io/CJC-Website/feedback/)**.
+- ⭐ **Star this repository** and **share the website link**. That's the best way to help others find it.
+- Source files, papers, and the research kit are kept in **[Greysmokez/Continuous-Jubilee-Calendar](https://github.com/Greysmokez/Continuous-Jubilee-Calendar)**.
+
+*Keywords: CJC, CJC Website, Continuous Jubilee Calendar, Chip Welsh, Bible chronology, biblical calendar, Jubilee year, sabbatical year, shemitah, Leviticus 25, Daniel 9, seventy weeks prophecy, 457 BC decree, Artaxerxes, crucifixion date, AD 30, Passover, Exodus date, 1437 BC, Bible prophecy timeline, Bible math.*
+
+© 2026 Chip Welsh. All Rights Reserved. Continuous Jubilee Calendar™ and CJC™ are trademarks of Chip Welsh.
