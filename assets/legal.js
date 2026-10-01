@@ -3,7 +3,7 @@
 
   const LEGAL_YEAR = '2026';
   const MUTED_GRAY = '#8b8f97';
-  const CANONICAL_TERMS_URL = 'https://greysmokez.github.io/CJC-Website/terms-of-use/';
+  const CANONICAL_TERMS_URL = 'https://scripturescjc.com/terms-of-use/';
   const TRADEMARK_PATTERNS = [
     { term: 'Continuous Jubilee Calendar', regex: /Continuous Jubilee Calendar(?!\s*™)/ },
     { term: 'CJC', regex: /\bCJC\b(?!\s*™)/ }
