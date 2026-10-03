@@ -31,6 +31,7 @@ The **Continuous Jubilee Calendar (CJC)** is a free, open research project that 
 - **[Chapter 1: Scripture's Core Calendar Framework](https://scripturescjc.com/chapter1.html)**: the full method, for readers who want to check everything.
 - **[The Four Horsemen](https://scripturescjc.com/four-horsemen.html)**: Revelation 6 decoded with Scripture's own words.
 - **[The Shepherd's Gathering](https://scripturescjc.com/the-shepherds-gathering.html)**: when Christ's people meet him in the air, and why he never leaves his flock in the tribulation.
+- **[Does Scripture Support the Pre-Tribulation Theory?](https://scripturescjc.com/pre-tribulation.html)**: the pre-tribulation rapture's foundations (Daniel's seventy weeks, the covenant of Daniel 9:27, and one people of God) tested by Scripture's own words.
 - **[The Jubilee Calendar and the Story of the End](https://scripturescjc.com/jubilee-calendar-story-of-the-end.html)**: Bible prophecy still ahead, presented as interpretation.
 - **[The Brittle Coalition](https://scripturescjc.com/brittle-coalition.html)**: Daniel 2's final kingdom of iron and clay.
 
