@@ -1,6 +1,6 @@
 The CJC Research Kit: A Self-Contained Tool for AI-Assisted Verification
 
-Version 12.33 — October 6, 2026. Full revision history and reasoning: see CHANGELOG.md, filed alongside this kit.
+Version 12.34 — October 6, 2026. Full revision history and reasoning: see CHANGELOG.md, filed alongside this kit.
 
 How to Use This Document
 
@@ -23,6 +23,24 @@ Important structural finding: no single Exodus year is actually required for thi
 The three strongest, most independently-grounded points in this framework: (1) the crucifixion week (AD 30) — independently secured by astronomy, Roman record, and Gospel detail; (2) the 457 BC decree — independently secured by Persian record, connects to Anchor 1 by arithmetic alone; (3) the double rest-year mechanism at 702 BC — a genuine structural fit to Isaiah 37:30, conditional on one defensible reading of the text. The specific claim of a fixed 1437 BC Exodus date is not independently established by anything found in extensive testing — see "The Exodus-Date Derivation" below for the full account of what was tried and did not hold up.
 
 Two distinctions to never blur: year-level cycle math (Cycle/Y) versus specific-day astronomical claims (moon phase, literal weekday) — always separate evidence, and confirmed independent of each other by direct testing (see "A Reasoning Error Worth Avoiding" and "The Formula" below). And a year's Position (a symbolic label for an entire year, per Y mod 7) versus "literal weekday" (a real day's actual position in the week) — never use "weekday" for the former.
+
+Research Library at a glance. The CJC papers develop this kit in full. Before searching the web for a topic, check this list, then see "The CJC Research Library" at the end of this kit for what each paper covers. All are at https://scripturescjc.com/:
+1. Could It Have Been Planned? (could-it-have-been-planned.html)
+2. God's Clock (isaiah61-cjc-math.html)
+3. From Decree to Cross (decree2cross.html)
+4. One Commandment (one-commandment.html)
+5. The Crucifixion Date of Jesus (crucifixion.html)
+6. Art Thou He? (art-thou-he.html)
+7. In Due Time (in-due-time.html)
+8. The Five Exoduses (five-exoduses.html)
+9. Chapter 1 (chapter1.html)
+10. The Jubilee Calendar and the Story of the End: end-time overview (jubilee-calendar-story-of-the-end.html)
+11. The Brittle Coalition: Daniel 2 (brittle-coalition.html)
+12. The Four Horsemen: Revelation 6 (four-horsemen.html)
+13. The Shepherd's Gathering: the rapture and the last trumpet (the-shepherds-gathering.html)
+14. Does Scripture Support the Pre-Tribulation Theory? (pre-tribulation.html)
+15. Fear Not the Second Death: the thousand years, the second death, the state of the dead (fear-not-the-second-death.html)
+16. Math Lessons: simplified CJC math for new users (cjc-math-lessons.html)
 
 Full detail on all of this follows below.
 
