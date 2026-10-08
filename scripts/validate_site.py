@@ -15,6 +15,7 @@ HTML_FILES = [
     ROOT / "index.html",
     ROOT / "chapter1.html",
     ROOT / "crucifixion.html",
+    ROOT / "two-passovers-one-lamb.html",
     ROOT / "decree2cross.html",
     ROOT / "in-due-time.html",
     ROOT / "five-exoduses.html",
@@ -35,6 +36,7 @@ HTML_FILES = [
 ARTICLE_FILES = [
     ROOT / "chapter1.html",
     ROOT / "crucifixion.html",
+    ROOT / "two-passovers-one-lamb.html",
     ROOT / "decree2cross.html",
     ROOT / "in-due-time.html",
     ROOT / "five-exoduses.html",
