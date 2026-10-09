@@ -3,17 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The First Publicly Documented SI Data &amp; Research Kit | Continuous Jubilee Calendar™</title>
-  <meta name="description" content="The First Publicly Documented SI Data & Research Kit: the Continuous Jubilee Calendar™ Reference Dataset for the Super Intelligence Era. SI = Super Intelligence. Published by Chip Welsh on September 22, 2026." />
+  <title>Continuous Jubilee Calendar (CJC): Bible Chronology, Daniel’s 70 Weeks, and the Crucifixion Date</title>
+  <meta name="description" content="Free Bible chronology research by Chip Welsh. The Continuous Jubilee Calendar counts Scripture’s 49-year Jubilee cycles from the decree of 457 BC to AD 34, places the cross in AD 30, and includes the first publicly documented SI research kit." />
   <link rel="canonical" href="https://scripturescjc.com/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="The First Publicly Documented SI Data &amp; Research Kit | Continuous Jubilee Calendar™">
-  <meta property="og:description" content="The Continuous Jubilee Calendar™ Reference Dataset for the Super Intelligence Era. SI = Super Intelligence. Published by Chip Welsh on September 22, 2026." />
+  <meta property="og:site_name" content="Continuous Jubilee Calendar">
+  <meta property="og:title" content="Continuous Jubilee Calendar (CJC): Bible Chronology, Daniel’s 70 Weeks, and the Crucifixion Date">
+  <meta property="og:description" content="Free Bible chronology research by Chip Welsh. The Continuous Jubilee Calendar counts Scripture’s 49-year Jubilee cycles from the decree of 457 BC to AD 34, places the cross in AD 30, and includes the first publicly documented SI research kit.">
   <meta property="og:url" content="https://scripturescjc.com/">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="The First Publicly Documented SI Data &amp; Research Kit | Continuous Jubilee Calendar™">
-  <meta name="twitter:description" content="The Continuous Jubilee Calendar™ Reference Dataset for the Super Intelligence Era. SI = Super Intelligence. Published by Chip Welsh on September 22, 2026." />
+  <meta property="og:image" content="https://scripturescjc.com/assets/og/home.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Continuous Jubilee Calendar (CJC): Bible Chronology, Daniel’s 70 Weeks, and the Crucifixion Date">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Continuous Jubilee Calendar (CJC): Bible Chronology, Daniel’s 70 Weeks, and the Crucifixion Date">
+  <meta name="twitter:description" content="Free Bible chronology research by Chip Welsh. The Continuous Jubilee Calendar counts Scripture’s 49-year Jubilee cycles from the decree of 457 BC to AD 34, places the cross in AD 30, and includes the first publicly documented SI research kit.">
+  <meta name="twitter:image" content="https://scripturescjc.com/assets/og/home.png">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
 
   <style>
@@ -102,6 +109,9 @@
     footer{ text-align:center; font-size:.88rem; color:var(--ink-soft); margin-top:28px; }
     @media (max-width:560px){ .wrap{ padding:20px 16px 64px; } h1{ font-size:1.6rem; } }
   </style>
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 </head>
 <body>
   <div class="wrap">
@@ -526,6 +536,26 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
       statusEl.textContent = text;
     }
 
+    async function copyFullKitPrompt(){
+      if(canonicalKitText){
+        const ok = await copyTextToClipboard(makeFullKitPrompt(canonicalKitText));
+        return { ok, usingFullKit: true };
+      }
+      if(navigator.clipboard && window.ClipboardItem){
+        // The kit is still loading: hand the browser a promise, so the copy keeps this tap's permission.
+        try {
+          const blob = prefetchCanonicalKit().then((text) => new Blob([makeFullKitPrompt(text)], { type: 'text/plain' }));
+          await navigator.clipboard.write([new ClipboardItem({ 'text/plain': blob })]);
+          return { ok: true, usingFullKit: true };
+        } catch {
+          return { ok: false, usingFullKit: false };
+        }
+      }
+      prefetchCanonicalKit().catch(() => {});
+      const ok = await copyTextToClipboard(makeFallbackKitPrompt());
+      return { ok, usingFullKit: false };
+    }
+
     function getKitPromptForCopy(){
       if(canonicalKitText){
         return { text: makeFullKitPrompt(canonicalKitText), usingFullKit: true };
@@ -604,15 +634,14 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
             flashCopied(openAiPromptBtn, okGrok, okGrok ? 'Copied — Opening SI' : 'Opening SI');
             return;
           }
-          const prompt = getKitPromptForCopy();
-          const ok = await copyTextToClipboard(prompt.text);
+          // Start the copy and open the assistant in the same tap, so phones allow both.
+          const copying = copyFullKitPrompt();
           const win = safeOpen(fallbackUrl, openAiStatus);
+          const prompt = await copying;
+          const ok = prompt.ok;
           if(!win){
             window.location.href = fallbackUrl;
             return;
-          }
-          if(!prompt.usingFullKit){
-            prefetchCanonicalKit().catch(() => {});
           }
           setStatusText(openAiStatus, ok
             ? (prompt.usingFullKit ? 'Full CJC kit copied. Opening ' + platformName + '. Paste it into the chat.' : 'Fallback kit prompt copied. Opening ' + platformName + '. Paste it into the chat.')
@@ -631,11 +660,8 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
               : 'Grok opened in a new tab. Ask it to read the kit at https://scripturescjc.com/kit.txt');
             return;
           }
-          const prompt = getKitPromptForCopy();
-          const ok = await copyTextToClipboard(prompt.text);
-          if(!prompt.usingFullKit){
-            prefetchCanonicalKit().catch(() => {});
-          }
+          const prompt = await copyFullKitPrompt();
+          const ok = prompt.ok;
           if(!ok){
             setStatusText(aiLinkStatus, 'Could not copy automatically. Use the Copy Raw Text button above, then paste into ' + aiName + '.');
           } else {
@@ -644,7 +670,15 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
         });
       });
 
-      prefetchCanonicalKit().catch(() => {});
+      // Load the full kit only when a visitor shows interest in it, not on every page view.
+      const warmKit = () => { prefetchCanonicalKit().catch(() => {}); };
+      const kitControls = document.querySelectorAll('#aiPlatform, #openAiPromptBtn, #copyRawTextBtn, .ai-btn');
+      kitControls.forEach((el) => {
+        ['pointerenter', 'pointerdown', 'touchstart', 'focus'].forEach((type) => {
+          el.addEventListener(type, warmKit, { once: true, passive: true });
+        });
+      });
+      if(aiPlatform){ aiPlatform.addEventListener('change', warmKit, { once: true }); }
     });
   </script>
 </body>
