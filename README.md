@@ -34,6 +34,12 @@ The **Continuous Jubilee Calendar (CJC)** is a free, open research project that 
 - **[Does Scripture Support the Pre-Tribulation Theory?](https://scripturescjc.com/pre-tribulation.html)**: the pre-tribulation rapture's foundations (Daniel's seventy weeks, the covenant of Daniel 9:27, and one people of God) tested by Scripture's own words.
 - **[The Jubilee Calendar and the Story of the End](https://scripturescjc.com/jubilee-calendar-story-of-the-end.html)**: Bible prophecy still ahead, presented as interpretation.
 - **[The Brittle Coalition](https://scripturescjc.com/brittle-coalition.html)**: Daniel 2's final kingdom of iron and clay.
+- **[Fear Not the Second Death](https://scripturescjc.com/fear-not-the-second-death.html)**: the thousand years, the Book of Life, and the end of sin.
+- **[Two Passovers, One Lamb](https://scripturescjc.com/two-passovers-one-lamb.html)**: how Scripture's calendar reconciles the crucifixion week.
+
+## Bible studies
+
+**[Sons of God and Men of Renown](https://scripturescjc.com/sons-of-god.html)**: what Genesis 6 teaches about the sons of God, the daughters of men, and the giants. Every use of "sons of God" in Scripture, the Hebrew words for giants and mighty men, and why Scripture leaves no room for angels fathering children.
 
 ## For teachers and math groups
 
@@ -57,6 +63,6 @@ For any year: **B = year + 1437** (AD) or **1438 − year** (BC); **Cycle = (B �
 - ⭐ **Star this repository** and **share the website link**. That's the best way to help others find it.
 - Source files, papers, and the research kit are kept in **[Greysmokez/Continuous-Jubilee-Calendar](https://github.com/Greysmokez/Continuous-Jubilee-Calendar)**.
 
-*Keywords: CJC, CJC Website, Continuous Jubilee Calendar, Chip Welsh, Bible chronology, biblical calendar, Jubilee year, sabbatical year, shemitah, Leviticus 25, Daniel 9, seventy weeks prophecy, 457 BC decree, Artaxerxes, crucifixion date, AD 30, Passover, Exodus date, 1437 BC, Bible prophecy timeline, Bible math.*
+*Keywords: CJC, CJC Website, Continuous Jubilee Calendar, Chip Welsh, Bible chronology, biblical calendar, Jubilee year, sabbatical year, shemitah, Leviticus 25, Daniel 9, seventy weeks prophecy, 457 BC decree, Artaxerxes, crucifixion date, AD 30, Passover, Exodus date, 1437 BC, Bible prophecy timeline, Bible math, sons of God, Genesis 6, Nephilim, giants.*
 
 © 2026 Chip Welsh. All Rights Reserved. Continuous Jubilee Calendar™ and CJC™ are trademarks of Chip Welsh.

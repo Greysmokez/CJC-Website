@@ -115,6 +115,7 @@
       <div class="cta-row">
         <label for="aiPlatform" class="label" style="margin:0;">Choose SI:</label>
         <select id="aiPlatform" class="platform-select" aria-label="Choose SI platform">
+          <option value="claude" selected>Claude</option>
           <option value="chatgpt">ChatGPT</option>
           <option value="grok">Grok</option>
           <option value="perplexity">Perplexity</option>
@@ -132,7 +133,7 @@
       <div class="manual-options">
         <div class="manual-option">
           <button class="copy-btn secondary" id="copyRawTextBtn" aria-label="Copy the full CJC kit">Copy Full Kit</button>
-          <div class="manual-note"><strong>Most complete answers.</strong> Copies the whole kit (about 109,000 characters). Paste it into any SI. Best on a computer.</div>
+          <div class="manual-note"><strong>Most complete answers.</strong> Copies the whole kit (about 122,000 characters). Paste it into any SI. Best on a computer.</div>
         </div>
         <div class="manual-option">
           <button class="copy-btn secondary" id="copyLinkRequestBtn" aria-label="Copy a short request that points an SI to the kit">Copy Short Request</button>
@@ -342,6 +343,18 @@
           <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/FearNotTheSecondDeath.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Download PDF</a>
         </div>
       </div>
+      <div class="choose-label">BIBLE STUDIES</div>
+      <div class="document-item">
+        <div class="document-title">Sons of God and Men of Renown — What Genesis 6 Teaches About the Sons of God, the Daughters of Men, and the Giants</div>
+        <div class="document-desc">Were the giants of Genesis 6 born to fallen angels? Every use of “sons of God” in Scripture, the Hebrew words for giants and mighty men, the spies’ “grasshoppers,” and Jude and 2 Peter, tested by the KJV.</div>
+        <div class="doc-buttons">
+          <a href="sons-of-god.html" class="doc-btn" target="_blank" rel="noopener">Read Online</a>
+          <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/SonsOfGod.docx" class="doc-btn docx" target="_blank" rel="noopener">Open Word</a>
+          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/SonsOfGod.docx" class="doc-btn docx" target="_blank" rel="noopener">Download Word</a>
+          <a href="https://greysmokez.github.io/Continuous-Jubilee-Calendar/document-preview.html?file=protected-assets/SonsOfGod.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Open PDF</a>
+          <a href="https://raw.githubusercontent.com/Greysmokez/Continuous-Jubilee-Calendar/main/protected-assets/SonsOfGod.pdf" class="doc-btn pdf" target="_blank" rel="noopener">Download PDF</a>
+        </div>
+      </div>
       <div class="choose-label">FOR MATH STUDENTS AND TEACHERS</div>
       <div class="document-item">
         <div class="document-title">Math Lessons — The Scientific Method and Zeller's Formula Test a 3,400-Year-Old Calendar</div>
@@ -394,7 +407,7 @@
     const GROK_PROMPT = 'Read the entire CJC Research Kit at https://scripturescjc.com/kit.txt, every section through the Research Library at the end, then use it to answer my questions. Start with a short overview of the Continuous Jubilee Calendar.';
     // Grok treats very long pastes as file uploads, which need sign-in, so Grok gets a short request that points it to the kit's web address.
     const GROK_URL = 'https://grok.com/?q=' + encodeURIComponent(GROK_PROMPT);
-    const platformUrls = { chatgpt: 'https://chat.openai.com/', grok: GROK_URL, perplexity: 'https://www.perplexity.ai/' };
+    const platformUrls = { claude: 'https://claude.ai/new', chatgpt: 'https://chat.openai.com/', grok: GROK_URL, perplexity: 'https://www.perplexity.ai/' };
     const CJC_TUTOR_PROMPT = `You are an expert tutor for the Continuous Jubilee Calendar (CJC) method.
 
 Primary source materials:
@@ -466,6 +479,8 @@ Response format:
     function makeFullKitPrompt(kitText){
       return `Use the full CJC Research Kit below as the authoritative source.
 Apply its formulas exactly, do not truncate or rewrite the kit before using it, and show calculation steps when answering.
+Read the whole kit, through the Research Library at the end. Each paper listed there has its own web address; if you can open web pages, read the matching paper before answering a question that goes deeper than the kit, and name the paper so the user can read it too.
+The latest copy of this kit is always at https://scripturescjc.com/kit.txt.
 After reading it, wait for the user's question or date to calculate.
 
 --- BEGIN FULL CJC KIT ---
@@ -477,6 +492,7 @@ ${kitText}
       return `The full CJC kit could not be copied directly.
 Please fetch and use the canonical CJC Research Kit at:
 ${CJC_KIT_URL}
+(The same kit is also at https://scripturescjc.com/kit.txt.) Read it through the Research Library at the end, and open the paper listed there for any deeper question.
 
 Apply it exactly as written, do not summarize it before use, and wait for the user's question or date to calculate.`;
     }
@@ -526,7 +542,7 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
       const aiPlatform = document.getElementById('aiPlatform');
       const openAiStatus = document.getElementById('openAiStatus');
       const aiLinkStatus = document.getElementById('aiLinkStatus');
-      const platformNames = { chatgpt: 'ChatGPT', grok: 'Grok', perplexity: 'Perplexity' };
+      const platformNames = { claude: 'Claude', chatgpt: 'ChatGPT', grok: 'Grok', perplexity: 'Perplexity' };
 
       if(copyChapter1Btn){
         copyChapter1Btn.addEventListener('click', async () => {
@@ -575,9 +591,9 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
       }
       if(openAiPromptBtn){
         openAiPromptBtn.addEventListener('click', async () => {
-          const selected = aiPlatform && aiPlatform.value ? aiPlatform.value : 'chatgpt';
-          const platformName = platformNames[selected] || 'ChatGPT';
-          const fallbackUrl = platformUrls[selected] || platformUrls.chatgpt;
+          const selected = aiPlatform && aiPlatform.value ? aiPlatform.value : 'claude';
+          const platformName = platformNames[selected] || 'Claude';
+          const fallbackUrl = platformUrls[selected] || platformUrls.claude;
           if(selected === 'grok'){
             const okGrok = await copyTextToClipboard(GROK_PROMPT);
             const winGrok = safeOpen(fallbackUrl, openAiStatus);
