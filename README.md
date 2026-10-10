@@ -53,6 +53,10 @@ The website's buttons copy the full research kit into **ChatGPT, Claude, Gemini,
 Read the entire CJC Research Kit at https://scripturescjc.com/kit.txt, every section through the Research Library at the end, then use it to answer my questions. Start with a short overview of the Continuous Jubilee Calendar.
 ```
 
+### The Tribulation Kit
+
+A companion kit, **The Great Tribulation, The Second Coming, and The Rapture**, answers end-times questions from Scripture (KJV) and the papers only, with no web searching, including 28 common objections answered from Scripture. Its homepage card (for Claude, ChatGPT, or Gemini) has two buttons: **Ask: Quick Answers** and **Ask: Full Studies**. The kit is at https://scripturescjc.com/tribulation-kit.txt and is built automatically from `kit-source/tribulation/` in the Continuous-Jubilee-Calendar repo.
+
 ## The formula in one line
 
 For any year: **B = year + 1437** (AD) or **1438 − year** (BC); **Cycle = (B − 1) ÷ 49**, rounded down, **+ 1**; **Y = B − (Cycle − 1) × 49**. Year 1 is a Jubilee; Y ÷ 7 with no remainder is a sabbatical year.

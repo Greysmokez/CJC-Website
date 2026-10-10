@@ -160,6 +160,34 @@
       </div>
     </div>
 
+    <div class="kit-box" id="tribulation-kit">
+      <div class="label">Run the Tribulation Kit</div>
+      <p class="manual-note" style="margin:4px 0 10px;"><strong>The Great Tribulation, The Second Coming, and The Rapture.</strong> Ask any question about the end times. The SI answers from Scripture (KJV) and these papers. Works best on a computer with Claude, ChatGPT, or Gemini.</p>
+      <div class="cta-row">
+        <label for="tribPlatform" class="label" style="margin:0;">Choose SI:</label>
+        <select id="tribPlatform" class="platform-select" aria-label="Choose SI platform for the Tribulation Kit">
+          <option value="claude" selected>Claude</option>
+          <option value="chatgpt">ChatGPT</option>
+          <option value="gemini">Gemini</option>
+        </select>
+      </div>
+      <div class="manual-options">
+        <div class="manual-option">
+          <button class="copy-btn primary-cta" id="tribQuickBtn" aria-label="Copy the Tribulation Kit set for quick answers and open the selected SI">Ask: Quick Answers</button>
+          <div class="manual-note"><strong>Short, clear answers</strong> with the key verses. You can ask for the full study on any answer.</div>
+        </div>
+        <div class="manual-option">
+          <button class="copy-btn secondary" id="tribFullBtn" aria-label="Copy the Tribulation Kit set for full studies and open the selected SI">Ask: Full Studies</button>
+          <div class="manual-note"><strong>In-depth answers</strong> with more Scripture quoted and referenced, and common objections answered.</div>
+        </div>
+        <div class="manual-option">
+          <a class="kit-link" href="https://scripturescjc.com/tribulation-kit.txt" target="_blank" rel="noopener">View Tribulation Kit</a>
+          <div class="manual-note"><strong>Read it yourself.</strong> Opens the kit as plain text.</div>
+        </div>
+      </div>
+      <div class="status" id="tribStatus" role="status" aria-live="polite"></div>
+    </div>
+
     <div class="documents-section" id="why-this-matters">
       <h2>Why This Matters</h2>
       <p>Four empires, Assyria, Babylon, Persia, and Rome, made decisions for their own reasons across seven centuries. A Persian king issued a decree in a Jubilee year. A Roman governor ordered a crucifixion in the exact middle of Daniel’s final week. The moon set Passover on a Friday. And a Roman army destroyed the Temple <em>after</em> the Messiah, in the order Daniel foretold centuries in advance, on a calendar begun more than fourteen centuries before the cross. None of them were following Scripture’s prophecies, and no human group could have arranged it. Could it have been planned?</p>
@@ -680,6 +708,65 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
       });
       if(aiPlatform){ aiPlatform.addEventListener('change', warmKit, { once: true }); }
     });
+  </script>
+  <script>
+    // Tribulation Kit: same pattern as the CJC kit, loaded only when a visitor shows interest.
+    (function(){
+      const TRIB_URL = 'https://scripturescjc.com/tribulation-kit.txt';
+      const MODES = { quick: 'Mode: quick answers.', full: 'Mode: full study.' };
+      let tribText = '', tribPromise = null;
+      const loadTrib = () => {
+        if(!tribPromise){
+          tribPromise = fetch('tribulation-kit.txt', { cache: 'no-cache' })
+            .then((r) => { if(!r.ok) throw new Error('load'); return r.text(); })
+            .then((t) => { tribText = t; return t; })
+            .catch((e) => { tribPromise = null; throw e; });
+        }
+        return tribPromise;
+      };
+      const makeTribPrompt = (mode, kit) => `${MODES[mode]}
+Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit by Chip Welsh. Follow its "How to use this kit" instructions, then answer my questions from it. The latest copy is always at ${TRIB_URL}.
+
+${kit}`;
+      const shortTribRequest = (mode) => `${MODES[mode]} Read the entire kit at ${TRIB_URL} and follow its "How to use this kit" instructions, then answer my questions about the great tribulation, the Second Coming and the rapture.`;
+      async function copyTrib(mode){
+        if(tribText){ return copyTextToClipboard(makeTribPrompt(mode, tribText)); }
+        if(navigator.clipboard && window.ClipboardItem){
+          try {
+            const blob = loadTrib().then((t) => new Blob([makeTribPrompt(mode, t)], { type: 'text/plain' }));
+            await navigator.clipboard.write([new ClipboardItem({ 'text/plain': blob })]);
+            return true;
+          } catch { /* fall through */ }
+        }
+        return copyTextToClipboard(shortTribRequest(mode));
+      }
+      document.addEventListener('DOMContentLoaded', () => {
+        const sel = document.getElementById('tribPlatform');
+        const status = document.getElementById('tribStatus');
+        const names = { claude: 'Claude', chatgpt: 'ChatGPT', gemini: 'Gemini' };
+        const urls = { claude: 'https://claude.ai/new', chatgpt: 'https://chat.openai.com/', gemini: 'https://gemini.google.com/app' };
+        const wire = (id, mode) => {
+          const btn = document.getElementById(id);
+          if(!btn) return;
+          ['pointerenter', 'pointerdown', 'touchstart', 'focus'].forEach((type) => {
+            btn.addEventListener(type, () => { loadTrib().catch(() => {}); }, { once: true, passive: true });
+          });
+          btn.addEventListener('click', async () => {
+            const choice = sel && sel.value ? sel.value : 'claude';
+            const name = names[choice] || 'Claude';
+            const copying = copyTrib(mode);
+            const w = safeOpen(urls[choice] || urls.claude, status);
+            const ok = await copying;
+            if(!w){ return; }
+            setStatusText(status, ok ? 'Tribulation Kit copied (' + (mode === 'full' ? 'full studies' : 'quick answers') + '). Opening ' + name + '. Paste it into the chat.' : 'Could not copy automatically. Use View Tribulation Kit, copy the text, and paste it into ' + name + '.');
+            flashCopied(btn, ok, ok ? 'Copied — Opening SI' : 'Opening SI');
+          });
+        };
+        wire('tribQuickBtn', 'quick');
+        wire('tribFullBtn', 'full');
+        if(sel){ sel.addEventListener('change', () => { loadTrib().catch(() => {}); }, { once: true }); }
+      });
+    })();
   </script>
 </body>
 </html>
