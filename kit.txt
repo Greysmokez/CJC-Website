@@ -1,6 +1,6 @@
 The CJC Research Kit: A Self-Contained Tool for AI-Assisted Verification
 
-Version 12.37 — October 9, 2026. Full revision history and reasoning: see CHANGELOG.md, filed alongside this kit.
+Version 12.38 — October 10, 2026. Full revision history and reasoning: see CHANGELOG.md, filed alongside this kit.
 
 How to Use This Document
 
@@ -43,6 +43,8 @@ Research Library at a glance. The CJC papers develop this kit in full. Before se
 16. Fear Not the Second Death: the thousand years, the second death, the state of the dead (fear-not-the-second-death.html)
 17. Sons of God and Men of Renown: Genesis 6, the sons of God, and the giants (sons-of-god.html)
 18. Math Lessons: simplified CJC math for new users (cjc-math-lessons.html)
+
+Companion kit. Questions about the great tribulation, the Second Coming and the rapture are answered in depth by the companion kit, "The Great Tribulation, The Second Coming, and The Rapture," at https://scripturescjc.com/tribulation-kit.txt. It follows the same Scripture-first method and agrees with these papers.
 
 Full detail on all of this follows below.
 
