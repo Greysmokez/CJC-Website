@@ -161,8 +161,8 @@
     </div>
 
     <div class="kit-box" id="tribulation-kit">
-      <div class="label">Run the Tribulation Kit</div>
-      <p class="manual-note" style="margin:4px 0 10px;"><strong>The Great Tribulation, The Second Coming, and The Rapture.</strong> Ask any question about the end times. The SI answers from Scripture (KJV) and these papers. Works best on a computer with Claude, ChatGPT, or Gemini.</p>
+      <div class="label">Run the Tribulation Kit (Beta)</div>
+      <p class="manual-note" style="margin:4px 0 10px;"><strong>The Great Tribulation, The Second Coming, and The Rapture.</strong> Ask any question about the end times. The SI answers from Scripture (KJV) and these papers. Works best on a computer with Claude, ChatGPT, or Gemini. This kit is in beta; please test every answer against Scripture.</p>
       <div class="cta-row">
         <label for="tribPlatform" class="label" style="margin:0;">Choose SI:</label>
         <select id="tribPlatform" class="platform-select" aria-label="Choose SI platform for the Tribulation Kit">
@@ -725,7 +725,7 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
         return tribPromise;
       };
       const makeTribPrompt = (mode, kit) => `${MODES[mode]}
-Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit by Chip Welsh. Follow its "How to use this kit" instructions, then answer my questions from it. The latest copy is always at ${TRIB_URL}.
+Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Follow its "How to use this kit" instructions, then answer my questions from it. The latest copy is always at ${TRIB_URL}.
 
 ${kit}`;
       const shortTribRequest = (mode) => `${MODES[mode]} Read the entire kit at ${TRIB_URL} and follow its "How to use this kit" instructions, then answer my questions about the great tribulation, the Second Coming and the rapture.`;
