@@ -35,6 +35,7 @@ The **Continuous Jubilee Calendar (CJC)** is a free, open research project that 
 - **[The Jubilee Calendar and the Story of the End](https://scripturescjc.com/jubilee-calendar-story-of-the-end.html)**: Bible prophecy still ahead, presented as interpretation.
 - **[The Brittle Coalition](https://scripturescjc.com/brittle-coalition.html)**: Daniel 2's final kingdom of iron and clay.
 - **[Fear Not the Second Death](https://scripturescjc.com/fear-not-the-second-death.html)**: the thousand years, the Book of Life, and the end of sin.
+- **[Seventy Weeks, No Gap](https://scripturescjc.com/seventy-weeks.html)**: why Daniel's seventieth week is not future. The Jubilee count never stopped, and the seventy weeks run Jubilee to Jubilee, 457 BC to AD 34.
 - **[Two Passovers, One Lamb](https://scripturescjc.com/two-passovers-one-lamb.html)**: how Scripture's calendar reconciles the crucifixion week.
 
 ## Bible studies
