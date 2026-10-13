@@ -130,7 +130,6 @@
         <select id="aiPlatform" class="platform-select" aria-label="Choose SI platform">
           <option value="claude" selected>Claude</option>
           <option value="chatgpt">ChatGPT</option>
-          <option value="grok">Grok</option>
           <option value="perplexity">Perplexity</option>
         </select>
         <button class="copy-btn primary-cta" id="openAiPromptBtn" aria-label="Copy the full CJC kit, open the selected SI, and ask the user to paste it">Copy SI Kit &amp; Open SI to Paste</button>
@@ -150,7 +149,7 @@
         </div>
         <div class="manual-option">
           <button class="copy-btn secondary" id="copyLinkRequestBtn" aria-label="Copy a short request that points an SI to the kit">Copy Short Request</button>
-          <div class="manual-note"><strong>Best on phones, and for Grok.</strong> Copies a one-line request that tells the SI to read the whole kit from its web address. Just paste and send.</div>
+          <div class="manual-note"><strong>Best on phones.</strong> Copies a one-line request that tells the SI to read the whole kit from its web address. Just paste and send.</div>
         </div>
         <div class="manual-option">
           <button class="copy-btn ghost" id="copyRawUrlBtn" aria-label="Copy the kit's web address">Copy Kit Address</button>
@@ -174,16 +173,16 @@
     <h2 class="kit-title" id="revelation-of-jesus-christ">The Revelation of Jesus Christ</h2>
     <div class="kit-box" id="tribulation-kit">
       <div class="label">Run the Tribulation Kit (Beta)</div>
-      <p class="manual-note" style="margin:4px 0 10px;"><strong>The Great Tribulation, The Second Coming, and The Rapture.</strong> Ask any question about the end times. The SI answers from Scripture (KJV) and these papers. Works best on a computer with Claude, ChatGPT, or Gemini. This kit is in beta; please test every answer against Scripture.</p>
+      <p class="manual-note" style="margin:4px 0 10px;"><strong>The Great Tribulation, The Second Coming, and The Rapture.</strong> Ask any question about the end times. The SI answers from Scripture (KJV) and these papers. Works best on a computer with Claude (recommended), Perplexity, or ChatGPT. This kit is in beta; please test every answer against Scripture.</p>
       <div class="cta-row">
         <label for="tribPlatform" class="label" style="margin:0;">Choose SI:</label>
         <select id="tribPlatform" class="platform-select" aria-label="Choose SI platform for the Tribulation Kit">
-          <option value="claude" selected>Claude</option>
+          <option value="claude" selected>Claude (Recommended)</option>
+          <option value="perplexity">Perplexity</option>
           <option value="chatgpt">ChatGPT</option>
-          <option value="gemini">Gemini</option>
         </select>
       </div>
-      <p class="manual-note" id="tribHowTo" style="margin:2px 0 10px;"><strong>Claude:</strong> the whole kit pastes in at once. <strong>Gemini and ChatGPT</strong> cut off long pastes, so for them the kit downloads as a file: attach that file in the SI, paste the short message we copy for you, and send.</p>
+      <p class="manual-note" id="tribHowTo" style="margin:2px 0 10px;"><strong>Claude (recommended) and Perplexity:</strong> the whole kit goes in with one paste (Perplexity may turn a long paste into a file by itself; that is fine). <strong>ChatGPT:</strong> the kit downloads as a file. In ChatGPT, click <strong>+</strong> and choose <strong>tribulation-kit.txt</strong> from your Downloads, wait for it to appear above the message box, then paste the short message we copy for you and send.</p>
       <div class="manual-options">
         <div class="manual-option">
           <button class="copy-btn primary-cta" id="tribQuickBtn" aria-label="Copy the Tribulation Kit set for quick answers and open the selected SI">Ask: Quick Answers</button>
@@ -427,9 +426,6 @@
     <div class="ai-list" id="aiListContainer">
       <a class="ai-btn" href="https://chat.openai.com/" target="_blank" rel="noopener" data-name="ChatGPT"><span style="width:10px;height:10px;border-radius:50%;background:#4B5A45"></span>ChatGPT</a>
       <a class="ai-btn" href="https://claude.ai" target="_blank" rel="noopener" data-name="Claude"><span style="width:10px;height:10px;border-radius:50%;background:#C9704F"></span>Claude</a>
-      <a class="ai-btn" href="https://gemini.google.com" target="_blank" rel="noopener" data-name="Gemini"><span style="width:10px;height:10px;border-radius:50%;background:#9C7A3C"></span>Gemini</a>
-      <a class="ai-btn" href="https://grok.com/?q=Read%20the%20entire%20CJC%20Research%20Kit%20at%20https%3A%2F%2Fscripturescjc.com%2Fkit.txt%2C%20every%20section%20through%20the%20Research%20Library%20at%20the%20end%2C%20then%20use%20it%20to%20answer%20my%20questions.%20Start%20with%20a%20short%20overview%20of%20the%20Continuous%20Jubilee%20Calendar." target="_blank" rel="noopener" data-name="Grok"><span style="width:10px;height:10px;border-radius:50%;background:#2B2318"></span>Grok</a>
-      <a class="ai-btn" href="https://copilot.microsoft.com" target="_blank" rel="noopener" data-name="Copilot"><span style="width:10px;height:10px;border-radius:50%;background:#6B7A8F"></span>Copilot</a>
       <a class="ai-btn" href="https://www.perplexity.ai/" target="_blank" rel="noopener" data-name="Perplexity"><span style="width:10px;height:10px;border-radius:50%;background:#8A4BF0"></span>Perplexity</a>
     </div>
     <div class="status" id="aiLinkStatus" role="status" aria-live="polite"></div>
@@ -745,7 +741,7 @@ Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI rese
 
 ${kit}`;
       const shortTribRequest = (mode) => `${MODES[mode]} Read the entire kit at ${TRIB_URL} and follow its "How to use this kit" instructions, then begin with its opening message.`;
-      const ATTACH = { gemini: true, chatgpt: true };
+      const ATTACH = { chatgpt: true };
       const attachNote = (mode) => `${MODES[mode]} The attached file is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Read the whole file, follow its "How to use this kit" instructions, then begin with its opening message.`;
       async function downloadTrib(){
         const t = await loadTrib();
@@ -770,8 +766,8 @@ ${kit}`;
       document.addEventListener('DOMContentLoaded', () => {
         const sel = document.getElementById('tribPlatform');
         const status = document.getElementById('tribStatus');
-        const names = { claude: 'Claude', chatgpt: 'ChatGPT', gemini: 'Gemini' };
-        const urls = { claude: 'https://claude.ai/new', chatgpt: 'https://chat.openai.com/', gemini: 'https://gemini.google.com/app' };
+        const names = { claude: 'Claude', perplexity: 'Perplexity', chatgpt: 'ChatGPT' };
+        const urls = { claude: 'https://claude.ai/new', perplexity: 'https://www.perplexity.ai/', chatgpt: 'https://chat.openai.com/' };
         const wire = (id, mode) => {
           const btn = document.getElementById(id);
           if(!btn) return;
@@ -788,7 +784,7 @@ ${kit}`;
               const okNote = await copyingNote; const okFile = await downloading;
               if(!win){ return; }
               setStatusText(status, okFile
-                ? 'Opening ' + name + '. Three steps:\n1. Attach the file that just downloaded, tribulation-kit.txt (press + or the paperclip in ' + name + ').\n2. ' + (okNote ? 'Paste the short message we copied for you.' : 'Type: ' + attachNote(mode)) + '\n3. Send.'
+                ? 'Opening ' + name + '. Three steps:\n1. In ' + name + ', click + and choose tribulation-kit.txt from your Downloads. Wait until the file appears above the message box.\n2. ' + (okNote ? 'Paste the short message we copied for you.' : 'Type: ' + attachNote(mode)) + '\n3. Send.'
                 : 'Could not download the kit file. Use View Tribulation Kit, save it as a file, and attach it in ' + name + '.', true);
               flashCopied(btn, okFile, okFile ? 'Kit downloaded — Opening SI' : 'Opening SI');
               return;
