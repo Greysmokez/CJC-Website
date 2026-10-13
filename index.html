@@ -183,6 +183,7 @@
           <option value="gemini">Gemini</option>
         </select>
       </div>
+      <p class="manual-note" id="tribHowTo" style="margin:2px 0 10px;"><strong>Claude:</strong> the whole kit pastes in at once. <strong>Gemini and ChatGPT</strong> cut off long pastes, so for them the kit downloads as a file: attach that file in the SI, paste the short message we copy for you, and send.</p>
       <div class="manual-options">
         <div class="manual-option">
           <button class="copy-btn primary-cta" id="tribQuickBtn" aria-label="Copy the Tribulation Kit set for quick answers and open the selected SI">Ask: Quick Answers</button>
@@ -744,6 +745,17 @@ Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI rese
 
 ${kit}`;
       const shortTribRequest = (mode) => `${MODES[mode]} Read the entire kit at ${TRIB_URL} and follow its "How to use this kit" instructions, then begin with its opening message.`;
+      const ATTACH = { gemini: true, chatgpt: true };
+      const attachNote = (mode) => `${MODES[mode]} The attached file is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Read the whole file, follow its "How to use this kit" instructions, then begin with its opening message.`;
+      async function downloadTrib(){
+        const t = await loadTrib();
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([t], { type: 'text/plain' }));
+        a.download = 'tribulation-kit.txt';
+        document.body.appendChild(a); a.click();
+        setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 5000);
+        return true;
+      }
       async function copyTrib(mode){
         if(tribText){ return copyTextToClipboard(makeTribPrompt(mode, tribText)); }
         if(navigator.clipboard && window.ClipboardItem){
@@ -769,6 +781,18 @@ ${kit}`;
           btn.addEventListener('click', async () => {
             const choice = sel && sel.value ? sel.value : 'claude';
             const name = names[choice] || 'Claude';
+            if(ATTACH[choice]){
+              const copyingNote = copyTextToClipboard(attachNote(mode));
+              const downloading = downloadTrib().catch(() => false);
+              const win = safeOpen(urls[choice] || urls.claude, status);
+              const okNote = await copyingNote; const okFile = await downloading;
+              if(!win){ return; }
+              setStatusText(status, okFile
+                ? 'Opening ' + name + '. Three steps:\n1. Attach the file that just downloaded, tribulation-kit.txt (press + or the paperclip in ' + name + ').\n2. ' + (okNote ? 'Paste the short message we copied for you.' : 'Type: ' + attachNote(mode)) + '\n3. Send.'
+                : 'Could not download the kit file. Use View Tribulation Kit, save it as a file, and attach it in ' + name + '.', true);
+              flashCopied(btn, okFile, okFile ? 'Kit downloaded — Opening SI' : 'Opening SI');
+              return;
+            }
             const copying = copyTrib(mode);
             const w = safeOpen(urls[choice] || urls.claude, status);
             const ok = await copying;
