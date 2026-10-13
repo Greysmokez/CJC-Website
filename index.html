@@ -182,7 +182,7 @@
           <option value="chatgpt">ChatGPT</option>
         </select>
       </div>
-      <p class="manual-note" id="tribHowTo" style="margin:2px 0 10px;"><strong>Claude (recommended) and Perplexity:</strong> the whole kit goes in with one paste (Perplexity may turn a long paste into a file by itself; that is fine). <strong>ChatGPT:</strong> the kit downloads as a file. In ChatGPT, click <strong>+</strong> and choose <strong>tribulation-kit.txt</strong> from your Downloads, wait for it to appear above the message box, then paste the short message we copy for you and send.</p>
+      <p class="manual-note" id="tribHowTo" style="margin:2px 0 10px;">The button copies the whole kit and opens the SI. Paste it into the chat and send. (Perplexity may turn a long paste into a file by itself; that is fine.)</p>
       <div class="manual-options">
         <div class="manual-option">
           <button class="copy-btn primary-cta" id="tribQuickBtn" aria-label="Copy the Tribulation Kit set for quick answers and open the selected SI">Ask: Quick Answers</button>
@@ -741,7 +741,7 @@ Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI rese
 
 ${kit}`;
       const shortTribRequest = (mode) => `${MODES[mode]} Read the entire kit at ${TRIB_URL} and follow its "How to use this kit" instructions, then begin with its opening message.`;
-      const ATTACH = { chatgpt: true };
+      const ATTACH = {};  // every listed SI takes the full paste (Gemini, which needed a file, was removed)
       const attachNote = (mode) => `${MODES[mode]} The attached file is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Read the whole file, follow its "How to use this kit" instructions, then begin with its opening message.`;
       async function downloadTrib(){
         const t = await loadTrib();
