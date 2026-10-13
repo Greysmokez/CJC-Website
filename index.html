@@ -740,10 +740,10 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
         return tribPromise;
       };
       const makeTribPrompt = (mode, kit) => `${MODES[mode]}
-Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Follow its "How to use this kit" instructions, then answer my questions from it. The latest copy is always at ${TRIB_URL}.
+Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Follow its "How to use this kit" instructions, then begin with its opening message. The latest copy is always at ${TRIB_URL}.
 
 ${kit}`;
-      const shortTribRequest = (mode) => `${MODES[mode]} Read the entire kit at ${TRIB_URL} and follow its "How to use this kit" instructions, then answer my questions about the great tribulation, the Second Coming and the rapture.`;
+      const shortTribRequest = (mode) => `${MODES[mode]} Read the entire kit at ${TRIB_URL} and follow its "How to use this kit" instructions, then begin with its opening message.`;
       async function copyTrib(mode){
         if(tribText){ return copyTextToClipboard(makeTribPrompt(mode, tribText)); }
         if(navigator.clipboard && window.ClipboardItem){
