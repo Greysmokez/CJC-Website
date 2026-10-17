@@ -42,6 +42,8 @@ The **Continuous Jubilee Calendar (CJC)** is a free, open research project that 
 
 **[Sons of God and Men of Renown](https://scripturescjc.com/sons-of-god.html)**: what Genesis 6 teaches about the sons of God, the daughters of men, and the giants. Every use of "sons of God" in Scripture, the Hebrew words for giants and mighty men, and why Scripture leaves no room for angels fathering children.
 
+**[Without Excuse](https://scripturescjc.com/without-excuse.html)**: how God judges every person fairly, even those who never heard. Creation, conscience, and Christ the true Light; the two witnesses, the Holy Spirit and the Word, with God's law of love written on every heart; and judgment by the light each person was given.
+
 ## For teachers and math groups
 
 **[Math Lessons: The Scientific Method and Zeller's Formula Test a 3,400-Year-Old Calendar](https://scripturescjc.com/cjc-math-lessons.html)**: simplified CJC math for new users: lessons on the formula, the missing year zero, probability, the scientific method, and Zeller's day-of-week formula, with a 35-problem answer key. Written without religious framing, for classrooms and secular math groups.
