@@ -44,6 +44,10 @@ The **Continuous Jubilee Calendar (CJC)** is a free, open research project that 
 
 **[Without Excuse](https://scripturescjc.com/without-excuse.html)**: how God judges every person fairly, even those who never heard. Creation, conscience, and Christ the true Light; the two witnesses, the Holy Spirit and the Word, with God's law of love written on every heart; and judgment by the light each person was given.
 
+**[The Author of Time](https://scripturescjc.com/author-of-time.html)**: how God's knowledge reaches beyond time, death and human choice. God as the Author who sees every page at once; why knowing is not forcing; death as sleep and one gathering; with God's timekeeping in history, visions, and what science has found about time.
+
+**[The Books Were Opened](https://scripturescjc.com/books-were-opened.html)**: how God's judgment works, and what it means to be blotted out. The open books and the Father's sealed book of life, the Son as Judge, the stages of judgment, and why the books cannot be rigged.
+
 ## For teachers and math groups
 
 **[Math Lessons: The Scientific Method and Zeller's Formula Test a 3,400-Year-Old Calendar](https://scripturescjc.com/cjc-math-lessons.html)**: simplified CJC math for new users: lessons on the formula, the missing year zero, probability, the scientific method, and Zeller's day-of-week formula, with a 35-problem answer key. Written without religious framing, for classrooms and secular math groups.
