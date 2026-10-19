@@ -769,10 +769,20 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
         }
         return tribPromise;
       };
-      const makeTribPrompt = (mode, kit) => `${MODES[mode]}
-Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Follow its "How to use this kit" instructions, then begin with its opening message. The latest copy is always at ${TRIB_URL}.
+      // ChatGPT rejects the full kit as "message too long", so it gets the kit without the Daniel appendix.
+      const LIGHT = { chatgpt: true };
+      const DANIEL_MARK = 'APPENDIX: THE BOOK OF DANIEL';
+      const lightenKit = (kit) => {
+        const i = kit.indexOf(DANIEL_MARK);
+        if(i < 0) return kit;
+        const refs = kit.indexOf('\nReferences:', i);
+        return kit.slice(0, i).replace(/\s+$/, '\n\n') + (refs > 0 ? kit.slice(refs + 1) : '');
+      };
+      const LIGHT_NOTE = `Note: to fit this SI's message limit, this copy leaves out the appendix with the full KJV text of Daniel (the Revelation appendix is included). Quote Daniel from the King James Version word for word; if you are not certain of a verse's exact wording, say so and give the reference. The complete kit, with Daniel, is at ${TRIB_URL}.`;
+      const makeTribPrompt = (mode, kit, light) => `${MODES[mode]}
+Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Follow its "How to use this kit" instructions, then begin with its opening message. The latest copy is always at ${TRIB_URL}.${light ? '\n' + LIGHT_NOTE : ''}
 
-${kit}`;
+${light ? lightenKit(kit) : kit}`;
       const shortTribRequest = (mode) => `${MODES[mode]} Read the entire kit at ${TRIB_URL} and follow its "How to use this kit" instructions, then begin with its opening message.`;
       const ATTACH = {};  // every listed SI takes the full paste (Gemini, which needed a file, was removed)
       const attachNote = (mode) => `${MODES[mode]} The attached file is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Read the whole file, follow its "How to use this kit" instructions, then begin with its opening message.`;
@@ -785,11 +795,11 @@ ${kit}`;
         setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 5000);
         return true;
       }
-      async function copyTrib(mode){
-        if(tribText){ return copyTextToClipboard(makeTribPrompt(mode, tribText)); }
+      async function copyTrib(mode, light){
+        if(tribText){ return copyTextToClipboard(makeTribPrompt(mode, tribText, light)); }
         if(navigator.clipboard && window.ClipboardItem){
           try {
-            const blob = loadTrib().then((t) => new Blob([makeTribPrompt(mode, t)], { type: 'text/plain' }));
+            const blob = loadTrib().then((t) => new Blob([makeTribPrompt(mode, t, light)], { type: 'text/plain' }));
             await navigator.clipboard.write([new ClipboardItem({ 'text/plain': blob })]);
             return true;
           } catch { /* fall through */ }
@@ -822,7 +832,7 @@ ${kit}`;
               flashCopied(btn, okFile, okFile ? 'Kit downloaded — Opening SI' : 'Opening SI');
               return;
             }
-            const copying = copyTrib(mode);
+            const copying = copyTrib(mode, !!LIGHT[choice]);
             const w = safeOpen(urls[choice] || urls.claude, status);
             const ok = await copying;
             if(!w){ return; }
