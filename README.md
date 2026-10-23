@@ -34,6 +34,7 @@ The **Continuous Jubilee Calendar (CJC)** is a free, open research project that 
 - **[The Shepherd's Gathering](https://scripturescjc.com/the-shepherds-gathering.html)**: when Christ's people meet him in the air, and why he never leaves his flock in the tribulation.
 - **[Does Scripture Support the Pre-Tribulation Theory?](https://scripturescjc.com/pre-tribulation.html)**: the pre-tribulation rapture's foundations (Daniel's seventy weeks, the covenant of Daniel 9:27, and one people of God) tested by Scripture's own words.
 - **[The Jubilee Calendar and the Story of the End](https://scripturescjc.com/jubilee-calendar-story-of-the-end.html)**: Bible prophecy still ahead, presented as interpretation.
+- **[Unto Caesar, and Unto God](https://scripturescjc.com/unto-caesar.html)**: Daniel 7's little horn and the 1,260 years: how church and empire joined, the purchase of Pope Vigilius, the turning point of 538, and the captivity of 1798, on the Jubilee calendar.
 - **[The Brittle Coalition](https://scripturescjc.com/brittle-coalition.html)**: Daniel 2's final kingdom of iron and clay.
 - **[Fear Not the Second Death](https://scripturescjc.com/fear-not-the-second-death.html)**: the thousand years, the Book of Life, and the end of sin.
 - **[Seventy Weeks, No Gap](https://scripturescjc.com/seventy-weeks.html)**: why Daniel's seventieth week is not future. The Jubilee count never stopped, and the seventy weeks run Jubilee to Jubilee, 457 BC to AD 34.
