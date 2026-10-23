@@ -36,6 +36,7 @@ HTML_FILES = [
     ROOT / "isaiah61-cjc-math.html",
     ROOT / "brittle-coalition.html",
     ROOT / "jubilee-calendar-story-of-the-end.html",
+    ROOT / "unto-caesar.html",
     ROOT / "terms-of-use" / "index.html",
 ]
 
@@ -63,6 +64,7 @@ ARTICLE_FILES = [
     ROOT / "isaiah61-cjc-math.html",
     ROOT / "brittle-coalition.html",
     ROOT / "jubilee-calendar-story-of-the-end.html",
+    ROOT / "unto-caesar.html",
 ]
 
 ASSET_PATTERN = re.compile(
