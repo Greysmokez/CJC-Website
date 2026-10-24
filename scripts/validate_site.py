@@ -37,6 +37,7 @@ HTML_FILES = [
     ROOT / "brittle-coalition.html",
     ROOT / "jubilee-calendar-story-of-the-end.html",
     ROOT / "unto-caesar.html",
+    ROOT / "the-2300-days.html",
     ROOT / "terms-of-use" / "index.html",
 ]
 
@@ -65,6 +66,7 @@ ARTICLE_FILES = [
     ROOT / "brittle-coalition.html",
     ROOT / "jubilee-calendar-story-of-the-end.html",
     ROOT / "unto-caesar.html",
+    ROOT / "the-2300-days.html",
 ]
 
 ASSET_PATTERN = re.compile(
