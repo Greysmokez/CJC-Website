@@ -880,13 +880,21 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
 Below is part 1 of "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Follow its "How to use this kit" instructions. The latest copy is always at ${TRIB_URL}.
 ${LIGHT_NOTE}
 
-${splitKit(kit).main}` : `${MODES[mode]}
+${splitKit(kit).main.replace(/(\s*==========)*\s*$/, '')}
+
+==========
+
+END OF PART 1. Reply only: "Part 1 received. Please go back to scripturescjc.com, press 'ChatGPT: Copy Part 2', and paste part 2 here." Do not give the opening message or answer any question until part 2 arrives.` : `${MODES[mode]}
 Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Follow its "How to use this kit" instructions, then begin with its opening message. The latest copy is always at ${TRIB_URL}.
 
 ${kit}`;
       const makeTribPart2 = (kit) => `Part 2 of 2 of "The Great Tribulation, The Second Coming, and The Rapture": the rest of the kit's "Common objections, answered" section (it continues the objections in part 1, before "Worked examples"), then its appendices, the full King James text of Revelation and Daniel. Before you answer any question, check whether it matches one of these objections (match the keywords). If it does, lead with that objection's answer: every point, in order, with its verses quoted, then end with the offer to compare views. Quote Revelation and Daniel from this text, word for word. You now have the whole kit: follow its "How to use this kit" instructions and begin with its opening message.
 
-${splitKit(kit).appendix}`;
+${splitKit(kit).appendix.replace(/(\s*==========)*\s*$/, '')}
+
+==========
+
+END OF PART 2. You now have the whole kit. Follow its "How to use this kit" instructions and begin with its opening message.`;
       async function copyTribPart2(){
         if(tribText){ return copyTextToClipboard(makeTribPart2(tribText)); }
         if(navigator.clipboard && window.ClipboardItem){
