@@ -884,7 +884,7 @@ ${splitKit(kit).main.replace(/(\s*==========)*\s*$/, '')}
 
 ==========
 
-END OF PART 1. Reply only: "Part 1 received. Please go back to scripturescjc.com, press 'ChatGPT: Copy Part 2', and paste part 2 here." Do not give the opening message or answer any question until part 2 arrives.` : `${MODES[mode]}
+END OF PART 1. The pasted text above is part 1 of a research kit. Do not repeat or summarize it. Reply only: "Part 1 received. Please go back to scripturescjc.com, press 'ChatGPT: Copy Part 2', and paste part 2 here."` : `${MODES[mode]}
 Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Follow its "How to use this kit" instructions, then begin with its opening message. The latest copy is always at ${TRIB_URL}.
 
 ${kit}`;
@@ -894,7 +894,7 @@ ${splitKit(kit).appendix.replace(/(\s*==========)*\s*$/, '')}
 
 ==========
 
-END OF PART 2. You now have the whole kit. Follow its "How to use this kit" instructions and begin with its opening message.`;
+END OF PART 2. You now have the whole kit (parts 1 and 2). Do not repeat or summarize it. Act as its assistant and follow its "How to use this kit" rules. Now give its opening message: a short welcome and the numbered list of common questions.`;
       async function copyTribPart2(){
         if(tribText){ return copyTextToClipboard(makeTribPart2(tribText)); }
         if(navigator.clipboard && window.ClipboardItem){
