@@ -183,13 +183,13 @@
         </select>
       </div>
       <div id="tribChatgptWarn" role="note" style="display:none; margin:4px 0 12px; padding:10px 12px; background:#fff; border:1px solid var(--gold-line); border-left:5px solid var(--gold); border-radius:6px; font-size:.92rem; line-height:1.45;">
-        <strong>Please note: ChatGPT needs two pastes.</strong> ChatGPT can't take the whole kit in one message, so it comes in two parts:
+        <strong>Please note: ChatGPT needs two pastes.</strong> ChatGPT can't take the whole kit in one message, so it comes in two parts of about the same size:
         <ol style="margin:6px 0 6px 20px; padding:0;">
           <li>Press an "Ask" button below, paste part 1 into ChatGPT, and send.</li>
           <li>ChatGPT will ask you for part 2. Come back here and press <strong>ChatGPT: Copy Part 2</strong>.</li>
           <li>Paste part 2 into the same ChatGPT chat and send.</li>
         </ol>
-        Part 2 holds the kit's answers to common objections and the King James text of Revelation and Daniel, so ChatGPT quotes those books word for word instead of from memory. For a single paste, choose Claude or Perplexity.
+        Part 2 holds the rest of the kit's answers to common objections and the King James text of Revelation and Daniel, so ChatGPT quotes those books word for word instead of from memory. For a single paste, choose Claude or Perplexity.
       </div>
       <p class="manual-note" id="tribHowTo" style="margin:2px 0 10px;">The button copies the whole kit and opens the SI. Paste it into the chat and send. (Perplexity may turn a long paste into a file by itself; that is fine.)</p>
       <div class="manual-options">
@@ -202,8 +202,8 @@
           <div class="manual-note"><strong>In-depth answers</strong> with more Scripture quoted and referenced, and common objections answered.</div>
         </div>
         <div class="manual-option" id="tribPart2Wrap" style="display:none;">
-          <button class="copy-btn secondary" id="tribPart2Btn" aria-label="Copy part 2 of the Tribulation Kit, the objections section and the KJV text of Revelation and Daniel, for ChatGPT">ChatGPT: Copy Part 2</button>
-          <div class="manual-note"><strong>ChatGPT only.</strong> ChatGPT takes the kit in two messages. After it answers part 1, press this and paste part 2 (the objections section and the KJV text of Revelation and Daniel) into the same chat.</div>
+          <button class="copy-btn secondary" id="tribPart2Btn" aria-label="Copy part 2 of the Tribulation Kit, the rest of the objections and the KJV text of Revelation and Daniel, for ChatGPT">ChatGPT: Copy Part 2</button>
+          <div class="manual-note"><strong>ChatGPT only.</strong> ChatGPT takes the kit in two messages. After it answers part 1, press this and paste part 2 (the rest of the objections and the KJV text of Revelation and Daniel) into the same chat.</div>
         </div>
         <div class="manual-option">
           <a class="kit-link" href="https://scripturescjc.com/tribulation-kit.txt" target="_blank" rel="noopener">View Tribulation Kit</a>
@@ -846,23 +846,36 @@ Apply it exactly as written, do not summarize it before use, and wait for the us
       const SEP = '\n==========\n\n';
       const OBJ_MARK = SEP + 'COMMON OBJECTIONS, ANSWERED';
       const OBJ_END_MARK = SEP + 'WORKED EXAMPLES';
+      // The two parts are balanced: the objections section is cut at the objection boundary that makes
+      // part 1 and part 2 closest in length, so neither message grows past ChatGPT's limit as the kit grows.
       const splitKit = (kit) => {
         const i = kit.indexOf(APPENDIX_MARK);
-        if(i < 0) return { main: kit, appendix: '' };
+        if(i < 0) return { main: kit, appendix: '', splitObj: false };
         const d = kit.indexOf(DANIEL_MARK, i);
         const refs = kit.indexOf('\nReferences:', d > 0 ? d : i);
-        let body = kit.slice(0, i), objections = '';
+        const body = kit.slice(0, i);
+        const tail = refs > 0 ? kit.slice(refs + 1) : '';
+        const apps = (refs > 0 ? kit.slice(i, refs) : kit.slice(i)).replace(/\s+$/, '\n');
         const o = body.indexOf(OBJ_MARK);
         const oe = o >= 0 ? body.indexOf(OBJ_END_MARK, o + 1) : -1;
-        if(o >= 0 && oe > o){
-          objections = body.slice(o + 1, oe + 1).replace(/\s+$/, '\n\n');
-          body = body.slice(0, o + 1) + body.slice(oe + 1);
+        if(!(o >= 0 && oe > o)) return { main: body.replace(/\s+$/, '\n\n') + tail, appendix: apps, splitObj: false };
+        const cuts = [o + 1];
+        const re = /\nO\d+\. /g; re.lastIndex = o; let m;
+        while((m = re.exec(body)) && m.index < oe) cuts.push(m.index + 1);
+        let best = cuts[0], bestDiff = Infinity;
+        for(const c of cuts){
+          const p1 = c + (body.length - (oe + 1)) + tail.length;
+          const p2 = (oe + 1 - c) + apps.length;
+          const diff = Math.abs(p1 - p2);
+          if(diff < bestDiff){ bestDiff = diff; best = c; }
         }
-        const main = body.replace(/\s+$/, '\n\n') + (refs > 0 ? kit.slice(refs + 1) : '');
-        const appendix = objections + (refs > 0 ? kit.slice(i, refs) : kit.slice(i)).replace(/\s+$/, '\n');
-        return { main, appendix };
+        const splitObj = best > o + 1;
+        const moved = body.slice(best, oe + 1).replace(/\s+$/, '\n\n');
+        const main = (body.slice(0, best) + body.slice(oe + 1)).replace(/\s+$/, '\n\n') + tail;
+        const appendix = (splitObj ? 'COMMON OBJECTIONS, ANSWERED (continued from part 1)\n\n' : '') + moved + apps;
+        return { main, appendix, splitObj };
       };
-      const LIGHT_NOTE = `This kit comes in two messages because of this SI's message limit. This is part 1. Part 2 is the kit's "Common objections, answered" section and its appendices: the full King James text of Revelation and Daniel. After reading part 1, reply only: "Part 1 received. Before I answer any questions, please go back to scripturescjc.com, press 'ChatGPT: Copy Part 2', and paste part 2 here." Do not give the opening message or answer any question until part 2 arrives; if the user asks a question first, do not answer it, and remind them to go back to scripturescjc.com and paste part 2. Quote Revelation and Daniel word for word from part 2, and every other book word for word from the King James Version; if you are not certain of a verse's exact wording, say so and give the reference.`;
+      const LIGHT_NOTE = `This kit comes in two messages because of this SI's message limit. This is part 1. Part 2 holds the rest of the kit's "Common objections, answered" section and its appendices: the full King James text of Revelation and Daniel. After reading part 1, reply only: "Part 1 received. Before I answer any questions, please go back to scripturescjc.com, press 'ChatGPT: Copy Part 2', and paste part 2 here." Do not give the opening message or answer any question until part 2 arrives; if the user asks a question first, do not answer it, and remind them to go back to scripturescjc.com and paste part 2. Quote Revelation and Daniel word for word from part 2, and every other book word for word from the King James Version; if you are not certain of a verse's exact wording, say so and give the reference.`;
       const makeTribPrompt = (mode, kit, light) => light ? `${MODES[mode]}
 Below is part 1 of "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Follow its "How to use this kit" instructions. The latest copy is always at ${TRIB_URL}.
 ${LIGHT_NOTE}
@@ -871,7 +884,7 @@ ${splitKit(kit).main}` : `${MODES[mode]}
 Below is "The Great Tribulation, The Second Coming, and The Rapture," an SI research kit (beta). Follow its "How to use this kit" instructions, then begin with its opening message. The latest copy is always at ${TRIB_URL}.
 
 ${kit}`;
-      const makeTribPart2 = (kit) => `Part 2 of 2 of "The Great Tribulation, The Second Coming, and The Rapture": the kit's "Common objections, answered" section (it belongs between "Revelation, chapter by chapter" and "Worked examples" in part 1), then its appendices, the full King James text of Revelation and Daniel. Before you answer any question, check whether it matches one of these objections (match the keywords). If it does, lead with that objection's answer: every point, in order, with its verses quoted, then end with the offer to compare views. Quote Revelation and Daniel from this text, word for word. You now have the whole kit: follow its "How to use this kit" instructions and begin with its opening message.
+      const makeTribPart2 = (kit) => `Part 2 of 2 of "The Great Tribulation, The Second Coming, and The Rapture": the rest of the kit's "Common objections, answered" section (it continues the objections in part 1, before "Worked examples"), then its appendices, the full King James text of Revelation and Daniel. Before you answer any question, check whether it matches one of these objections (match the keywords). If it does, lead with that objection's answer: every point, in order, with its verses quoted, then end with the offer to compare views. Quote Revelation and Daniel from this text, word for word. You now have the whole kit: follow its "How to use this kit" instructions and begin with its opening message.
 
 ${splitKit(kit).appendix}`;
       async function copyTribPart2(){
@@ -963,7 +976,7 @@ ${splitKit(kit).appendix}`;
         if(part2Btn){
           part2Btn.addEventListener('click', async () => {
             const ok = await copyTribPart2();
-            setStatusText(status, ok ? 'Part 2 copied (the objections section and the KJV text of Revelation and Daniel). Paste it into the same ChatGPT chat and send.' : 'Could not copy part 2. Use View Tribulation Kit, choose Claude or Perplexity instead, or try again.');
+            setStatusText(status, ok ? 'Part 2 copied (the rest of the objections and the KJV text of Revelation and Daniel). Paste it into the same ChatGPT chat and send.' : 'Could not copy part 2. Use View Tribulation Kit, choose Claude or Perplexity instead, or try again.');
             flashCopied(part2Btn, ok, 'Part 2 copied');
           });
         }
