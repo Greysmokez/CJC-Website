@@ -52,6 +52,8 @@ The **Continuous Jubilee Calendar (CJC)** is a free, open research project that 
 
 **[The Books Were Opened](https://scripturescjc.com/books-were-opened.html)**: how God's judgment works, and what it means to be blotted out. The open books and the Father's sealed book of life, the Son as Judge, the stages of judgment, and why the books cannot be rigged.
 
+**[What Is Death?](https://scripturescjc.com/what-is-death.html)**: what Scripture teaches about the sleep of the dead and the hope of the resurrection. What man is, how death entered, the hard passages, those God took, why not straight to heaven at death, the one resurrection at Christ's coming, and comfort for those who grieve.
+
 ## For teachers and math groups
 
 **[Math Lessons: The Scientific Method and Zeller's Formula Test a 3,400-Year-Old Calendar](https://scripturescjc.com/cjc-math-lessons.html)**: simplified CJC math for new users: lessons on the formula, the missing year zero, probability, the scientific method, and Zeller's day-of-week formula, with a 35-problem answer key. Written without religious framing, for classrooms and secular math groups.
