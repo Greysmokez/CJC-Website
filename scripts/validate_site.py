@@ -95,6 +95,12 @@ class InlineScriptExtractor(HTMLParser):
             self._in_inline_script = False
             self._current_script = []
             return
+        script_type = (attr_map.get("type") or "").strip().lower()
+        if script_type in ("application/ld+json", "application/json"):
+            # Structured data (such as the site-name WebSite entry) is JSON, not JavaScript.
+            self._in_inline_script = False
+            self._current_script = []
+            return
         self._in_inline_script = True
         self._current_script = []
 
